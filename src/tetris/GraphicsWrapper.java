@@ -20,7 +20,7 @@ public class GraphicsWrapper {
         this.renderScale = renderScale;
         g2d.setRenderingHint(RenderingHints.KEY_INTERPOLATION,
                 RenderingHints.VALUE_INTERPOLATION_BILINEAR);
-        g2d.setFont(new Font("Monospaced", Font.BOLD, 72));
+
         g2d.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING,
                 RenderingHints.VALUE_TEXT_ANTIALIAS_LCD_HRGB);
     }

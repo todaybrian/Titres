@@ -40,6 +40,8 @@ public class GameFrame extends JFrame {
         panel = new GamePanel(displayWidth, displayHeight, renderWidth, renderHeight, horizontalPadding, verticalPadding);
 
         this.add(panel);
+        panel.setPhysicsFPS(144);
+        panel.setRenderFPS(Math.min(60, displayMode.getRefreshRate()));
         this.setTitle("Tetris"); //set title for frame
         this.setUndecorated(true); //remove window border
 

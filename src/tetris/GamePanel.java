@@ -40,8 +40,6 @@ public class GamePanel extends JPanel implements KeyListener, Runnable {
         this.addKeyListener(this);
         this.setPreferredSize(new Dimension(gameWidth, gameHeight));
 
-        setPhysicsFPS(144);
-        setRenderFPS(Math.min(144, 60));
         isGameRunning = true;
 
         gameThread = new Thread(this);
