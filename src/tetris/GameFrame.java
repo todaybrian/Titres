@@ -8,7 +8,7 @@ public class GameFrame extends JFrame {
     private GraphicsEnvironment graphicsEnvironment;
     private GraphicsDevice graphicsDevice;
     private GraphicsConfiguration graphicsConfiguration;
-    private DisplayMode displayMode;
+    public DisplayMode displayMode;
     private int displayWidth, displayHeight;
     private int renderWidth, renderHeight;
     private int horizontalPadding, verticalPadding;

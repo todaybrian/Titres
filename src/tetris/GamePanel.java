@@ -63,7 +63,9 @@ public class GamePanel extends JPanel implements KeyListener, Runnable {
 
     public void paint(Graphics g){
         image = createImage(renderWidth, renderHeight); //draw off screen
-        Graphics g2d = image.getGraphics();
+        Graphics2D g2d = (Graphics2D) image.getGraphics();
+        GraphicsWrapper gw = new GraphicsWrapper(g2d, (double)Main.instance.displayMode.getHeight()/1000);
+
 
         draw(g2d);//update the positions of everything on the screen
 
