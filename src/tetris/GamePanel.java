@@ -20,6 +20,12 @@ public class GamePanel extends JPanel implements KeyListener, Runnable {
     public Thread gameThread;
     public Image image;
 
+    //# of nanoseconds between each render/physics update frame
+    public double renderNS;
+    public double physicsNS;
+
+    public boolean isGameRunning;
+
     public GamePanel(int width, int height, int renderWidth, int renderHeight, int verticalPadding, int horizontalPadding) {
         gameWidth = width;
         gameHeight = height;
@@ -34,6 +40,10 @@ public class GamePanel extends JPanel implements KeyListener, Runnable {
         this.addKeyListener(this);
         this.setPreferredSize(new Dimension(gameWidth, gameHeight));
 
+        setPhysicsFPS(144);
+        setRenderFPS(Math.min(144, 60));
+        isGameRunning = true;
+
         gameThread = new Thread(this);
         gameThread.start();
 
@@ -42,23 +52,40 @@ public class GamePanel extends JPanel implements KeyListener, Runnable {
     public void run() {
         //the CPU runs our game code too quickly - we need to slow it down! The following lines of code "force" the computer to get stuck in a loop for short intervals between calling other methods to update the screen.
         long lastTime = System.nanoTime();
-        double amountOfTicks = 144;
-        double ns = 1000000000 / amountOfTicks;
-        double delta = 0;
+
+        double deltaRender = 0;
+        double deltaPhysics = 0;
         long now;
 
         while (true) { //this is the infinite game loop
             now = System.nanoTime();
-            delta = delta + (now - lastTime) / ns;
+            deltaRender = deltaRender + (now - lastTime) / renderNS;
+            deltaPhysics = deltaPhysics + (now - lastTime) / physicsNS;
             lastTime = now;
-            //only move objects around and update screen if enough time has passed
-            if (delta >= 1) {
-                //move();
-                //checkCollision();
+
+            //only move objects around  if enough time has passed
+            if (deltaPhysics >= 1) {
+                update();
+                deltaPhysics--;
+            }
+            //only update the screen if enough time has passed
+            if(deltaRender >= 1) {
                 repaint();
-                delta--;
+                deltaRender--;
             }
         }
+    }
+
+    public void update(){
+
+    }
+
+    public void setPhysicsFPS(int fps){
+        physicsNS = 1e9 / fps;
+    }
+
+    public void setRenderFPS(int fps){
+        renderNS = 1e9 / fps;
     }
 
     public void paint(Graphics g){
