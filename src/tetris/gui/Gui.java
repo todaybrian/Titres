@@ -7,7 +7,7 @@ import java.util.ArrayList;
 
 public class Gui {
     private Gui parentScreen;
-    private ArrayList<Button> buttonList;
+    protected ArrayList<Button> buttonList;
 
     public Gui(Gui parentScreen){
         this.parentScreen = parentScreen;
@@ -23,5 +23,9 @@ public class Gui {
 
     public void mouseClicked(){
         //TODO: Check if mouse is above each button and run button interface if it is clicked
+        for(Button button: buttonList){
+            if(button.hover)
+                button.clicked();
+        }
     }
 }

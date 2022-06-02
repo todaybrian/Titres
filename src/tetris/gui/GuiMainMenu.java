@@ -3,20 +3,22 @@ package tetris.gui;
 import tetris.GamePanel;
 import tetris.GraphicsWrapper;
 import tetris.controls.MouseInput;
+import tetris.gui.widget.Button;
 
 import java.awt.*;
 
 public class GuiMainMenu extends Gui {
-	tetris.gui.widget.Button f;
     public GuiMainMenu(Gui parentScreen) {
         super(parentScreen);
-         f = new tetris.gui.widget.Button(600,600,100,100, (click)->{
+        buttonList.add(new Button(600,600,100,100, (click)->{
 
-         });
+        }));
+        buttonList.add(new Button(900,600,100,100, (click)->{
+            GamePanel.getGamePanel().exitGame();
+        }));
     }
 
     public void draw(GraphicsWrapper g){
-        f.checkHover();
         super.draw(g);
         g.setColor(Color.BLACK);
         g.fillRect(0, 0, GamePanel.GAME_WIDTH, 50);
@@ -28,6 +30,5 @@ public class GuiMainMenu extends Gui {
         g.drawString(String.valueOf(MouseInput.getLocation().getX()), 500, 500);
         g.drawString(String.valueOf(MouseInput.getLocation().getY()), 550, 500);
         g.drawString(String.valueOf(((MouseInput.getLocation().getX() > 600 && MouseInput.getLocation().getX() < 700) && (MouseInput.getLocation().getY() > 600 && MouseInput.getLocation().getY() < 700))), 150, 150);
-        f.draw(g);
     }
 }

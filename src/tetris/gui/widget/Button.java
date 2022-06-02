@@ -10,7 +10,8 @@ import tetris.GraphicsWrapper;
 import tetris.controls.MouseInput;
 
 public class Button {
-	protected boolean hover;
+	//TODO: public bc testing
+	public boolean hover;
 
 	// Button width
 	protected int width;
@@ -35,6 +36,7 @@ public class Button {
 	}
 
 	public void draw(GraphicsWrapper g){
+		checkHover();
 		if (!hover) {
 			g.setColor(Color.YELLOW);
 			g.fillRect(xPosition, yPosition, width, height);

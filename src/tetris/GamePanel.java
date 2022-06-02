@@ -34,9 +34,6 @@ public class GamePanel extends JPanel implements Runnable {
     public double renderNS;
     public double physicsNS;
 
-    //Is the program running?
-    public boolean isGameRunning;
-
     //Displayed menu
     private Gui gui;
 
@@ -62,10 +59,9 @@ public class GamePanel extends JPanel implements Runnable {
         this.addKeyListener(keyboardInput);
         this.setPreferredSize(new Dimension(gameWidth, gameHeight));
 
-        isGameRunning = true;
-
         //Display Main Menu
         displayGui(new GuiWelcome(null));
+        this.addMouseListener(new MouseInput());
         MouseInput.setScale((double)gameHeight/1080);
 
         gameThread = new Thread(this);
@@ -81,7 +77,7 @@ public class GamePanel extends JPanel implements Runnable {
         double deltaPhysics = 0;
         long now;
 
-        while (isGameRunning) { //this is the infinite game loop
+        while (true) { //this is the infinite game loop
             now = System.nanoTime();
             deltaRender = deltaRender + (now - lastTime) / renderNS;
             deltaPhysics = deltaPhysics + (now - lastTime) / physicsNS;
@@ -150,6 +146,6 @@ public class GamePanel extends JPanel implements Runnable {
 
     //Stop the game
     public void exitGame(){
-        this.isGameRunning = false;
+        System.exit(0);
     }
 }
