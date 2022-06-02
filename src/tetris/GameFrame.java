@@ -46,7 +46,7 @@ public class GameFrame extends JFrame {
         this.setUndecorated(true); //remove window border
 
         this.setResizable(false); //frame can't change size
-        this.setBackground(Color.BLACK); //set background color
+        this.setBackground(Color.WHITE); //set background color
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); //X button will stop program execution
         this.pack();//makes components fit in window - don't need to set JFrame size, as it will adjust accordingly
         this.setExtendedState(JFrame.MAXIMIZED_BOTH); //maximize window

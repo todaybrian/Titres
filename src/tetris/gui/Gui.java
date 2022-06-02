@@ -18,5 +18,7 @@ public class Gui {
         for(Button button : buttonList){
             button.draw(g);
         }
+
+
     }
 }

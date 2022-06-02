@@ -3,6 +3,7 @@ package tetris;
 import javax.swing.*;
 import java.awt.*;
 
+import tetris.controls.MouseInput;
 import tetris.gui.Gui;
 import tetris.gui.GuiMainMenu;
 import tetris.settings.GameSettings;
@@ -15,6 +16,9 @@ public class GamePanel extends JPanel implements KeyListener, Runnable {
     //Store GamePanel instance
     //This is a technique used in games like Minecraft
     private static GamePanel instance;
+
+    public static final int GAME_WIDTH = 1920;
+    public static final int GAME_HEIGHT = 1080;
 
     public int gameWidth;
     public int gameHeight;
@@ -59,7 +63,8 @@ public class GamePanel extends JPanel implements KeyListener, Runnable {
         isGameRunning = true;
 
         //Display Main Menu
-        displayMenu(new GuiMainMenu(null));
+        displayGui(new GuiMainMenu(null));
+        MouseInput.setScale((double)gameHeight/1080);
 
         gameThread = new Thread(this);
         gameThread.start();
@@ -74,7 +79,7 @@ public class GamePanel extends JPanel implements KeyListener, Runnable {
         double deltaPhysics = 0;
         long now;
 
-        while (true) { //this is the infinite game loop
+        while (isGameRunning) { //this is the infinite game loop
             now = System.nanoTime();
             deltaRender = deltaRender + (now - lastTime) / renderNS;
             deltaPhysics = deltaPhysics + (now - lastTime) / physicsNS;
@@ -108,7 +113,7 @@ public class GamePanel extends JPanel implements KeyListener, Runnable {
     public void paint(Graphics g){
         image = createImage(renderWidth, renderHeight); //draw off screen
         Graphics2D g2d = (Graphics2D) image.getGraphics();
-        GraphicsWrapper gw = new GraphicsWrapper(g2d, (double)gameHeight/1000);
+        GraphicsWrapper gw = new GraphicsWrapper(g2d, (double)gameHeight/1080);
 
         draw(gw);//update the positions of everything on the screen
 
@@ -121,7 +126,7 @@ public class GamePanel extends JPanel implements KeyListener, Runnable {
         }
     }
 
-    public void displayMenu(Gui menu){
+    public void displayGui(Gui menu){
         this.gui = menu;
     }
 
