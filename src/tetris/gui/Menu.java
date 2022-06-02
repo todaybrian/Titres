@@ -1,4 +1,6 @@
-package tetris.menu;
+package tetris.gui;
+
+import tetris.GraphicsWrapper;
 
 public class Menu {
     private Menu parentScreen;
@@ -6,5 +8,7 @@ public class Menu {
         this.parentScreen = parentScreen;
     }
 
+    public void draw(GraphicsWrapper g){
 
+    }
 }
