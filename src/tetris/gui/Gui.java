@@ -11,6 +11,7 @@ public class Gui {
 
     public Gui(Gui parentScreen){
         this.parentScreen = parentScreen;
+        buttonList = new ArrayList<>();
     }
 
     public void draw(GraphicsWrapper g){
