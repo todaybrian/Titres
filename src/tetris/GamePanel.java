@@ -6,12 +6,8 @@ import java.awt.*;
 import tetris.controls.KeyboardInput;
 import tetris.controls.MouseInput;
 import tetris.gui.Gui;
-import tetris.gui.GuiMainMenu;
 import tetris.gui.GuiWelcome;
 import tetris.settings.GameSettings;
-
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 
 
 public class GamePanel extends JPanel implements Runnable {
@@ -144,6 +140,12 @@ public class GamePanel extends JPanel implements Runnable {
 
     public GameSettings getSettings(){
         return gameSettings;
+    }
+
+    public void mouseClicked(){
+        if(this.gui != null){
+            this.gui.mouseClicked();
+        }
     }
 
     //Stop the game

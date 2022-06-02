@@ -1,14 +1,15 @@
 package tetris.controls;
 
 import tetris.GamePanel;
-import javax.swing.*;
+
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
+//TODO: Make this not static
 public class MouseInput implements MouseListener {
     private static double scale;
-    public static boolean clicking = false;
+
     public static void setScale(double scale){
         MouseInput.scale = scale;
     }
@@ -28,14 +29,17 @@ public class MouseInput implements MouseListener {
 
     @Override
     public void mouseClicked(MouseEvent e) {
-
+        //Send left click event
+        if(e.getButton() == MouseEvent.BUTTON1){
+            GamePanel.getGamePanel().mouseClicked();
+        }
     }
 
     public void mousePressed(MouseEvent e) {
-        clicking = true;
+
     }
     public void mouseReleased(MouseEvent e) {
-        clicking = false;
+
     }
 
     public void mouseEntered(MouseEvent e){}
