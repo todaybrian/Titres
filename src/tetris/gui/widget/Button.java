@@ -10,6 +10,9 @@ import tetris.GraphicsWrapper;
 import tetris.controls.MouseInput;
 
 public class Button {
+	//id of the button
+	protected int id;
+
 	protected boolean hover;
 
 	// Button width
@@ -25,7 +28,8 @@ public class Button {
 	protected int yPosition;
 
 
-	public Button (int xPos, int yPos, int w, int h){
+	public Button (int buttonId, int xPos, int yPos, int w, int h){
+		this.id = buttonId;
 		xPosition = xPos;
 		yPosition = yPos;
 		width = w;
@@ -53,6 +57,10 @@ public class Button {
 		} else if (hover && ((MouseInput.getLocation().getX() < xPosition -25 || MouseInput.getLocation().getX() > xPosition +width-25) || (MouseInput.getLocation().getY() < 600 || MouseInput.getLocation().getY() > 700))) {
 			hover = false;
 		}
+	}
+
+	public int getId(){
+		return this.id;
 	}
 
 }

@@ -12,7 +12,7 @@ public class GuiMainMenu extends Gui {
 	tetris.gui.widget.Button f;
     public GuiMainMenu(Gui parentScreen) {
         super(parentScreen);
-         f = new tetris.gui.widget.Button(600,600,100,100);
+         f = new tetris.gui.widget.Button(1, 600,600,100,100);
 
     }
 
