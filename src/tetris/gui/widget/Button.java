@@ -10,9 +10,6 @@ import tetris.GraphicsWrapper;
 import tetris.controls.MouseInput;
 
 public class Button {
-	//id of the button
-	protected int id;
-
 	protected boolean hover;
 
 	// Button width
@@ -28,8 +25,7 @@ public class Button {
 	protected int yPosition;
 
 	protected Button.IPressable onPress;
-	public Button (int buttonId, int xPos, int yPos, int w, int h, Button.IPressable onPress){
-		this.id = buttonId;
+	public Button (int xPos, int yPos, int w, int h, Button.IPressable onPress){
 		xPosition = xPos;
 		yPosition = yPos;
 		width = w;
@@ -64,9 +60,6 @@ public class Button {
 		onPress.onPress(this);
 	}
 
-	public int getId(){
-		return this.id;
-	}
 	public interface IPressable {
 		void onPress(Button p_onPress_1_);
 	}
