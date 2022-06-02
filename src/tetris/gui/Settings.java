@@ -3,10 +3,10 @@ package tetris.gui;
 import tetris.GraphicsWrapper;
 import tetris.settings.GameSettings;
 
-public class Settings extends Menu{
+public class Settings extends Gui {
     protected GameSettings gameSettings;
 
-    public Settings(Menu parentScreen, GameSettings gs) {
+    public Settings(Gui parentScreen, GameSettings gs) {
         super(parentScreen);
         gameSettings = gs;
     }

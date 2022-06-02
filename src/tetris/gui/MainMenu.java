@@ -2,13 +2,16 @@ package tetris.gui;
 
 import tetris.GraphicsWrapper;
 
-public class MainMenu extends Menu{
-    public MainMenu(Menu parentScreen) {
+import java.awt.*;
+
+public class MainMenu extends Gui {
+    public MainMenu(Gui parentScreen) {
         super(parentScreen);
 
     }
 
     public void draw(GraphicsWrapper g){
-
+        g.setColor(Color.WHITE);
+        g.fillRect(0, 0, 1920, 50);
     }
 }

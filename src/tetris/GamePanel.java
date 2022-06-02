@@ -2,11 +2,18 @@ package tetris;
 
 import javax.swing.*;
 import java.awt.*;
+
+import tetris.gui.Gui;
+import tetris.gui.MainMenu;
+
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
 
 public class GamePanel extends JPanel implements KeyListener, Runnable {
+    //Store GamePanel instance
+    //This is a technique used in games like Minecraft
+    private static GamePanel instance;
 
     public int gameWidth;
     public int gameHeight;
@@ -24,9 +31,15 @@ public class GamePanel extends JPanel implements KeyListener, Runnable {
     public double renderNS;
     public double physicsNS;
 
+    //Is the program running?
     public boolean isGameRunning;
 
+    //Displayed menu
+    private Gui gui;
+
     public GamePanel(int width, int height, int renderWidth, int renderHeight, int verticalPadding, int horizontalPadding) {
+        GamePanel.instance = this;
+
         gameWidth = width;
         gameHeight = height;
 
@@ -41,6 +54,9 @@ public class GamePanel extends JPanel implements KeyListener, Runnable {
         this.setPreferredSize(new Dimension(gameWidth, gameHeight));
 
         isGameRunning = true;
+
+        //Display Main Menu
+        displayMenu(new MainMenu(null));
 
         gameThread = new Thread(this);
         gameThread.start();
@@ -91,17 +107,19 @@ public class GamePanel extends JPanel implements KeyListener, Runnable {
         Graphics2D g2d = (Graphics2D) image.getGraphics();
         GraphicsWrapper gw = new GraphicsWrapper(g2d, (double)gameHeight/1000);
 
-        gw.drawString("Hello World!", 100, 100);
-
-        draw(g2d);//update the positions of everything on the screen
+        draw(gw);//update the positions of everything on the screen
 
         g.drawImage(image, horizontalPadding, verticalPadding, gameWidth-horizontalPadding, gameHeight-verticalPadding, 0, 0, renderWidth, renderHeight, this);
     }
 
-    public void draw(Graphics g){
+    public void draw(GraphicsWrapper g){
+        if(this.gui != null){
+            this.gui.draw(g);
+        }
+    }
 
-        g.setColor(Color.BLUE);
-        g.fillRect(500, 500, 500, 500);
+    public void displayMenu(Gui menu){
+        this.gui = menu;
     }
 
     @Override
@@ -115,7 +133,15 @@ public class GamePanel extends JPanel implements KeyListener, Runnable {
     }
 
     @Override
-    public void keyReleased(KeyEvent e) {
+    public void keyReleased(KeyEvent e) {}
 
+    //Getter for Game Panel instance
+    public static GamePanel getGamePanel(){
+        return GamePanel.instance;
+    }
+
+    //Stop the game
+    public static void exitGame(){
+        GamePanel.instance.isGameRunning = false;
     }
 }
