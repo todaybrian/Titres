@@ -1,13 +1,13 @@
-* Brian Yan, Aaron Zhang
-		*
-		* Wrapper class for Buttons
-		*/
-		package tetris.gui.widget;
+/** Brian Yan, Aaron Zhang
+*
+* Wrapper class for Buttons
+*/
+package tetris.gui.widget;
 
-		import java.awt.Color;
+import java.awt.Color;
 
-		import tetris.GraphicsWrapper;
-		import tetris.controls.MouseInput;
+import tetris.GraphicsWrapper;
+import tetris.controls.MouseInput;
 
 public class Button {
 	boolean hover;
