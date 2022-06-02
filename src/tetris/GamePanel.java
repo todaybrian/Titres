@@ -6,6 +6,7 @@ import java.awt.*;
 import tetris.controls.MouseInput;
 import tetris.gui.Gui;
 import tetris.gui.GuiMainMenu;
+import tetris.gui.GuiWelcome;
 import tetris.settings.GameSettings;
 
 import java.awt.event.KeyEvent;
@@ -63,7 +64,7 @@ public class GamePanel extends JPanel implements KeyListener, Runnable {
         isGameRunning = true;
 
         //Display Main Menu
-        displayGui(new GuiMainMenu(null));
+        displayGui(new GuiWelcome(null));
         MouseInput.setScale((double)gameHeight/1080);
 
         gameThread = new Thread(this);
