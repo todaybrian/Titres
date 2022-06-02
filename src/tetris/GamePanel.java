@@ -3,6 +3,7 @@ package tetris;
 import javax.swing.*;
 import java.awt.*;
 
+import tetris.controls.KeyboardInput;
 import tetris.controls.MouseInput;
 import tetris.gui.Gui;
 import tetris.gui.GuiMainMenu;
@@ -13,7 +14,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
 
-public class GamePanel extends JPanel implements KeyListener, Runnable {
+public class GamePanel extends JPanel implements Runnable {
     //Store GamePanel instance
     //This is a technique used in games like Minecraft
     private static GamePanel instance;
@@ -43,6 +44,9 @@ public class GamePanel extends JPanel implements KeyListener, Runnable {
     //Displayed menu
     private Gui gui;
 
+    //Keyboard Input class
+    private KeyboardInput keyboardInput;
+
     private GameSettings gameSettings;
 
     public GamePanel(int width, int height, int renderWidth, int renderHeight, int verticalPadding, int horizontalPadding) {
@@ -58,7 +62,8 @@ public class GamePanel extends JPanel implements KeyListener, Runnable {
         this.horizontalPadding = horizontalPadding;
 
         this.setFocusable(true); //make everything in this class appear on the screen
-        this.addKeyListener(this);
+        keyboardInput = new KeyboardInput();
+        this.addKeyListener(keyboardInput);
         this.setPreferredSize(new Dimension(gameWidth, gameHeight));
 
         isGameRunning = true;
@@ -101,7 +106,7 @@ public class GamePanel extends JPanel implements KeyListener, Runnable {
     }
 
     public void update(){
-
+        keyboardInput.update();
     }
 
     public void setPhysicsFPS(int fps){
@@ -131,19 +136,6 @@ public class GamePanel extends JPanel implements KeyListener, Runnable {
     public void displayGui(Gui menu){
         this.gui = menu;
     }
-
-    @Override
-    public void keyTyped(KeyEvent e) {
-
-    }
-
-    @Override
-    public void keyPressed(KeyEvent e) {
-
-    }
-
-    @Override
-    public void keyReleased(KeyEvent e) {}
 
     //Getter for Game Panel instance
     public static GamePanel getGamePanel(){
