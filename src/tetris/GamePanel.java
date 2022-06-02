@@ -4,7 +4,8 @@ import javax.swing.*;
 import java.awt.*;
 
 import tetris.gui.Gui;
-import tetris.gui.MainMenu;
+import tetris.gui.GuiMainMenu;
+import tetris.settings.GameSettings;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -37,6 +38,8 @@ public class GamePanel extends JPanel implements KeyListener, Runnable {
     //Displayed menu
     private Gui gui;
 
+    private GameSettings gameSettings;
+
     public GamePanel(int width, int height, int renderWidth, int renderHeight, int verticalPadding, int horizontalPadding) {
         GamePanel.instance = this;
 
@@ -56,7 +59,7 @@ public class GamePanel extends JPanel implements KeyListener, Runnable {
         isGameRunning = true;
 
         //Display Main Menu
-        displayMenu(new MainMenu(null));
+        displayMenu(new GuiMainMenu(null));
 
         gameThread = new Thread(this);
         gameThread.start();
@@ -140,8 +143,12 @@ public class GamePanel extends JPanel implements KeyListener, Runnable {
         return GamePanel.instance;
     }
 
+    public GameSettings getSettings(){
+        return gameSettings;
+    }
+
     //Stop the game
-    public static void exitGame(){
-        GamePanel.instance.isGameRunning = false;
+    public void exitGame(){
+        this.isGameRunning = false;
     }
 }

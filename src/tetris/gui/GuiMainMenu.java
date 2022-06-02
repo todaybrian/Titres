@@ -4,8 +4,8 @@ import tetris.GraphicsWrapper;
 
 import java.awt.*;
 
-public class MainMenu extends Gui {
-    public MainMenu(Gui parentScreen) {
+public class GuiMainMenu extends Gui {
+    public GuiMainMenu(Gui parentScreen) {
         super(parentScreen);
 
     }
