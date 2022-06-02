@@ -27,14 +27,15 @@ public class Button {
 	// The y position of the button
 	protected int yPosition;
 
-
-	public Button (int buttonId, int xPos, int yPos, int w, int h){
+	protected Button.IPressable onPress;
+	public Button (int buttonId, int xPos, int yPos, int w, int h, Button.IPressable onPress){
 		this.id = buttonId;
 		xPosition = xPos;
 		yPosition = yPos;
 		width = w;
 		height = h;
 		hover = false;
+		this.onPress = onPress;
 	}
 
 	public void draw(GraphicsWrapper g){
@@ -51,7 +52,7 @@ public class Button {
 		}
 	}
 
-	public void checkCollision() {
+	public void checkHover() {
 		if ((MouseInput.getLocation().getX() > xPosition && MouseInput.getLocation().getX() < xPosition +width) && (MouseInput.getLocation().getY() > yPosition && MouseInput.getLocation().getY() < yPosition +height)) {
 			hover = true;
 		} else if (hover && ((MouseInput.getLocation().getX() < xPosition -25 || MouseInput.getLocation().getX() > xPosition +width-25) || (MouseInput.getLocation().getY() < 600 || MouseInput.getLocation().getY() > 700))) {
@@ -59,8 +60,14 @@ public class Button {
 		}
 	}
 
+	public void clicked(){
+		onPress.onPress(this);
+	}
+
 	public int getId(){
 		return this.id;
 	}
-
+	public interface IPressable {
+		void onPress(Button p_onPress_1_);
+	}
 }

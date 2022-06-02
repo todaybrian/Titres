@@ -1,23 +1,22 @@
 package tetris.gui;
 
 import tetris.GamePanel;
-import tetris.gui.widget.*;
 import tetris.GraphicsWrapper;
 import tetris.controls.MouseInput;
 
 import java.awt.*;
-import java.awt.event.MouseEvent;
 
 public class GuiMainMenu extends Gui {
 	tetris.gui.widget.Button f;
     public GuiMainMenu(Gui parentScreen) {
         super(parentScreen);
-         f = new tetris.gui.widget.Button(1, 600,600,100,100);
+         f = new tetris.gui.widget.Button(1, 600,600,100,100, (click)->{
 
+         });
     }
 
     public void draw(GraphicsWrapper g){
-        f.checkCollision();
+        f.checkHover();
         super.draw(g);
         g.setColor(Color.BLACK);
         g.fillRect(0, 0, GamePanel.GAME_WIDTH, 50);

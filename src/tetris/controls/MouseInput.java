@@ -4,8 +4,9 @@ import tetris.GamePanel;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
-public class MouseInput implements MouseListener{
+public class MouseInput implements MouseListener {
     private static double scale;
     public static boolean clicking = false;
     public static void setScale(double scale){
@@ -24,6 +25,12 @@ public class MouseInput implements MouseListener{
     private static int scale(double val) {
         return (int)Math.round(val * scale);
     }
+
+    @Override
+    public void mouseClicked(MouseEvent e) {
+
+    }
+
     public void mousePressed(MouseEvent e) {
         clicking = true;
     }
@@ -32,9 +39,7 @@ public class MouseInput implements MouseListener{
     }
 
     public void mouseEntered(MouseEvent e){}
-    public MouseEvent mouseClicked(MouseEvent e) {
-        return e;
-    }
+
 
     public void mouseExited(MouseEvent e) {}
 
