@@ -87,6 +87,7 @@ public class GamePanel extends JPanel implements KeyListener, Runnable {
 
             //only move objects around  if enough time has passed
             if (deltaPhysics >= 1) {
+            	
                 update();
                 deltaPhysics--;
             }
