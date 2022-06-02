@@ -10,11 +10,24 @@ import tetris.GraphicsWrapper;
 import tetris.controls.MouseInput;
 
 public class Button {
-	boolean hover;
-	public int x, y, width, height;
+	protected boolean hover;
+
+	// Button width
+	protected int width;
+
+	//Button height
+	protected int height;
+
+	//The x position of the button
+	protected int xPosition;
+
+	// The y position of the button
+	protected int yPosition;
+
+
 	public Button (int xPos, int yPos, int w, int h){
-		x = xPos;
-		y = yPos;
+		xPosition = xPos;
+		yPosition = yPos;
 		width = w;
 		height = h;
 		hover = false;
@@ -23,21 +36,21 @@ public class Button {
 	public void draw(GraphicsWrapper g){
 		if (!hover) {
 			g.setColor(Color.YELLOW);
-			g.fillRect(x, y, width, height);
+			g.fillRect(xPosition, yPosition, width, height);
 			g.setColor(Color.BLACK);
-			g.drawString("I am a button!!!", x, y);
+			g.drawString("I am a button!!!", xPosition, yPosition);
 		} else {
 			g.setColor(Color.PINK);
-			g.fillRect(x-25, y, width, height);
+			g.fillRect(xPosition -25, yPosition, width, height);
 			g.setColor(Color.BLACK);
-			g.drawString("I AM BEING HOVERED!!!", x, y);
+			g.drawString("I AM BEING HOVERED!!!", xPosition, yPosition);
 		}
 	}
 
 	public void checkCollision() {
-		if ((MouseInput.getLocation().getX() > x && MouseInput.getLocation().getX() < x+width) && (MouseInput.getLocation().getY() > y && MouseInput.getLocation().getY() < y+height)) {
+		if ((MouseInput.getLocation().getX() > xPosition && MouseInput.getLocation().getX() < xPosition +width) && (MouseInput.getLocation().getY() > yPosition && MouseInput.getLocation().getY() < yPosition +height)) {
 			hover = true;
-		} else if (hover && ((MouseInput.getLocation().getX() < x-25 || MouseInput.getLocation().getX() > x+width-25) || (MouseInput.getLocation().getY() < 600 || MouseInput.getLocation().getY() > 700))) {
+		} else if (hover && ((MouseInput.getLocation().getX() < xPosition -25 || MouseInput.getLocation().getX() > xPosition +width-25) || (MouseInput.getLocation().getY() < 600 || MouseInput.getLocation().getY() > 700))) {
 			hover = false;
 		}
 	}
