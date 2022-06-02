@@ -1,10 +1,14 @@
 package tetris.gui;
 
 import tetris.GraphicsWrapper;
+import tetris.settings.GameSettings;
 
 public class Settings extends Menu{
-    public Settings(Menu parentScreen) {
+    protected GameSettings gameSettings;
+
+    public Settings(Menu parentScreen, GameSettings gs) {
         super(parentScreen);
+        gameSettings = gs;
     }
 
     public void draw(GraphicsWrapper g){
