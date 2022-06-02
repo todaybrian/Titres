@@ -14,6 +14,8 @@ public class Gui {
     }
 
     public void draw(GraphicsWrapper g){
-
+        for(Button button : buttonList){
+            button.draw(g);
+        }
     }
 }

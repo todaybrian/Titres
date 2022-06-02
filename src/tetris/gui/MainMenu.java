@@ -11,6 +11,7 @@ public class MainMenu extends Gui {
     }
 
     public void draw(GraphicsWrapper g){
+        super.draw(g);
         g.setColor(Color.WHITE);
         g.fillRect(0, 0, 1920, 50);
     }

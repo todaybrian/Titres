@@ -8,6 +8,8 @@ public class Tetris extends Gui {
     }
 
     public void draw(GraphicsWrapper g) {
+        super.draw(g);
+
         g.drawString("Tetris", 100, 100);
     }
 }

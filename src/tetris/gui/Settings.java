@@ -12,6 +12,7 @@ public class Settings extends Gui {
     }
 
     public void draw(GraphicsWrapper g){
+        super.draw(g);
 
     }
 }
