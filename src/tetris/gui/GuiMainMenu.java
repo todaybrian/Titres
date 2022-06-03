@@ -20,12 +20,15 @@ public class GuiMainMenu extends Gui {
 
     public void draw(GraphicsWrapper g){
         super.draw(g);
+
+        int heightOfBar = 70;
+
         g.setColor(Color.BLACK);
-        g.fillRect(0, 0, GamePanel.GAME_WIDTH, 50);
-        g.fillRect(0, GamePanel.GAME_HEIGHT-50, GamePanel.GAME_WIDTH, 50);
-        g.setColor(new Color(343642));
-        g.drawRect(0, 0, GamePanel.GAME_WIDTH, 50);
-        g.drawRect(0, GamePanel.GAME_HEIGHT-50, GamePanel.GAME_WIDTH, 50);
+        g.fillRect(0, 0, GamePanel.INTERNAL_WIDTH, heightOfBar);
+        g.fillRect(0, GamePanel.INTERNAL_HEIGHT -heightOfBar, GamePanel.INTERNAL_WIDTH, heightOfBar);
+
+        //Draw logo
+
 
         g.drawString(String.valueOf(MouseInput.getLocation().getX()), 500, 500);
         g.drawString(String.valueOf(MouseInput.getLocation().getY()), 550, 500);

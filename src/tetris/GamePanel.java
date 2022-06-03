@@ -15,15 +15,19 @@ public class GamePanel extends JPanel implements Runnable {
     //This is a technique used in games like Minecraft
     private static GamePanel instance;
 
-    public static final int GAME_WIDTH = 1920;
-    public static final int GAME_HEIGHT = 1080;
+    //internal height and width used for rendering
+    //We pretend to draw stuff on a 1920 by 1080 screen. This gets scaled by GraphicsWrapper
+    public static final int INTERNAL_WIDTH = 1920;
+    public static final int INTERNAL_HEIGHT = 1080;
 
+    //Width and height of the game on the current screen
     public int gameWidth;
     public int gameHeight;
 
     public int renderWidth;
     public int renderHeight;
 
+    //Vertical/Horizontal padding of the game, used in case monitor is not 16:9
     public int verticalPadding;
     public int horizontalPadding;
 
@@ -31,8 +35,8 @@ public class GamePanel extends JPanel implements Runnable {
     public Image image;
 
     //# of nanoseconds between each render/physics update frame
-    public double renderNS;
-    public double physicsNS;
+    private double renderNS;
+    private double physicsNS;
 
     //Displayed menu
     private Gui gui;
@@ -61,6 +65,7 @@ public class GamePanel extends JPanel implements Runnable {
 
         //Display Main Menu
         displayGui(new GuiWelcome(null));
+
         this.addMouseListener(new MouseInput());
         MouseInput.setScale((double)gameHeight/1080);
 
@@ -112,7 +117,7 @@ public class GamePanel extends JPanel implements Runnable {
     public void paint(Graphics g){
         image = createImage(renderWidth, renderHeight); //draw off screen
         Graphics2D g2d = (Graphics2D) image.getGraphics();
-        GraphicsWrapper gw = new GraphicsWrapper(g2d, (double)gameHeight/1080);
+        GraphicsWrapper gw = new GraphicsWrapper(g2d, (double)gameHeight/ INTERNAL_HEIGHT);
 
         draw(gw);//update the positions of everything on the screen
 
@@ -120,13 +125,15 @@ public class GamePanel extends JPanel implements Runnable {
     }
 
     public void draw(GraphicsWrapper g){
-        if(this.gui != null){
-            this.gui.draw(g);
-        }
+        this.gui.draw(g);
     }
 
     public void displayGui(Gui menu){
         this.gui = menu;
+    }
+
+    public Gui getGui(){
+    	return this.gui;
     }
 
     //Getter for Game Panel instance
@@ -136,12 +143,6 @@ public class GamePanel extends JPanel implements Runnable {
 
     public GameSettings getSettings(){
         return gameSettings;
-    }
-
-    public void mouseClicked(){
-        if(this.gui != null){
-            this.gui.mouseClicked();
-        }
     }
 
     //Stop the game

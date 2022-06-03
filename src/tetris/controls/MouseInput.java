@@ -8,13 +8,17 @@ import java.awt.event.MouseListener;
 
 //TODO: Make this not static
 public class MouseInput implements MouseListener {
+    private GamePanel instance;
+
     private static double scale;
 
     public static void setScale(double scale){
         MouseInput.scale = scale;
     }
 
-    public MouseInput() {}
+    public MouseInput() {
+        instance = GamePanel.getGamePanel();
+    }
 
     public static Point getLocation(){
         Point ret = MouseInfo.getPointerInfo().getLocation();
@@ -28,24 +32,28 @@ public class MouseInput implements MouseListener {
     }
 
     @Override
-    public void mouseClicked(MouseEvent e) {
+    public void mousePressed(MouseEvent e) {
         //Send left click event
         if(e.getButton() == MouseEvent.BUTTON1){
-            GamePanel.getGamePanel().mouseClicked();
+            instance.getGui().mouseClicked();
         }
     }
 
-    public void mousePressed(MouseEvent e) {
-
-    }
+    @Override
     public void mouseReleased(MouseEvent e) {
-
+        //Send left click release event
+        if(e.getButton() == MouseEvent.BUTTON1){
+            instance.getGui().mouseReleased();
+        }
     }
 
+    // This function was not used because it is unreliable
+    @Override
+    public void mouseClicked(MouseEvent e) {}
+
+    @Override
     public void mouseEntered(MouseEvent e){}
 
-
+    @Override
     public void mouseExited(MouseEvent e) {}
-
-
 }

@@ -23,7 +23,7 @@ public class GuiWelcome extends Gui {
             currentTick++;
             System.out.println(currentTick);
             ImageIcon welcomeScreen = new ImageIcon(Assets.WELCOME_SCREEN);
-            g.drawImage(welcomeScreen.getImage(), 0, 0, GamePanel.GAME_WIDTH, GamePanel.GAME_HEIGHT);
+            g.drawImage(welcomeScreen.getImage(), 0, 0, GamePanel.INTERNAL_WIDTH, GamePanel.INTERNAL_HEIGHT);
         } else{
             // Display Main Menu
             GamePanel.getGamePanel().displayGui(new GuiMainMenu(this));

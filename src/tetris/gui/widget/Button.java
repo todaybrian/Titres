@@ -10,8 +10,11 @@ import tetris.GraphicsWrapper;
 import tetris.controls.MouseInput;
 
 public class Button {
-	//TODO: public bc testing
-	public boolean hover;
+	//Is the cursor over the button?
+	private boolean isMouseOver;
+
+	//Was the left button of mouse pressed (but not released) on this button?
+	private boolean isClicked;
 
 	// Button width
 	protected int width;
@@ -27,17 +30,18 @@ public class Button {
 
 	protected Button.IPressable onPress;
 	public Button (int xPos, int yPos, int w, int h, Button.IPressable onPress){
-		xPosition = xPos;
-		yPosition = yPos;
-		width = w;
-		height = h;
-		hover = false;
+		this.xPosition = xPos;
+		this.yPosition = yPos;
+		this.width = w;
+		this.height = h;
+		this.isMouseOver = false;
+		this.isClicked = false;
 		this.onPress = onPress;
 	}
 
 	public void draw(GraphicsWrapper g){
 		checkHover();
-		if (!hover) {
+		if (!isMouseOver) {
 			g.setColor(Color.YELLOW);
 			g.fillRect(xPosition, yPosition, width, height);
 			g.setColor(Color.BLACK);
@@ -50,16 +54,28 @@ public class Button {
 		}
 	}
 
-	public void checkHover() {
+	private void checkHover() {
 		if ((MouseInput.getLocation().getX() > xPosition && MouseInput.getLocation().getX() < xPosition +width) && (MouseInput.getLocation().getY() > yPosition && MouseInput.getLocation().getY() < yPosition +height)) {
-			hover = true;
-		} else if (hover && ((MouseInput.getLocation().getX() < xPosition -25 || MouseInput.getLocation().getX() > xPosition +width-25) || (MouseInput.getLocation().getY() < 600 || MouseInput.getLocation().getY() > 700))) {
-			hover = false;
+			isMouseOver = true;
+		} else if (isMouseOver && ((MouseInput.getLocation().getX() < xPosition -25 || MouseInput.getLocation().getX() > xPosition +width-25) || (MouseInput.getLocation().getY() < 600 || MouseInput.getLocation().getY() > 700))) {
+			isMouseOver = false;
 		}
 	}
 
 	public void clicked(){
 		onPress.onPress(this);
+	}
+
+	public boolean isMouseOver() {
+		return isMouseOver;
+	}
+
+	public boolean isClicked() {
+		return isClicked;
+	}
+
+	public void setClicked(boolean isClicked) {
+		this.isClicked = isClicked;
 	}
 
 	public interface IPressable {
