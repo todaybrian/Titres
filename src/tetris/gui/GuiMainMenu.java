@@ -10,15 +10,22 @@ import javax.swing.*;
 import java.awt.*;
 
 public class GuiMainMenu extends Gui {
+
+    private ImageIcon topBar;
+
     public GuiMainMenu(Gui parentScreen) {
         super(parentScreen);
-//        buttonList.add(new Button(600,600,100,100, (click)->{
-////
-////        }));
+
+        load_assets();
+
         ImageIcon exit_button = new ImageIcon(Assets.Button.EXIT_BUTTON);
-        buttonList.add(new Button(-25,900,exit_button, (click)->{
+        buttonList.add(new Button(-25,900, exit_button, (click)->{
             GamePanel.getGamePanel().exitGame();
         }));
+    }
+
+    private void load_assets(){
+        topBar = new ImageIcon(Assets.TOP_MAIN_MENU_FILE);
     }
 
     public void draw(GraphicsWrapper g){
@@ -27,7 +34,7 @@ public class GuiMainMenu extends Gui {
         int heightOfBar = 70;
 
         g.setColor(Color.BLACK);
-        g.fillRect(0, 0, GamePanel.INTERNAL_WIDTH, heightOfBar);
+        g.drawImage(topBar.getImage(), 0, 0, topBar.getIconWidth(), topBar.getIconHeight());
         g.fillRect(0, GamePanel.INTERNAL_HEIGHT -heightOfBar, GamePanel.INTERNAL_WIDTH, heightOfBar);
 
         //Draw logo
