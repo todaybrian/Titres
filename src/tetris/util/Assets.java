@@ -13,7 +13,7 @@ import java.io.IOException;
 public class Assets {
     public static final String WELCOME_SCREEN = "src/assets/welcome_screen.gif";
 
-    public static final String SIGNIKA_FONT_FILE = "src/assets/fonts/Signika.ttf";
+    public static final String SIGNIKA_FONT_FILE = "../assets/fonts/Signika.ttf";
     public static final Font SIGNIKA_FONT;
 
     static {

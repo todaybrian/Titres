@@ -135,7 +135,7 @@ public class GraphicsWrapper {
         g2d.drawString(text, scale(x), scale(y));
     }
 
-    
+
     public void setFont(Font font){
         g2d.setFont(font);
     }
