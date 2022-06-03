@@ -12,6 +12,7 @@ import java.awt.*;
 public class GuiMainMenu extends Gui {
 
     private ImageIcon topBar;
+    private ImageIcon bottomBar;
 
     public GuiMainMenu(Gui parentScreen) {
         super(parentScreen);
@@ -26,16 +27,16 @@ public class GuiMainMenu extends Gui {
 
     private void load_assets(){
         topBar = new ImageIcon(Assets.TOP_MAIN_MENU_FILE);
+        bottomBar = new ImageIcon(Assets.BOTTOM_MAIN_MENU_FILE);
     }
 
     public void draw(GraphicsWrapper g){
         super.draw(g);
-
-        int heightOfBar = 70;
-
+        
         g.setColor(Color.BLACK);
         g.drawImage(topBar.getImage(), 0, 0, topBar.getIconWidth(), topBar.getIconHeight());
-        g.fillRect(0, GamePanel.INTERNAL_HEIGHT -heightOfBar, GamePanel.INTERNAL_WIDTH, heightOfBar);
+        g.drawImage(bottomBar.getImage(), 0, GamePanel.INTERNAL_HEIGHT - bottomBar.getIconHeight(), bottomBar.getIconWidth(), bottomBar.getIconHeight());
+        //g.fillRect(0, GamePanel.INTERNAL_HEIGHT -heightOfBar, GamePanel.INTERNAL_WIDTH, heightOfBar);
 
         //Draw logo
 
