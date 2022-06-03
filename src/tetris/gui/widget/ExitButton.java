@@ -21,8 +21,8 @@ public class ExitButton extends Button {
             g.setColor(new Color(255,89,89));
             g.fillRect(xPosition, yPosition, width, height);
             g.setColor(Color.BLACK);
-            g.setFont(Assets.SIGNIKA_FONT.deriveFont(Font.PLAIN,25));
-            g.drawString("Exit Game", 500, yPosition+height/2);
+            g.setFont(Assets.SIGNIKA_FONT.deriveFont(Font.PLAIN, 50));
+            g.drawString("Exit Game", xPosition+1*width/8, yPosition+34*height/55);
 //        } else {
 //            g.setColor(new Color(255,121,121));
 //            g.fillRect(xPosition-25, yPosition, width, height);
