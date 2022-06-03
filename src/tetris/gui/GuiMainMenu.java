@@ -4,6 +4,7 @@ import tetris.GamePanel;
 import tetris.GraphicsWrapper;
 import tetris.controls.MouseInput;
 import tetris.gui.widget.Button;
+import tetris.gui.widget.ExitButton;
 
 import java.awt.*;
 

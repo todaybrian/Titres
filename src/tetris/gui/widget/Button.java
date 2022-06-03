@@ -11,7 +11,7 @@ import tetris.controls.MouseInput;
 
 public class Button extends Rectangle {
 	//Is the cursor over the button?
-	private boolean isMouseOver;
+	protected boolean isMouseOver;
 
 	//Was the left button of mouse pressed (but not released) on this button?
 	private boolean isClicked;
@@ -54,7 +54,7 @@ public class Button extends Rectangle {
 		}
 	}
 
-	private void checkHover() {
+	protected void checkHover() {
 		isMouseOver = (MouseInput.getLocation().getX() > xPosition && MouseInput.getLocation().getX() < xPosition +width) && (MouseInput.getLocation().getY() > yPosition && MouseInput.getLocation().getY() < yPosition +height);
 	}
 
