@@ -1,6 +1,6 @@
 package tetris.gui;
 
-import tetris.GraphicsWrapper;
+import tetris.wrapper.GraphicsWrapper;
 
 public class GuiTetris extends Gui {
     public GuiTetris() {

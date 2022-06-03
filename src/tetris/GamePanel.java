@@ -8,6 +8,7 @@ import tetris.controls.MouseInput;
 import tetris.gui.Gui;
 import tetris.gui.GuiWelcome;
 import tetris.settings.GameSettings;
+import tetris.wrapper.GraphicsWrapper;
 
 
 public class GamePanel extends JPanel implements Runnable {

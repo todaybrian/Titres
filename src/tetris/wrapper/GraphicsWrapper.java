@@ -4,7 +4,7 @@
  *
  */
 
-package tetris;
+package tetris.wrapper;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;
@@ -120,7 +120,7 @@ public class GraphicsWrapper {
     }
 
     // Description: Applies an AffineTransform
-    // Parameters:
+    // Parameters:  
     //      trans: the transformation
     public void setTransform(AffineTransform trans) {
         g2d.setTransform(trans);

@@ -1,7 +1,7 @@
 package tetris.gui;
 
 import tetris.GamePanel;
-import tetris.GraphicsWrapper;
+import tetris.wrapper.GraphicsWrapper;
 import tetris.util.Assets;
 
 import javax.swing.*;

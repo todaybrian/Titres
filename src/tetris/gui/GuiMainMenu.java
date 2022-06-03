@@ -1,20 +1,22 @@
 package tetris.gui;
 
 import tetris.GamePanel;
-import tetris.GraphicsWrapper;
+import tetris.util.Assets;
+import tetris.wrapper.GraphicsWrapper;
 import tetris.controls.MouseInput;
 import tetris.gui.widget.Button;
-import tetris.gui.widget.ExitButton;
 
+import javax.swing.*;
 import java.awt.*;
 
 public class GuiMainMenu extends Gui {
     public GuiMainMenu(Gui parentScreen) {
         super(parentScreen);
-        buttonList.add(new Button(600,600,100,100, (click)->{
-
-        }));
-        buttonList.add(new ExitButton(-25,900,250,100, (click)->{
+//        buttonList.add(new Button(600,600,100,100, (click)->{
+////
+////        }));
+        ImageIcon exit_button = new ImageIcon(Assets.Button.EXIT_BUTTON);
+        buttonList.add(new Button(-25,900,exit_button, (click)->{
             GamePanel.getGamePanel().exitGame();
         }));
     }

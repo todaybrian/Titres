@@ -6,8 +6,10 @@ package tetris.gui.widget;
 
 import java.awt.*;
 
-import tetris.GraphicsWrapper;
+import tetris.wrapper.GraphicsWrapper;
 import tetris.controls.MouseInput;
+
+import javax.swing.*;
 
 public class Button extends Rectangle {
 	//Is the cursor over the button?
@@ -28,30 +30,30 @@ public class Button extends Rectangle {
 	// The y position of the button
 	protected int yPosition;
 
+	protected ImageIcon imageIcon;
+
 	protected Button.IPressable onPress;
-	public Button (int xPos, int yPos, int w, int h, Button.IPressable onPress){
+	public Button (int xPos, int yPos, ImageIcon imageIcon, Button.IPressable onPress){
 		this.xPosition = xPos;
 		this.yPosition = yPos;
-		this.width = w;
-		this.height = h;
+		this.width = imageIcon.getIconWidth();
+		this.height = imageIcon.getIconHeight();
 		this.isMouseOver = false;
 		this.isClicked = false;
+
+		this.imageIcon = imageIcon;
+
 		this.onPress = onPress;
 	}
 
 	public void draw(GraphicsWrapper g){
 		checkHover();
-		//if (!isMouseOver) {
-			g.setColor(Color.YELLOW);
+		g.drawImage(imageIcon.getImage(), xPosition, yPosition, imageIcon.getIconWidth(), imageIcon.getIconHeight());
+		if (!isMouseOver) {
+			g.setColor(new Color(0, 0, 0, 75));
 			g.fillRect(xPosition, yPosition, width, height);
-			g.setColor(Color.BLACK);
-			g.drawString("I am a button!!!", xPosition, yPosition);
-//		} else {
-//			g.setColor(Color.PINK);
-//			g.fillRect(xPosition -25, yPosition, width, height);
-//			g.setColor(Color.BLACK);
-//			g.drawString("I AM BEING HOVERED!!!", xPosition, yPosition);
-//		}
+		} else {
+		}
 	}
 
 	protected void checkHover() {

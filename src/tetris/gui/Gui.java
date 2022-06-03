@@ -1,6 +1,6 @@
 package tetris.gui;
 
-import tetris.GraphicsWrapper;
+import tetris.wrapper.GraphicsWrapper;
 import tetris.gui.widget.Button;
 
 import java.util.ArrayList;
