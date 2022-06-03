@@ -4,12 +4,12 @@
 */
 package tetris.gui.widget;
 
-import java.awt.Color;
+import java.awt.*;
 
 import tetris.GraphicsWrapper;
 import tetris.controls.MouseInput;
 
-public class Button {
+public class Button extends Rectangle {
 	//Is the cursor over the button?
 	private boolean isMouseOver;
 
@@ -55,11 +55,7 @@ public class Button {
 	}
 
 	private void checkHover() {
-		if ((MouseInput.getLocation().getX() > xPosition && MouseInput.getLocation().getX() < xPosition +width) && (MouseInput.getLocation().getY() > yPosition && MouseInput.getLocation().getY() < yPosition +height)) {
-			isMouseOver = true;
-		} else if (isMouseOver && ((MouseInput.getLocation().getX() < xPosition -25 || MouseInput.getLocation().getX() > xPosition +width-25) || (MouseInput.getLocation().getY() < 600 || MouseInput.getLocation().getY() > 700))) {
-			isMouseOver = false;
-		}
+		isMouseOver = (MouseInput.getLocation().getX() > xPosition && MouseInput.getLocation().getX() < xPosition +width) && (MouseInput.getLocation().getY() > yPosition && MouseInput.getLocation().getY() < yPosition +height);
 	}
 
 	public void clicked(){
