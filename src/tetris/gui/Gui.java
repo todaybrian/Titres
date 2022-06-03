@@ -1,5 +1,6 @@
 package tetris.gui;
 
+import tetris.GamePanel;
 import tetris.wrapper.GraphicsWrapper;
 import tetris.gui.widget.Button;
 
@@ -8,17 +9,19 @@ import java.util.ArrayList;
 public class Gui {
     private Gui parentScreen;
     protected ArrayList<Button> buttonList;
+    protected GamePanel instance;
 
     public Gui(Gui parentScreen){
         this.parentScreen = parentScreen;
         buttonList = new ArrayList<>();
+        instance = GamePanel.getGamePanel();
     }
 
     public void draw(GraphicsWrapper g){
+        instance.getGameBackground().draw(g);
         for(Button button : buttonList){
             button.draw(g);
         }
-
     }
 
     public void mouseClicked(){

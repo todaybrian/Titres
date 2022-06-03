@@ -5,6 +5,7 @@ import java.awt.*;
 
 import tetris.controls.KeyboardInput;
 import tetris.controls.MouseInput;
+import tetris.gui.GameBackground;
 import tetris.gui.Gui;
 import tetris.gui.GuiWelcome;
 import tetris.settings.GameSettings;
@@ -47,6 +48,8 @@ public class GamePanel extends JPanel implements Runnable {
 
     private GameSettings gameSettings;
 
+    private GameBackground gameBackground;
+
     public GamePanel(int width, int height, int renderWidth, int renderHeight, int verticalPadding, int horizontalPadding) {
         GamePanel.instance = this;
 
@@ -69,6 +72,8 @@ public class GamePanel extends JPanel implements Runnable {
 
         this.addMouseListener(new MouseInput());
         MouseInput.setScale((double)gameHeight/1080);
+
+        gameBackground = new GameBackground();
 
         gameThread = new Thread(this);
         gameThread.start();
@@ -135,6 +140,10 @@ public class GamePanel extends JPanel implements Runnable {
 
     public Gui getGui(){
     	return this.gui;
+    }
+
+    public GameBackground getGameBackground(){
+        return this.gameBackground;
     }
 
     //Getter for Game Panel instance

@@ -31,6 +31,8 @@ public class Assets {
     public static final String VREMYA = "src/assets/Vremya.wav";
     public static final String VIRTUAL_LIGHT = "src/assets/VirtualLight.wav";
 
+    public static final String BACKGROUND_PREFIX = "src/assets/backgrounds/background";
+
     public static final String TOP_MAIN_MENU_FILE = "src/assets/menus/top_main_menu.png";
     public static final String BOTTOM_MAIN_MENU_FILE = "src/assets/menus/bottom_main_menu.png";
 

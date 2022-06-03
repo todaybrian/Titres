@@ -32,7 +32,7 @@ public class GuiMainMenu extends Gui {
 
     public void draw(GraphicsWrapper g){
         super.draw(g);
-        
+
         g.setColor(Color.BLACK);
         g.drawImage(topBar.getImage(), 0, 0, topBar.getIconWidth(), topBar.getIconHeight());
         g.drawImage(bottomBar.getImage(), 0, GamePanel.INTERNAL_HEIGHT - bottomBar.getIconHeight(), bottomBar.getIconWidth(), bottomBar.getIconHeight());
