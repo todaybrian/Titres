@@ -49,11 +49,17 @@ public class Button extends Rectangle {
 	public void draw(GraphicsWrapper g){
 		checkHover();
 		g.drawImage(imageIcon.getImage(), xPosition, yPosition, imageIcon.getIconWidth(), imageIcon.getIconHeight());
-		if (!isMouseOver) {
+		if(isClicked) {
+			
+		} else if (isMouseOver) {
 			g.setColor(new Color(0, 0, 0, 75));
 			g.fillRect(xPosition, yPosition, width, height);
-		} else {
+		} else{
+			g.setColor(new Color(0, 0, 0, 100));
+			g.fillRect(xPosition, yPosition, width, height);
+
 		}
+
 	}
 
 	protected void checkHover() {
