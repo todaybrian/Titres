@@ -30,5 +30,8 @@ bin/
 .idea/
 
 ics4u-assignment.iml
+ics4u-assignment1.iml
 ICS_Game.iml
 ICS_Game1.iml
+.classpath
+.project

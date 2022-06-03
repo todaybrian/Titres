@@ -41,17 +41,17 @@ public class Button extends Rectangle {
 
 	public void draw(GraphicsWrapper g){
 		checkHover();
-		if (!isMouseOver) {
+		//if (!isMouseOver) {
 			g.setColor(Color.YELLOW);
 			g.fillRect(xPosition, yPosition, width, height);
 			g.setColor(Color.BLACK);
 			g.drawString("I am a button!!!", xPosition, yPosition);
-		} else {
-			g.setColor(Color.PINK);
-			g.fillRect(xPosition -25, yPosition, width, height);
-			g.setColor(Color.BLACK);
-			g.drawString("I AM BEING HOVERED!!!", xPosition, yPosition);
-		}
+//		} else {
+//			g.setColor(Color.PINK);
+//			g.fillRect(xPosition -25, yPosition, width, height);
+//			g.setColor(Color.BLACK);
+//			g.drawString("I AM BEING HOVERED!!!", xPosition, yPosition);
+//		}
 	}
 
 	protected void checkHover() {
