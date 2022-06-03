@@ -13,7 +13,7 @@ public class GuiMainMenu extends Gui {
         buttonList.add(new Button(600,600,100,100, (click)->{
 
         }));
-        buttonList.add(new Button(900,600,100,100, (click)->{
+        buttonList.add(new ExitButton(900,600,100,100, (click)->{
             GamePanel.getGamePanel().exitGame();
         }));
     }
