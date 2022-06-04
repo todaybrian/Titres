@@ -39,7 +39,6 @@ public class Button extends Rectangle {
 
 	//Animation type
 	protected AnimationType animationType;
-	private boolean isAnimating;
 	private int xOffsetGoal;
 	private int yOffsetGoal;
 	private double xOffsetCurrent;
@@ -68,7 +67,6 @@ public class Button extends Rectangle {
 		yOffsetCurrent = 0;
 		yOffsetGoal = 0;
 		xOffsetStep = yOffsetStep = 0;
-		isAnimating = false;
 		lastSystemTime = System.nanoTime();
 	}
 
@@ -78,40 +76,23 @@ public class Button extends Rectangle {
 
 	public void draw(GraphicsWrapper g){
 		checkHover();
+		long animationLength = 1;
 		if(isClicked()){ // Clicked animation
-			if(xOffsetGoal != this.animationType.getClickXOffset()){
-				isAnimating = true;
-				xOffsetGoal = this.animationType.getClickXOffset();
-				xOffsetStep = (xOffsetGoal - xOffsetCurrent+0.0) / ANIMATION_LENGTH_CLICK_NS;
-			}
-			if(yOffsetGoal != this.animationType.getClickYOffset()){
-				isAnimating = true;
-				yOffsetGoal = this.animationType.getClickYOffset();
-				yOffsetStep = (yOffsetGoal - yOffsetCurrent+0.0) / ANIMATION_LENGTH_CLICK_NS;
-			}
+			xOffsetGoal = this.animationType.getClickXOffset();
+			yOffsetGoal = this.animationType.getClickYOffset();
+			animationLength = ANIMATION_LENGTH_CLICK_NS;
 		} else if(isMouseOver()){
-			if(xOffsetGoal != this.animationType.getHoverXOffset()){
-				isAnimating = true;
-				xOffsetGoal = this.animationType.getHoverXOffset();
-				xOffsetStep = (xOffsetGoal - xOffsetCurrent+0.0) / ANIMATION_LENGTH_HOVER_NS;
-			}
-			if(yOffsetGoal != this.animationType.getHoverYOffset()){
-				isAnimating = true;
-				yOffsetGoal = this.animationType.getHoverYOffset();
-				yOffsetStep = (yOffsetGoal - yOffsetCurrent+0.0) / ANIMATION_LENGTH_HOVER_NS;
-			}
+			xOffsetGoal = this.animationType.getHoverXOffset();
+			yOffsetGoal = this.animationType.getHoverYOffset();
+			animationLength = ANIMATION_LENGTH_HOVER_NS;
 		} else{
-			if(xOffsetGoal != 0){
-				isAnimating = true;
-				xOffsetGoal = 0;
-				xOffsetStep = (xOffsetGoal - xOffsetCurrent+0.0) / ANIMATION_LENGTH_HOVER_NS;
-			}
-			if(yOffsetGoal != 0){
-				isAnimating = true;
-				yOffsetGoal = 0;
-				yOffsetStep = (yOffsetGoal - yOffsetCurrent+0.0) / ANIMATION_LENGTH_HOVER_NS;
-			}
+			xOffsetGoal = 0;
+			yOffsetGoal = 0;
+			animationLength = ANIMATION_LENGTH_HOVER_NS;
 		}
+		xOffsetStep = (xOffsetGoal - xOffsetCurrent+0.0) / animationLength;
+		yOffsetStep = (yOffsetGoal - yOffsetCurrent+0.0) / animationLength;
+
 		if(xOffsetStep != 0 || yOffsetStep != 0){
 			boolean toRight = xOffsetGoal > xOffsetCurrent;
 			xOffsetCurrent += xOffsetStep * (System.nanoTime() - lastSystemTime);

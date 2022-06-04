@@ -40,7 +40,6 @@ public class GameBackground {
             }
         } catch(Exception e){
             e.printStackTrace();
-            return;
         }
     }
 }
