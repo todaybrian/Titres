@@ -13,12 +13,12 @@ import java.io.IOException;
 public class Assets {
     public static final String WELCOME_SCREEN = "src/assets/welcome_screen.gif";
 
-    public static final String SIGNIKA_FONT_FILE = "../assets/fonts/Signika.ttf";
-    public static final Font SIGNIKA_FONT;
+    public static final String KDAM_FONT_FILE = "../assets/fonts/KdamThmorPro-Regular.ttf";
+    public static final Font KDAM_FONT;
 
     static {
         try {
-            SIGNIKA_FONT = Font.createFont(Font.TRUETYPE_FONT, Main.class.getResourceAsStream(SIGNIKA_FONT_FILE));
+            KDAM_FONT = Font.createFont(Font.TRUETYPE_FONT, Main.class.getResourceAsStream(KDAM_FONT_FILE));
         } catch (FontFormatException e) {
             throw new RuntimeException(e);
         } catch (IOException e) {

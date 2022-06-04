@@ -32,7 +32,7 @@ public class GuiSettings extends Gui {
         }, Button.AnimationType.RIGHT));
 
         ImageIcon slider = new ImageIcon(Assets.Button.SLIDER);
-        buttonList.add(new Slider(500,500, slider, 200, 700));
+        buttonList.add(new Slider(550,500, slider, 200, 700));
 
     }
 
@@ -44,9 +44,8 @@ public class GuiSettings extends Gui {
         g.setColor(new Color(0x8540a0));
         g.fillRect(300, 200, 1700, 800);
         g.drawImage(top_settings.getImage(), 0, 0, top_settings.getIconWidth(), top_settings.getIconHeight());
-        g.setFont(Assets.SIGNIKA_FONT.deriveFont(Font.PLAIN, 50));
+        g.setFont(Assets.KDAM_FONT.deriveFont(Font.BOLD, 50));
         g.setColor(Color.WHITE);
-        g.drawString("FPS:", 800, 500);
 
         g.drawImage(bottomBar.getImage(), 0, GamePanel.INTERNAL_HEIGHT - bottomBar.getIconHeight(), bottomBar.getIconWidth(), bottomBar.getIconHeight());
 

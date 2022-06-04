@@ -50,6 +50,9 @@ public class GamePanel extends JPanel implements Runnable {
 
     private GameBackground gameBackground;
 
+    private int physicsFPS;
+    private int renderFPS;
+
     public GamePanel(int width, int height, int renderWidth, int renderHeight, int horizontalPadding, int verticalPadding) {
         GamePanel.instance = this;
 
@@ -88,6 +91,9 @@ public class GamePanel extends JPanel implements Runnable {
         double deltaPhysics = 0;
         long now;
 
+        long previousFPSTime = System.nanoTime();
+        int countUpdate = 0, countRender = 0;
+
         while (true) { //this is the infinite game loop
             now = System.nanoTime();
             deltaRender = deltaRender + (now - lastTime) / renderNS;
@@ -98,12 +104,22 @@ public class GamePanel extends JPanel implements Runnable {
             if (deltaPhysics >= 1) {
             	
                 update();
+                countUpdate++;
                 deltaPhysics--;
             }
             //only update the screen if enough time has passed
             if(deltaRender >= 1) {
                 repaint();
+                countRender++;
                 deltaRender--;
+            }
+
+            if(System.nanoTime() - previousFPSTime >= 1000000000) {
+                previousFPSTime = System.nanoTime();
+                this.renderFPS = countRender;
+                this.physicsFPS = countUpdate;
+                countUpdate = 0;
+                countRender = 0;
             }
         }
     }
@@ -153,6 +169,14 @@ public class GamePanel extends JPanel implements Runnable {
 
     public GameSettings getSettings(){
         return gameSettings;
+    }
+
+    public int getPhysicsFPS(){
+        return physicsFPS;
+    }
+
+    public int getRenderFPS(){
+        return renderFPS;
     }
 
     //Stop the game
