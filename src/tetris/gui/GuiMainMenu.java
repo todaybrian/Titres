@@ -31,7 +31,7 @@ public class GuiMainMenu extends Gui {
 
         }, Button.AnimationType.LEFT));
         ImageIcon settings_button = new ImageIcon(Assets.Button.SETTINGS_BUTTON);
-        buttonList.add(new Button(400, 710, settings_button, (click)->{
+        buttonList.add(new Button(400, 600, settings_button, (click)->{
             GamePanel.getGamePanel().displayGui(new GuiSettings(this));
         }, Button.AnimationType.LEFT));
 
