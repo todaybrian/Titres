@@ -13,7 +13,7 @@ import javax.swing.*;
 
 public class Button extends Rectangle {
 	// Length of animation in nanoseconds
-	private final long ANIMATION_LENGTH_HOVER_NS = 180000000;
+	private final long ANIMATION_LENGTH_HOVER_NS = 120000000;
 	private final long ANIMATION_LENGTH_CLICK_NS = 40000000;
 
 	//Is the cursor over the button?
