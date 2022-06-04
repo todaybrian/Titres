@@ -35,6 +35,7 @@ public class Assets {
 
     public static final String TOP_MAIN_MENU_FILE = "src/assets/menus/top_main_menu.png";
     public static final String BOTTOM_MAIN_MENU_FILE = "src/assets/menus/bottom_main_menu.png";
+    public static final String TOP_SETTINGS_FILE = "src/assets/menus/top_settings.png";
 
     public class Button{
         public static final String EXIT_BUTTON="src/assets/button/exit_button.png";
