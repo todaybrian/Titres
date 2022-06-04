@@ -21,14 +21,14 @@ public class GuiMainMenu extends Gui {
         load_assets();
 
         ImageIcon exit_button = new ImageIcon(Assets.Button.EXIT_BUTTON);
-        buttonList.add(new Button(-25,880, exit_button, (click)->{
+        buttonList.add(new Button(-170,880, exit_button, (click)->{
             GamePanel.getGamePanel().exitGame();
-        }));
+        }, Button.AnimationType.RIGHT));
 
         ImageIcon solo_button = new ImageIcon(Assets.Button.SOLO_BUTTON);
         buttonList.add(new Button(400, 400, solo_button, (click)->{
 
-        }));
+        }, Button.AnimationType.LEFT));
     }
 
     private void load_assets(){
