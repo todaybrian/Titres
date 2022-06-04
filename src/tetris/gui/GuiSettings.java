@@ -23,8 +23,14 @@ public class GuiSettings extends Gui {
         gameSettings = GamePanel.getGamePanel().getSettings();
         ImageIcon exit_button = new ImageIcon(Assets.Button.EXIT_BUTTON);
         buttonList.add(new Button(-170,880, exit_button, (click)->{
-            GamePanel.getGamePanel().displayGui(new GuiMainMenu(this));
+            GamePanel.getGamePanel().exitGame();
         }, Button.AnimationType.RIGHT));
+
+        ImageIcon back_button = new ImageIcon(Assets.Button.BACK_BUTTON);
+        buttonList.add(new Button(-170, 120, back_button, (click)->{
+            GamePanel.getGamePanel().displayGui(parentScreen);
+        }, Button.AnimationType.RIGHT));
+
         ImageIcon slider = new ImageIcon(Assets.Button.SLIDER);
         buttonList.add(new Slider(500,500, slider, 200, 700));
 

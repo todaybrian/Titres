@@ -42,6 +42,7 @@ public class Assets {
     public class Button{
         public static final String EXIT_BUTTON="src/assets/button/exit_button.png";
         public static final String SOLO_BUTTON="src/assets/button/solo_button.png";
+        public static final String BACK_BUTTON = "src/assets/button/back_button.png";
 
         public static final String SETTINGS_BUTTON="src/assets/button/settings_button.png";
         public static final String GITHUB_BUTTON = "src/assets/button/github_button.png";
