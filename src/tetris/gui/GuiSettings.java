@@ -14,6 +14,8 @@ public class GuiSettings extends Gui {
     protected GameSettings gameSettings;
 
     private ImageIcon top_settings;
+    private ImageIcon bottomBar;
+
 
     public GuiSettings(Gui parentScreen) {
         super(parentScreen);
@@ -26,20 +28,23 @@ public class GuiSettings extends Gui {
         ImageIcon slider = new ImageIcon(Assets.Button.SLIDER);
         buttonList.add(new Slider(500,500, slider, 200, 700));
 
-
     }
 
     public void draw(GraphicsWrapper g){
         super.draw(g);
-
+        g.drawString("FART! HAHA", 500, 500);
         g.drawImage(top_settings.getImage(), 0, 0, top_settings.getIconWidth(), top_settings.getIconHeight());
         g.setFont(new Font("Arial", Font.PLAIN, 150));
         g.setColor(Color.WHITE);
         g.drawString(String.valueOf(buttonList.get(1).getValue()), 800, 600);
 
+        g.drawImage(bottomBar.getImage(), 0, GamePanel.INTERNAL_HEIGHT - bottomBar.getIconHeight(), bottomBar.getIconWidth(), bottomBar.getIconHeight());
+
     }
 
     private void load_assets() {
         top_settings = new ImageIcon(Assets.TOP_SETTINGS_FILE);
+        bottomBar = new ImageIcon(Assets.BOTTOM_SETTINGS_FILE);
+
     }
 }
