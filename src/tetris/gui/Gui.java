@@ -18,7 +18,16 @@ public class Gui {
     }
 
     public void draw(GraphicsWrapper g){
+        drawBottom(g);
+        drawTop(g);
+    }
+
+    public void drawBottom(GraphicsWrapper g){
         instance.getGameBackground().draw(g);
+
+    }
+
+    public void drawTop(GraphicsWrapper g){
         for(Button button : buttonList){
             button.draw(g);
         }
