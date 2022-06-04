@@ -41,5 +41,6 @@ public class Assets {
         public static final String SOLO_BUTTON="src/assets/button/solo_button.png";
 
         public static final String SETTINGS_BUTTON="src/assets/button/settings_button.png";
+        public static final String GITHUB_BUTTON = "src/assets/button/github_button.png";
     }
 }

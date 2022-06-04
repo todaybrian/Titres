@@ -157,7 +157,7 @@ public class Button extends Rectangle {
 		private final static int[] HOVER_X_OFFSET = {0, 60, -60, 0, 0};
 		private final static int[] CLICK_X_OFFSET = {0, 100, -100, 0, 0};
 		private final static int[] HOVER_Y_OFFSET = {0, 0, 0, -10, 10};
-		private final static int[] CLICK_Y_OFFSET = {0, 0, 0, -30, 30};
+		private final static int[] CLICK_Y_OFFSET = {0, 0, 0, -20, 20};
 
 
 		AnimationType(int id){

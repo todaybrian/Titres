@@ -8,6 +8,7 @@ import tetris.gui.widget.Button;
 
 import javax.swing.*;
 import java.awt.*;
+import java.net.URL;
 
 public class GuiMainMenu extends Gui {
 
@@ -21,19 +22,29 @@ public class GuiMainMenu extends Gui {
         load_assets();
 
         ImageIcon exit_button = new ImageIcon(Assets.Button.EXIT_BUTTON);
-        buttonList.add(new Button(-25,880, exit_button, (click)->{
+        buttonList.add(new Button(-170,880, exit_button, (click)->{
             GamePanel.getGamePanel().exitGame();
-        }));
+        }, Button.AnimationType.RIGHT));
 
         ImageIcon solo_button = new ImageIcon(Assets.Button.SOLO_BUTTON);
         buttonList.add(new Button(400, 400, solo_button, (click)->{
 
-        }));
+        }, Button.AnimationType.LEFT));
         ImageIcon settings_button = new ImageIcon(Assets.Button.SETTINGS_BUTTON);
-        buttonList.add(new Button(400, 700, settings_button, (click)->{
+        buttonList.add(new Button(400, 710, settings_button, (click)->{
             GamePanel.getGamePanel().displayGui(new GuiSettings(this));
-        }));
+        }, Button.AnimationType.LEFT));
+
+        ImageIcon github_button = new ImageIcon(Assets.Button.GITHUB_BUTTON);
+        buttonList.add(new Button(1800, 990, github_button, (click)->{
+            try {
+                Desktop.getDesktop().browse(new URL("https://github.com/todaybrian/ics4u-assignment").toURI());
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }, Button.AnimationType.UP));
     }
+
 
     private void load_assets(){
         topBar = new ImageIcon(Assets.TOP_MAIN_MENU_FILE);
@@ -42,7 +53,7 @@ public class GuiMainMenu extends Gui {
     }
 
     public void draw(GraphicsWrapper g){
-        super.draw(g);
+        super.drawBottom(g);
 
         //Top bar of Main Menu
         g.drawImage(topBar.getImage(), 0, 0, topBar.getIconWidth(), topBar.getIconHeight());
@@ -56,5 +67,7 @@ public class GuiMainMenu extends Gui {
         g.drawString(String.valueOf(MouseInput.getLocation().getX()), 500, 500);
         g.drawString(String.valueOf(MouseInput.getLocation().getY()), 550, 500);
         g.drawString(String.valueOf(((MouseInput.getLocation().getX() > 600 && MouseInput.getLocation().getX() < 700) && (MouseInput.getLocation().getY() > 600 && MouseInput.getLocation().getY() < 700))), 150, 150);
+
+        super.drawTop(g);
     }
 }
