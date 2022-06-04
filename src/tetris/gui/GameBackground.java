@@ -38,7 +38,7 @@ public class GameBackground {
                 if(image.getIconWidth() == -1) break;
                 images.add(image);
             }
-        } catch(Exception e){ //This is kind of a dumb way to do this but doesn't require constants
+        } catch(Exception e){
             e.printStackTrace();
             return;
         }

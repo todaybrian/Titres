@@ -32,8 +32,10 @@ public class Button extends Rectangle {
 
 	protected ImageIcon imageIcon;
 
+	protected AnimationType animationType;
+
 	protected Button.IPressable onPress;
-	public Button (int xPos, int yPos, ImageIcon imageIcon, Button.IPressable onPress){
+	public Button (int xPos, int yPos, ImageIcon imageIcon, Button.IPressable onPress, AnimationType animationType) {
 		this.xPosition = xPos;
 		this.yPosition = yPos;
 		this.width = imageIcon.getIconWidth();
@@ -44,6 +46,12 @@ public class Button extends Rectangle {
 		this.imageIcon = imageIcon;
 
 		this.onPress = onPress;
+
+		this.animationType = animationType;
+	}
+
+	public Button(int xPos, int yPos, ImageIcon imageIcon, Button.IPressable onPress){
+		this(xPos, yPos, imageIcon, onPress, AnimationType.NONE);
 	}
 
 	public void draw(GraphicsWrapper g){
@@ -57,7 +65,6 @@ public class Button extends Rectangle {
 		} else{
 			g.setColor(new Color(0, 0, 0, 50));
 			g.fillRect(xPosition, yPosition, width, height);
-
 		}
 
 	}
@@ -84,5 +91,9 @@ public class Button extends Rectangle {
 
 	public interface IPressable {
 		void onPress(Button p_onPress_1_);
+	}
+
+	public enum AnimationType {
+		NONE, RIGHT, LEFT, UP, DOWN
 	}
 }
