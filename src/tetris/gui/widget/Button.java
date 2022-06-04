@@ -176,4 +176,8 @@ public class Button extends Rectangle {
 			return CLICK_Y_OFFSET[id];
 		}
 	}
+
+	public double getValue() {
+		return -1; // This is b/c I need to declare functions in parent so that child class can use them
+	}
 }
