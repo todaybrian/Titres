@@ -13,6 +13,7 @@ public class GuiMainMenu extends Gui {
 
     private ImageIcon topBar;
     private ImageIcon bottomBar;
+    private ImageIcon logo;
 
     public GuiMainMenu(Gui parentScreen) {
         super(parentScreen);
@@ -20,7 +21,7 @@ public class GuiMainMenu extends Gui {
         load_assets();
 
         ImageIcon exit_button = new ImageIcon(Assets.Button.EXIT_BUTTON);
-        buttonList.add(new Button(-25,900, exit_button, (click)->{
+        buttonList.add(new Button(-25,880, exit_button, (click)->{
             GamePanel.getGamePanel().exitGame();
         }));
     }
@@ -28,18 +29,20 @@ public class GuiMainMenu extends Gui {
     private void load_assets(){
         topBar = new ImageIcon(Assets.TOP_MAIN_MENU_FILE);
         bottomBar = new ImageIcon(Assets.BOTTOM_MAIN_MENU_FILE);
+        logo = new ImageIcon(Assets.LOGO_FILE);
     }
 
     public void draw(GraphicsWrapper g){
         super.draw(g);
 
-        g.setColor(Color.BLACK);
+        //Top bar of Main Menu
         g.drawImage(topBar.getImage(), 0, 0, topBar.getIconWidth(), topBar.getIconHeight());
+
+        //Bottom bar of Main Menu
         g.drawImage(bottomBar.getImage(), 0, GamePanel.INTERNAL_HEIGHT - bottomBar.getIconHeight(), bottomBar.getIconWidth(), bottomBar.getIconHeight());
-        //g.fillRect(0, GamePanel.INTERNAL_HEIGHT -heightOfBar, GamePanel.INTERNAL_WIDTH, heightOfBar);
 
         //Draw logo
-
+        g.drawImage(logo.getImage(), 20, 100, 1.25*logo.getIconWidth(), 1.25*logo.getIconHeight());
 
         g.drawString(String.valueOf(MouseInput.getLocation().getX()), 500, 500);
         g.drawString(String.valueOf(MouseInput.getLocation().getY()), 550, 500);

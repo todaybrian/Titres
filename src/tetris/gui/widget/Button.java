@@ -52,10 +52,10 @@ public class Button extends Rectangle {
 		if(isClicked) {
 			
 		} else if (isMouseOver) {
-			g.setColor(new Color(0, 0, 0, 50));
+			g.setColor(new Color(0, 0, 0, 35));
 			g.fillRect(xPosition, yPosition, width, height);
 		} else{
-			g.setColor(new Color(0, 0, 0, 75));
+			g.setColor(new Color(0, 0, 0, 50));
 			g.fillRect(xPosition, yPosition, width, height);
 
 		}
