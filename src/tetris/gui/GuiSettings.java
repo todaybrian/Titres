@@ -37,15 +37,20 @@ public class GuiSettings extends Gui {
     }
 
     public void draw(GraphicsWrapper g){
-        super.draw(g);
+        super.drawBottom(g);
         g.drawString("FART! HAHA", 500, 500);
+
+        //Settings box overlay
+        g.setColor(new Color(0x8540a0));
+        g.fillRect(300, 200, 1700, 800);
         g.drawImage(top_settings.getImage(), 0, 0, top_settings.getIconWidth(), top_settings.getIconHeight());
-        g.setFont(new Font("Arial", Font.PLAIN, 150));
+        g.setFont(Assets.SIGNIKA_FONT.deriveFont(Font.PLAIN, 50));
         g.setColor(Color.WHITE);
-        g.drawString(String.valueOf(buttonList.get(1).getValue()), 800, 600);
+        g.drawString("FPS:", 800, 500);
 
         g.drawImage(bottomBar.getImage(), 0, GamePanel.INTERNAL_HEIGHT - bottomBar.getIconHeight(), bottomBar.getIconWidth(), bottomBar.getIconHeight());
 
+        super.drawTop(g);
     }
 
     private void load_assets() {
