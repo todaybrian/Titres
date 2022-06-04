@@ -50,7 +50,7 @@ public class GamePanel extends JPanel implements Runnable {
 
     private GameBackground gameBackground;
 
-    public GamePanel(int width, int height, int renderWidth, int renderHeight, int verticalPadding, int horizontalPadding) {
+    public GamePanel(int width, int height, int renderWidth, int renderHeight, int horizontalPadding, int verticalPadding) {
         GamePanel.instance = this;
 
         gameWidth = width;
@@ -59,8 +59,8 @@ public class GamePanel extends JPanel implements Runnable {
         this.renderHeight = renderHeight;
         this.renderWidth = renderWidth;
 
-        this.verticalPadding = verticalPadding;
         this.horizontalPadding = horizontalPadding;
+        this.verticalPadding = verticalPadding;
 
         this.setFocusable(true); //make everything in this class appear on the screen
         keyboardInput = new KeyboardInput();
@@ -71,7 +71,7 @@ public class GamePanel extends JPanel implements Runnable {
         displayGui(new GuiWelcome(null));
 
         this.addMouseListener(new MouseInput());
-        MouseInput.setScale((double)gameHeight/1080);
+        MouseInput.setScale((double)renderHeight/1080, horizontalPadding, verticalPadding);
 
         gameBackground = new GameBackground();
 
@@ -123,7 +123,7 @@ public class GamePanel extends JPanel implements Runnable {
     public void paint(Graphics g){
         image = createImage(renderWidth, renderHeight); //draw off screen
         Graphics2D g2d = (Graphics2D) image.getGraphics();
-        GraphicsWrapper gw = new GraphicsWrapper(g2d, (double)gameHeight/ INTERNAL_HEIGHT);
+        GraphicsWrapper gw = new GraphicsWrapper(g2d, (double)renderHeight/ INTERNAL_HEIGHT);
 
         draw(gw);//update the positions of everything on the screen
 

@@ -36,7 +36,8 @@ public class GameFrame extends JFrame {
             verticalPadding = 0;
         }
 
-
+        System.out.println(horizontalPadding);
+        System.out.println(verticalPadding);
         panel = new GamePanel(displayWidth, displayHeight, renderWidth, renderHeight, horizontalPadding, verticalPadding);
 
         this.add(panel);
