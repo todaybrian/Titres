@@ -20,5 +20,10 @@ public class GuiSolo extends Gui{
             GamePanel.getGamePanel().displayGui(new GuiMenuTransition(this, new GuiMainMenu(null)));
         }, AnimationType.LEFT));
 
+        ImageIcon fourty_lines_button = new ImageIcon(Assets.Button.FOURTY_LINES_BUTTON);
+        buttonList.add(new Button(400, 120, fourty_lines_button, (click)->{
+
+
+        }, AnimationType.RIGHT));
     }
 }
