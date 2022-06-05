@@ -20,6 +20,8 @@ public class Slider extends Button{
         icon = imageIcon;
     }
     public void draw(GraphicsWrapper g) {
+        g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, opacity));
+        super.animate();
         checkHover();
         if (isClicked()) {
             if (MouseInput.getLocation().getX()+icon.getIconWidth() > width+minX) {
@@ -34,6 +36,8 @@ public class Slider extends Button{
         int offsetY = 20;
         g.fillRect(minX, y+offsetY, width, height-2*offsetY);
         g.drawImage(icon.getImage(), x, y, icon.getIconWidth(), icon.getIconHeight());
+        g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1));
+
     }
 
     public double getValue() {
