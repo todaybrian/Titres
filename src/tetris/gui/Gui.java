@@ -1,33 +1,34 @@
 package tetris.gui;
 
 import tetris.GamePanel;
+import tetris.gui.widget.AnimatedRectangle;
 import tetris.wrapper.GraphicsWrapper;
 import tetris.gui.widget.Button;
 
 import java.util.ArrayList;
 
 public class Gui {
-    private Gui parentScreen;
+    protected Gui parentScreen;
+
+    protected ArrayList<AnimatedRectangle> componentList;
     protected ArrayList<Button> buttonList;
     protected GamePanel instance;
 
     public Gui(Gui parentScreen){
         this.parentScreen = parentScreen;
         buttonList = new ArrayList<>();
+        componentList = new ArrayList<>();
         instance = GamePanel.getGamePanel();
     }
 
     public void draw(GraphicsWrapper g){
-        drawBottom(g);
-        drawTop(g);
-    }
-
-    public void drawBottom(GraphicsWrapper g){
         instance.getGameBackground().draw(g);
-
-    }
-
-    public void drawTop(GraphicsWrapper g){
+        for (AnimatedRectangle component : componentList) {
+            component.draw(g);
+        }
+        for(AnimatedRectangle component : componentList){
+            component.draw(g);
+        }
         for(Button button : buttonList){
             button.draw(g);
         }
@@ -47,5 +48,13 @@ public class Gui {
                 button.clicked();
             button.setClicked(false);
         }
+    }
+
+    public ArrayList<Button> getButtonList(){
+        return buttonList;
+    }
+
+    public ArrayList<AnimatedRectangle> getComponentList(){
+        return componentList;
     }
 }

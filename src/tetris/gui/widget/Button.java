@@ -22,6 +22,7 @@ public class Button extends AnimatedRectangle {
 	//Was the left button of mouse pressed (but not released) on this button?
 	private boolean isClicked;
 
+
 	// Button width
 	protected int width;
 
@@ -31,12 +32,9 @@ public class Button extends AnimatedRectangle {
 	//Image of the button
 	protected ImageIcon imageIcon;
 
-	//Animation type
-	protected AnimationType animationType;
-
 	protected Button.IPressable onPress;
 	public Button (int xPos, int yPos, ImageIcon imageIcon, Button.IPressable onPress, AnimationType animationType) {
-		super(xPos, yPos, imageIcon.getIconWidth(), imageIcon.getIconHeight());
+		super(xPos, yPos, imageIcon.getIconWidth(), imageIcon.getIconHeight(), animationType);
 
 		this.width = imageIcon.getIconWidth();
 		this.height = imageIcon.getIconHeight();
@@ -55,18 +53,21 @@ public class Button extends AnimatedRectangle {
 	}
 
 	public void draw(GraphicsWrapper g){
+		g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, opacity));
 		checkHover();
-		long animationLength = ANIMATION_LENGTH_HOVER;
-		int xOffsetGoal = 0, yOffsetGoal = 0, opacityGoal = 1;
-		if(isClicked()){ // Clicked animation
-			xOffsetGoal = this.animationType.getClickXOffset();
-			yOffsetGoal = this.animationType.getClickYOffset();
-			animationLength = ANIMATION_LENGTH_CLICK;
-		} else if(isMouseOver()){
-			xOffsetGoal = this.animationType.getHoverXOffset();
-			yOffsetGoal = this.animationType.getHoverYOffset();
+		if(!inTransition) {
+			long animationLength = ANIMATION_LENGTH_HOVER;
+			int xOffsetGoal = 0, yOffsetGoal = 0, opacityGoal = 1;
+			if (isClicked()) { // Clicked animation
+				xOffsetGoal = this.animationType.getClickXOffset();
+				yOffsetGoal = this.animationType.getClickYOffset();
+				animationLength = ANIMATION_LENGTH_CLICK;
+			} else if (isMouseOver()) {
+				xOffsetGoal = this.animationType.getHoverXOffset();
+				yOffsetGoal = this.animationType.getHoverYOffset();
+			}
+			super.initAnimate(xOffsetGoal, yOffsetGoal, opacityGoal, animationLength);
 		}
-		super.initAnimate(xOffsetGoal, yOffsetGoal, opacityGoal, animationLength);
 		super.animate();
 
 		g.drawImage(imageIcon.getImage(), x, y, imageIcon.getIconWidth(), imageIcon.getIconHeight());
@@ -79,6 +80,7 @@ public class Button extends AnimatedRectangle {
 			g.setColor(new Color(0, 0, 0, 50));
 			g.fillRect(x, y, width, height);
 		}
+		g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1.0f));
 	}
 
 	protected void checkHover() {
@@ -103,33 +105,6 @@ public class Button extends AnimatedRectangle {
 
 	public interface IPressable {
 		void onPress(Button p_onPress_1_);
-	}
-
-	public enum AnimationType {
-		NONE (0), RIGHT (1), LEFT (2), UP (3), DOWN (4);
-		private final int id;
-
-		private final static int[] HOVER_X_OFFSET = {0, 60, -60, 0, 0};
-		private final static int[] CLICK_X_OFFSET = {0, 100, -100, 0, 0};
-		private final static int[] HOVER_Y_OFFSET = {0, 0, 0, -10, 10};
-		private final static int[] CLICK_Y_OFFSET = {0, 0, 0, -20, 20};
-
-
-		AnimationType(int id){
-			this.id = id;
-		}
-		public int getHoverXOffset(){
-			return HOVER_X_OFFSET[id];
-		}
-		public int getClickXOffset(){
-			return CLICK_X_OFFSET[id];
-		}
-		public int getHoverYOffset(){
-			return HOVER_Y_OFFSET[id];
-		}
-		public int getClickYOffset(){
-			return CLICK_Y_OFFSET[id];
-		}
 	}
 
 	public double getValue() {

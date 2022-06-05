@@ -1,6 +1,8 @@
 package tetris.gui;
 
 import tetris.GamePanel;
+import tetris.gui.widget.AnimatedRectangle;
+import tetris.gui.widget.AnimationType;
 import tetris.gui.widget.Button;
 //import tetris.gui.widget.Slider;
 import tetris.gui.widget.Slider;
@@ -25,33 +27,37 @@ public class GuiSettings extends Gui {
         ImageIcon exit_button = new ImageIcon(Assets.Button.EXIT_BUTTON);
         buttonList.add(new Button(-170,880, exit_button, (click)->{
             GamePanel.getGamePanel().exitGame();
-        }, Button.AnimationType.RIGHT));
+        }, AnimationType.RIGHT));
 
         ImageIcon back_button = new ImageIcon(Assets.Button.BACK_BUTTON);
         buttonList.add(new Button(-170, 120, back_button, (click)->{
-            GamePanel.getGamePanel().displayGui(parentScreen);
-        }, Button.AnimationType.RIGHT));
+            GamePanel.getGamePanel().displayGui(new GuiMenuTransition(this, new GuiMainMenu(null)));
+        }, AnimationType.RIGHT));
 
         ImageIcon slider = new ImageIcon(Assets.Button.SLIDER);
         buttonList.add(new Slider(785,500, slider, 200, 700));
 
+        AnimatedRectangle settings = new AnimatedRectangle((g, x)->{
+            g.setColor(new Color(0x8540a0));
+            g.fillRect(300 + x, 200, 1700, 800);
+            g.setFont(Assets.KDAM_FONT.deriveFont(Font.BOLD, 50));
+            g.setColor(Color.WHITE);
+            g.drawString("Volume: " + (int)(buttonList.get(2).getValue()*100),500, 750);
+
+            updateSettings();
+        }, AnimationType.RIGHT);
+
+        componentList.add(settings);
     }
 
     public void draw(GraphicsWrapper g){
-        super.drawBottom(g);
+        super.draw(g);
         g.drawString("FART! HAHA", 500, 500);
 
         //Settings box overlay
-        g.setColor(new Color(0x8540a0));
-        g.fillRect(300, 200, 1700, 800);
         g.drawImage(top_settings.getImage(), 0, 0, top_settings.getIconWidth(), top_settings.getIconHeight());
-        g.setFont(Assets.KDAM_FONT.deriveFont(Font.BOLD, 50));
-        g.setColor(Color.WHITE);
-        g.drawString("Volume: " + (int)(buttonList.get(2).getValue()*100),500, 750);
-
         g.drawImage(bottomBar.getImage(), 0, GamePanel.INTERNAL_HEIGHT - bottomBar.getIconHeight(), bottomBar.getIconWidth(), bottomBar.getIconHeight());
-        updateSettings();
-        super.drawTop(g);
+
     }
 
     private void load_assets() {
