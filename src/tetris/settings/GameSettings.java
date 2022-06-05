@@ -1,5 +1,8 @@
 package tetris.settings;
 
+import tetris.GamePanel;
+import tetris.music.MusicPlayer;
+
 public class GameSettings {
     public int music; // 0 for no music, 1 for NightSnow, 2 for Vremya, 3 for VirtualLight
     public int volume; // self-explanatory
@@ -8,5 +11,9 @@ public class GameSettings {
 
     public GameSettings(){
         renderFPS = 60;
+    }
+
+    public void updateGameToSettings() {
+        MusicPlayer.getInstance().changeVolume(volume);
     }
 }

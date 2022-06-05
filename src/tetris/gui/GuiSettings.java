@@ -33,7 +33,7 @@ public class GuiSettings extends Gui {
         }, Button.AnimationType.RIGHT));
 
         ImageIcon slider = new ImageIcon(Assets.Button.SLIDER);
-        buttonList.add(new Slider(550,500, slider, 700));
+        buttonList.add(new Slider(688,500, slider, 200, 700));
 
     }
 
@@ -47,9 +47,10 @@ public class GuiSettings extends Gui {
         g.drawImage(top_settings.getImage(), 0, 0, top_settings.getIconWidth(), top_settings.getIconHeight());
         g.setFont(Assets.KDAM_FONT.deriveFont(Font.BOLD, 50));
         g.setColor(Color.WHITE);
+        g.drawString("Volume: " + (int)(buttonList.get(2).getValue()*100),500, 750);
 
         g.drawImage(bottomBar.getImage(), 0, GamePanel.INTERNAL_HEIGHT - bottomBar.getIconHeight(), bottomBar.getIconWidth(), bottomBar.getIconHeight());
-
+        updateSettings();
         super.drawTop(g);
     }
 
@@ -57,5 +58,10 @@ public class GuiSettings extends Gui {
         top_settings = new ImageIcon(Assets.TOP_SETTINGS_FILE);
         bottomBar = new ImageIcon(Assets.BOTTOM_SETTINGS_FILE);
 
+    }
+
+    public void updateSettings() {
+        GamePanel.getGamePanel().getSettings().volume = (int)(buttonList.get(2).getValue()*80);
+        GamePanel.getGamePanel().getSettings().updateGameToSettings();
     }
 }

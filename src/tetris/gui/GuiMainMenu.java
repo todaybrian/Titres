@@ -15,6 +15,7 @@ public class GuiMainMenu extends Gui {
     private ImageIcon topBar;
     private ImageIcon bottomBar;
     private ImageIcon logo;
+    private GuiSettings guiSettings = new GuiSettings(this);
 
     public GuiMainMenu(Gui parentScreen) {
         super(parentScreen);
@@ -32,7 +33,7 @@ public class GuiMainMenu extends Gui {
         }, Button.AnimationType.LEFT));
         ImageIcon settings_button = new ImageIcon(Assets.Button.SETTINGS_BUTTON);
         buttonList.add(new Button(400, 600, settings_button, (click)->{
-            GamePanel.getGamePanel().displayGui(new GuiSettings(this));
+            GamePanel.getGamePanel().displayGui(guiSettings);
         }, Button.AnimationType.LEFT));
 
         ImageIcon github_button = new ImageIcon(Assets.Button.GITHUB_BUTTON);

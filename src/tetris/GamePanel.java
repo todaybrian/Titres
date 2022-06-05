@@ -1,5 +1,6 @@
 package tetris;
 
+import javax.sound.sampled.Clip;
 import javax.swing.*;
 import java.awt.*;
 
@@ -8,7 +9,9 @@ import tetris.controls.MouseInput;
 import tetris.gui.GameBackground;
 import tetris.gui.Gui;
 import tetris.gui.GuiWelcome;
+import tetris.music.MusicPlayer;
 import tetris.settings.GameSettings;
+import tetris.util.Assets;
 import tetris.wrapper.GraphicsWrapper;
 
 
@@ -49,6 +52,9 @@ public class GamePanel extends JPanel implements Runnable {
     private GameSettings gameSettings;
 
     private GameBackground gameBackground;
+    private String filePath;
+
+    static MusicPlayer player = MusicPlayer.getInstance();
 
     private int physicsFPS;
     private int renderFPS;
@@ -77,6 +83,12 @@ public class GamePanel extends JPanel implements Runnable {
         MouseInput.setScale((double)renderHeight/1080, horizontalPadding, verticalPadding);
 
         gameBackground = new GameBackground();
+        gameSettings = new GameSettings();
+
+        filePath = Assets.NIGHT_SNOW;
+        player.loadMusic(filePath);
+        player.clip.start();
+        player.clip.loop(Clip.LOOP_CONTINUOUSLY);
 
         gameThread = new Thread(this);
         gameThread.start();
