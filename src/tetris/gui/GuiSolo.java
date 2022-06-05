@@ -17,7 +17,7 @@ public class GuiSolo extends Gui{
 
         ImageIcon back_button = new ImageIcon(Assets.Button.BACK_BUTTON);
         buttonList.add(new Button(-170, 120, back_button, (click)->{
-            GamePanel.getGamePanel().displayGui(new GuiMenuTransition(this, new GuiMainMenu(null)));
+            instance.displayGui(new GuiMenuTransition(this, new GuiMainMenu(null)));
         }, AnimationType.LEFT));
 
         ImageIcon fourty_lines_button = new ImageIcon(Assets.Button.FOURTY_LINES_BUTTON);

@@ -25,7 +25,7 @@ public class GuiWelcome extends Gui {
             g.drawImage(welcomeScreen.getImage(), 0, 0, GamePanel.INTERNAL_WIDTH, GamePanel.INTERNAL_HEIGHT);
         } else{
             // Display Main Menu
-            GamePanel.getGamePanel().displayGui(new GuiMainMenu(this));
+            instance.displayGui(new GuiMainMenu(this));
         }
     }
 }

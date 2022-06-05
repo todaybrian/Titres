@@ -29,7 +29,7 @@ public class GuiSettings extends Gui {
 
         ImageIcon back_button = new ImageIcon(Assets.Button.BACK_BUTTON);
         buttonList.add(new Button(-170, 120, back_button, (click)->{
-            GamePanel.getGamePanel().displayGui(new GuiMenuTransition(this, new GuiMainMenu(null)));
+            instance.displayGui(new GuiMenuTransition(this, new GuiMainMenu(null)));
         }, AnimationType.LEFT));
 
         ImageIcon slider = new ImageIcon(Assets.Button.SLIDER);
@@ -48,18 +48,8 @@ public class GuiSettings extends Gui {
         componentList.add(settings);
     }
 
-    public void draw(GraphicsWrapper g){
-        super.draw(g);
-        g.drawString("FART! HAHA", 500, 500);
-
-        //Settings box overlay
-    }
-
-    public void loadAssets() {
-    }
-
     public void updateSettings() {
-        GamePanel.getGamePanel().getSettings().volume = (buttonList.get(1).getValue());
-        GamePanel.getGamePanel().getSettings().updateGameToSettings();
+        instance.getSettings().volume = (buttonList.get(1).getValue());
+        instance.getSettings().updateGameToSettings();
     }
 }
