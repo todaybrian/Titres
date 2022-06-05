@@ -15,13 +15,14 @@ public class GuiMenuTransition extends Gui{
 
     private Gui nextScreen;
 
-    private ImageIcon topBar;
-    private ImageIcon bottomBar;
     private long currentTime;
 
     public GuiMenuTransition(Gui parentScreen, Gui nextScreen){
         super(parentScreen);
         this.nextScreen = nextScreen;
+        nextScreen.loadAssets();
+        topBar = nextScreen.topBar;
+        bottomBar = nextScreen.bottomBar;
 
         ArrayList<AnimatedRectangle> parentComponentList = parentScreen.getComponentList();
         ArrayList<AnimatedRectangle> nextComponentList = nextScreen.getComponentList();
@@ -36,6 +37,7 @@ public class GuiMenuTransition extends Gui{
         for(AnimatedRectangle component : nextComponentList){
             component.opacity = 0;
             component.xOffsetCurrent = component.animationType.getTransitionXOffset();
+            component.yOffsetCurrent = component.animationType.getTransitionYOffset();
             component.initAnimate(0, 0, 1, GuiMenuTransition.ANIMATION_TRANSITION);
             componentList.add(component);
         }
@@ -49,6 +51,7 @@ public class GuiMenuTransition extends Gui{
         for(Button button : nextAssetList){
             button.opacity = 0;
             button.xOffsetCurrent = button.animationType.getTransitionXOffset();
+            button.yOffsetCurrent = button.animationType.getTransitionYOffset();
             button.initAnimate(0, 0, 1, GuiMenuTransition.ANIMATION_TRANSITION);
             button.inTransition = true;
             buttonList.add(button);

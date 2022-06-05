@@ -5,9 +5,13 @@ import tetris.gui.widget.AnimatedRectangle;
 import tetris.wrapper.GraphicsWrapper;
 import tetris.gui.widget.Button;
 
+import javax.swing.*;
 import java.util.ArrayList;
 
 public class Gui {
+    protected ImageIcon topBar;
+    protected ImageIcon bottomBar;
+
     protected Gui parentScreen;
 
     protected ArrayList<AnimatedRectangle> componentList;
@@ -23,6 +27,15 @@ public class Gui {
 
     public void draw(GraphicsWrapper g){
         instance.getGameBackground().draw(g);
+        //Top bar
+        if(topBar != null) {
+            g.drawImage(topBar.getImage(), 0, 0, topBar.getIconWidth(), topBar.getIconHeight());
+        }
+        //Bottom bar
+        if(bottomBar != null) {
+            g.drawImage(bottomBar.getImage(), 0, GamePanel.INTERNAL_HEIGHT - bottomBar.getIconHeight(), bottomBar.getIconWidth(), bottomBar.getIconHeight());
+        }
+
         for (AnimatedRectangle component : componentList) {
             component.draw(g);
         }
@@ -32,6 +45,10 @@ public class Gui {
         for(Button button : buttonList){
             button.draw(g);
         }
+    }
+
+    public void loadAssets(){
+        //Override this method
     }
 
     public void mouseClicked(){

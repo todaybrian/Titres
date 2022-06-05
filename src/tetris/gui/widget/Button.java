@@ -110,4 +110,5 @@ public class Button extends AnimatedRectangle {
 	public double getValue() {
 		return -1; // This is b/c I need to declare functions in parent so that child class can use them
 	}
+
 }

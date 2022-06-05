@@ -16,7 +16,7 @@ public class AnimatedRectangle extends Rectangle {
     private int yOffsetGoal;
     private float opacityGoal;
     public double xOffsetCurrent;
-    private double yOffsetCurrent;
+    public double yOffsetCurrent;
     private double xOffsetStep;
     private double yOffsetStep;
     private double opacityStep;
