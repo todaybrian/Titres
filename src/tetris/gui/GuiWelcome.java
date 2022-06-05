@@ -19,12 +19,12 @@ public class GuiWelcome extends Gui {
     }
 
     public void draw(GraphicsWrapper g){
-        if(System.nanoTime() - currentNS < NUMBER_OF_NS){
-            currentNS++;
-            ImageIcon welcomeScreen = new ImageIcon(Assets.WELCOME_SCREEN);
-            g.drawImage(welcomeScreen.getImage(), 0, 0, GamePanel.INTERNAL_WIDTH, GamePanel.INTERNAL_HEIGHT);
-        } else{
-            // Display Main Menu
+        currentNS++;
+        ImageIcon welcomeScreen = new ImageIcon(Assets.WELCOME_SCREEN);
+        g.drawImage(welcomeScreen.getImage(), 0, 0, GamePanel.INTERNAL_WIDTH, GamePanel.INTERNAL_HEIGHT);
+
+        if(System.nanoTime() - currentNS >= NUMBER_OF_NS){
+            //Display Main Menu
             instance.displayGui(new GuiMainMenu(this));
         }
     }

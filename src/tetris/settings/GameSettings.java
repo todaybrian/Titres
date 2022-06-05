@@ -17,6 +17,6 @@ public class GameSettings {
 
     public void updateGameToSettings() {
         instance.getMusicPlayer().changeVolume(musicVolume);
-        instance.getSFXPlayer().changeVolume(soundVolume);
+//        instance.getSFXPlayer().changeVolume(soundVolume);
     }
 }

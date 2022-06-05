@@ -52,7 +52,6 @@ public class GamePanel extends JPanel implements Runnable {
     private GameSettings gameSettings;
 
     private GameBackground gameBackground;
-    private String filePath;
 
     private MusicPlayer musicPlayer;
     private MusicPlayer sfxPlayer;
@@ -86,14 +85,12 @@ public class GamePanel extends JPanel implements Runnable {
         gameBackground = new GameBackground();
         gameSettings = new GameSettings();
 
-        filePath = Assets.NIGHT_SNOW;
-
         musicPlayer = new MusicPlayer();
         sfxPlayer = new MusicPlayer();
 
-        musicPlayer.loadMusic(filePath);
-        musicPlayer.clip.start();
-        musicPlayer.clip.loop(Clip.LOOP_CONTINUOUSLY);
+        musicPlayer.loadMusic(Assets.NIGHT_SNOW);
+        musicPlayer.playMusic();
+        musicPlayer.setLoop(true);
         musicPlayer.changeVolume(0.9);
 
         gameThread = new Thread(this);

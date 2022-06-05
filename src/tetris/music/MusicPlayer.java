@@ -1,16 +1,17 @@
 package tetris.music;
 
-import javax.sound.sampled.AudioInputStream;
-import javax.sound.sampled.AudioSystem;
-import javax.sound.sampled.Clip;
-import javax.sound.sampled.FloatControl;
+import javax.sound.sampled.*;
 import java.io.File;
 
 public class MusicPlayer {
     public Clip clip;
 
     public MusicPlayer() {
-
+        try {
+            clip = AudioSystem.getClip(); //Initialize clip
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public void loadMusic(String filepath) {
@@ -18,13 +19,28 @@ public class MusicPlayer {
             File musicPath = new File(filepath);
             if (musicPath.exists()) {
                 AudioInputStream audioInput = AudioSystem.getAudioInputStream(musicPath);
-                clip = AudioSystem.getClip();
+                DataLine.Info info = new DataLine.Info(Clip.class, audioInput.getFormat());
+
+                clip = (Clip) AudioSystem.getLine(info);
                 clip.open(audioInput);
             }
         }catch (Exception e) {
-
+            e.printStackTrace();
         }
     }
+
+    public void playMusic(){
+        clip.start();
+    }
+
+    public void setLoop(boolean loop) {
+        if(loop){
+            clip.loop(Clip.LOOP_CONTINUOUSLY);
+        } else{
+            clip.loop(0);
+        }
+    }
+
 
     public void changeVolume(double volume) {
         FloatControl gainControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
