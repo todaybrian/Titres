@@ -2,6 +2,7 @@ package tetris.gui;
 
 import tetris.GamePanel;
 import tetris.gui.widget.Button;
+//import tetris.gui.widget.Slider;
 import tetris.gui.widget.Slider;
 import tetris.util.Assets;
 import tetris.wrapper.GraphicsWrapper;
@@ -32,7 +33,7 @@ public class GuiSettings extends Gui {
         }, Button.AnimationType.RIGHT));
 
         ImageIcon slider = new ImageIcon(Assets.Button.SLIDER);
-        buttonList.add(new Slider(550,500, slider, 200, 700));
+        buttonList.add(new Slider(550,500, slider, 700));
 
     }
 

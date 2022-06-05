@@ -11,10 +11,10 @@ import tetris.controls.MouseInput;
 
 import javax.swing.*;
 
-public class Button extends Rectangle {
+public class Button extends AnimatedRectangle {
 	// Length of animation in nanoseconds
-	private final long ANIMATION_LENGTH_HOVER_NS = 120000000;
-	private final long ANIMATION_LENGTH_CLICK_NS = 40000000;
+	private final long ANIMATION_LENGTH_HOVER = 120000000;
+	private final long ANIMATION_LENGTH_CLICK = 40000000;
 
 	//Is the cursor over the button?
 	protected boolean isMouseOver;
@@ -28,29 +28,16 @@ public class Button extends Rectangle {
 	//Button height
 	protected int height;
 
-	//The x position of the button
-	protected int xPosition;
-
-	// The y position of the button
-	protected int yPosition;
-
 	//Image of the button
 	protected ImageIcon imageIcon;
 
 	//Animation type
 	protected AnimationType animationType;
-	private int xOffsetGoal;
-	private int yOffsetGoal;
-	private double xOffsetCurrent;
-	private double yOffsetCurrent;
-	private double xOffsetStep;
-	private double yOffsetStep;
-	private long lastSystemTime;
 
 	protected Button.IPressable onPress;
 	public Button (int xPos, int yPos, ImageIcon imageIcon, Button.IPressable onPress, AnimationType animationType) {
-		this.xPosition = xPos;
-		this.yPosition = yPos;
+		super(xPos, yPos, imageIcon.getIconWidth(), imageIcon.getIconHeight());
+
 		this.width = imageIcon.getIconWidth();
 		this.height = imageIcon.getIconHeight();
 		this.isMouseOver = false;
@@ -61,13 +48,6 @@ public class Button extends Rectangle {
 		this.onPress = onPress;
 
 		this.animationType = animationType;
-
-		xOffsetGoal = 0;
-		xOffsetCurrent = 0;
-		yOffsetCurrent = 0;
-		yOffsetGoal = 0;
-		xOffsetStep = yOffsetStep = 0;
-		lastSystemTime = System.nanoTime();
 	}
 
 	public Button(int xPos, int yPos, ImageIcon imageIcon, Button.IPressable onPress){
@@ -76,58 +56,33 @@ public class Button extends Rectangle {
 
 	public void draw(GraphicsWrapper g){
 		checkHover();
-		long animationLength = 1;
+		long animationLength = ANIMATION_LENGTH_HOVER;
+		int xOffsetGoal = 0, yOffsetGoal = 0, opacityGoal = 1;
 		if(isClicked()){ // Clicked animation
 			xOffsetGoal = this.animationType.getClickXOffset();
 			yOffsetGoal = this.animationType.getClickYOffset();
-			animationLength = ANIMATION_LENGTH_CLICK_NS;
+			animationLength = ANIMATION_LENGTH_CLICK;
 		} else if(isMouseOver()){
 			xOffsetGoal = this.animationType.getHoverXOffset();
 			yOffsetGoal = this.animationType.getHoverYOffset();
-			animationLength = ANIMATION_LENGTH_HOVER_NS;
-		} else{
-			xOffsetGoal = 0;
-			yOffsetGoal = 0;
-			animationLength = ANIMATION_LENGTH_HOVER_NS;
 		}
-		xOffsetStep = (xOffsetGoal - xOffsetCurrent+0.0) / animationLength;
-		yOffsetStep = (yOffsetGoal - yOffsetCurrent+0.0) / animationLength;
+		super.initAnimate(xOffsetGoal, yOffsetGoal, opacityGoal, animationLength);
+		super.animate();
 
-		if(xOffsetStep != 0 || yOffsetStep != 0){
-			boolean toRight = xOffsetGoal > xOffsetCurrent;
-			xOffsetCurrent += xOffsetStep * (System.nanoTime() - lastSystemTime);
-			if(xOffsetCurrent >= xOffsetGoal && toRight){
-				xOffsetCurrent = xOffsetGoal;
-				xOffsetStep = 0;
-			} else if(xOffsetCurrent <= xOffsetGoal && !toRight){
-				xOffsetCurrent = xOffsetGoal;
-				xOffsetStep = 0;
-			}
-			boolean toUp = yOffsetGoal > yOffsetCurrent;
-			yOffsetCurrent += yOffsetStep * (System.nanoTime() - lastSystemTime);
-			if(yOffsetCurrent >= yOffsetGoal && toUp){
-				yOffsetCurrent = yOffsetGoal;
-				yOffsetStep = 0;
-			} else if(yOffsetCurrent <= yOffsetGoal && !toUp){
-				yOffsetCurrent = yOffsetGoal;
-				yOffsetStep = 0;
-			}
-		}
-		g.drawImage(imageIcon.getImage(), xPosition + xOffsetCurrent, yPosition + yOffsetCurrent, imageIcon.getIconWidth(), imageIcon.getIconHeight());
+		g.drawImage(imageIcon.getImage(), x, y, imageIcon.getIconWidth(), imageIcon.getIconHeight());
 		if(isClicked) {
 			
 		} else if (isMouseOver) {
 			g.setColor(new Color(0, 0, 0, 35));
-			g.fillRect(xPosition+ xOffsetCurrent, yPosition+yOffsetCurrent, width, height);
+			g.fillRect(x, y, width, height);
 		} else{
 			g.setColor(new Color(0, 0, 0, 50));
-			g.fillRect(xPosition+ xOffsetCurrent, yPosition+yOffsetCurrent, width, height);
+			g.fillRect(x, y, width, height);
 		}
-		lastSystemTime = System.nanoTime();
 	}
 
 	protected void checkHover() {
-		isMouseOver = (MouseInput.getLocation().getX() > xPosition && MouseInput.getLocation().getX() < xPosition +width) && (MouseInput.getLocation().getY() > yPosition && MouseInput.getLocation().getY() < yPosition +height);
+		isMouseOver = (MouseInput.getLocation().getX() > x && MouseInput.getLocation().getX() < x +width) && (MouseInput.getLocation().getY() > y && MouseInput.getLocation().getY() < y +height);
 	}
 
 	public void clicked(){

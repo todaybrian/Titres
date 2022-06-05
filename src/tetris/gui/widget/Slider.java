@@ -12,9 +12,10 @@ public class Slider extends Button{
     protected int minX;
     protected ImageIcon icon;
 
-    public Slider(int xPos, int yPos, ImageIcon imageIcon, int posX, int width) {
+    public Slider(int xPos, int yPos, ImageIcon imageIcon, int width) {
         super(xPos, yPos, imageIcon, (click)->{});
-        minX = posX;
+
+        minX = xPos;
         this.width = width;
         icon = imageIcon;
     }
@@ -22,21 +23,21 @@ public class Slider extends Button{
         checkHover();
         if (isClicked()) {
             if (MouseInput.getLocation().getX()+icon.getIconWidth() > width+minX) {
-                this.xPosition = width+minX -icon.getIconWidth();
+                x = width+minX -icon.getIconWidth();
             } else if (MouseInput.getLocation().getX() < minX) {
-                this.xPosition = minX;
+                x = minX;
             } else {
-                this.xPosition = (int) MouseInput.getLocation().getX();
+                x = (int) MouseInput.getLocation().getX();
             }
         }
         g.setColor(new Color(0, 0, 0, 200));
         int offsetY = 20;
-        g.fillRect(minX, yPosition+offsetY, width, height-2*offsetY);
-        g.drawImage(icon.getImage(), xPosition, yPosition, icon.getIconWidth(), icon.getIconHeight());
+        g.fillRect(minX, y+offsetY, width, height-2*offsetY);
+        g.drawImage(icon.getImage(), x, y, icon.getIconWidth(), icon.getIconHeight());
     }
 
     public double getValue() {
-        return (double)(xPosition-minX) / (width-icon.getIconWidth());
+        return (double)(x-minX) / (width-icon.getIconWidth());
     }
 
 }
