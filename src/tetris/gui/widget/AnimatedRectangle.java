@@ -9,27 +9,26 @@ public class AnimatedRectangle extends Rectangle {
     public double x;
     public double y;
 
-    private int originalX;
-    private int originalY;
+    private final int originalX;
+    private final int originalY;
 
     private int xOffsetGoal;
     private int yOffsetGoal;
     private float opacityGoal;
-    public double xOffsetCurrent;
-    public double yOffsetCurrent;
+    private double xOffsetCurrent;
+    private double yOffsetCurrent;
     private double xOffsetStep;
     private double yOffsetStep;
     private double opacityStep;
 
     public float opacity;
 
-    private double animationLength;
     private long lastSystemTime;
 
     private IDrawable drawable;
     public AnimationType animationType;
 
-    public boolean inTransition;
+    protected boolean inTransition;
 
     public AnimatedRectangle(int x, int y, int width, int height, IDrawable drawable, AnimationType animationType) {
         super(x, y, width, height);
@@ -107,7 +106,7 @@ public class AnimatedRectangle extends Rectangle {
         this.xOffsetGoal = xOffsetGoal;
         this.yOffsetGoal = yOffsetGoal;
         this.opacityGoal = opacityGoal;
-        this.animationLength = animationLength;
+
         this.xOffsetStep = (xOffsetGoal - xOffsetCurrent+0.0) / (animationLength);
         this.opacityStep = (this.opacityGoal - opacity+0.0) / (animationLength);
         this.yOffsetStep = (yOffsetGoal - yOffsetCurrent+0.0) / (animationLength);
@@ -124,6 +123,16 @@ public class AnimatedRectangle extends Rectangle {
         yOffsetStep = 0;
         inTransition = false;
         lastSystemTime = System.nanoTime();
+    }
+
+    public void setOffsets(int xOffset, int yOffset, float opacity){
+        this.xOffsetCurrent = xOffset;
+        this.yOffsetCurrent = yOffset;
+        this.opacity = opacity;
+    }
+
+    public void setInTransition(boolean inTransition){
+        this.inTransition = inTransition;
     }
 
     public interface IDrawable {
