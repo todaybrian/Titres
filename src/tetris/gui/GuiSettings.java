@@ -7,7 +7,6 @@ import tetris.gui.widget.Button;
 //import tetris.gui.widget.Slider;
 import tetris.gui.widget.Slider;
 import tetris.util.Assets;
-import tetris.wrapper.GraphicsWrapper;
 import tetris.settings.GameSettings;
 
 import javax.swing.*;
@@ -49,7 +48,7 @@ public class GuiSettings extends Gui {
     }
 
     public void updateSettings() {
-        instance.getSettings().volume = (buttonList.get(1).getValue());
+        instance.getSettings().musicVolume = (buttonList.get(1).getValue());
         instance.getSettings().updateGameToSettings();
     }
 }

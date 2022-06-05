@@ -7,17 +7,13 @@ import javax.sound.sampled.FloatControl;
 import java.io.File;
 
 public class MusicPlayer {
-    static MusicPlayer player = new MusicPlayer();
-    public static Clip clip;
+    public Clip clip;
 
-    private MusicPlayer() {
+    public MusicPlayer() {
 
     }
-    public static MusicPlayer getInstance() {
-        return player;
-    }
 
-    public static void loadMusic(String filepath) {
+    public void loadMusic(String filepath) {
         try {
             File musicPath = new File(filepath);
             if (musicPath.exists()) {

@@ -54,7 +54,8 @@ public class GamePanel extends JPanel implements Runnable {
     private GameBackground gameBackground;
     private String filePath;
 
-    static MusicPlayer player = MusicPlayer.getInstance();
+    private MusicPlayer musicPlayer;
+    private MusicPlayer sfxPlayer;
 
     private int physicsFPS;
     private int renderFPS;
@@ -86,10 +87,14 @@ public class GamePanel extends JPanel implements Runnable {
         gameSettings = new GameSettings();
 
         filePath = Assets.NIGHT_SNOW;
-        player.loadMusic(filePath);
-        player.clip.start();
-        player.clip.loop(Clip.LOOP_CONTINUOUSLY);
-        player.changeVolume(0.9);
+
+        musicPlayer = new MusicPlayer();
+        sfxPlayer = new MusicPlayer();
+
+        musicPlayer.loadMusic(filePath);
+        musicPlayer.clip.start();
+        musicPlayer.clip.loop(Clip.LOOP_CONTINUOUSLY);
+        musicPlayer.changeVolume(0.9);
 
         gameThread = new Thread(this);
         gameThread.start();
@@ -190,6 +195,14 @@ public class GamePanel extends JPanel implements Runnable {
 
     public int getRenderFPS(){
         return renderFPS;
+    }
+
+    public MusicPlayer getMusicPlayer(){
+    	return musicPlayer;
+    }
+
+    public MusicPlayer getSFXPlayer(){
+    	return sfxPlayer;
     }
 
     //Stop the game
