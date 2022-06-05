@@ -88,7 +88,9 @@ public class Button extends AnimatedRectangle {
 	}
 
 	public void clicked(){
-		onPress.onPress(this);
+		//Stop buttons from being clicked when they are in the middle of a menu switch animation
+		if(!inTransition)
+			onPress.onPress(this);
 	}
 
 	public boolean isMouseOver() {
