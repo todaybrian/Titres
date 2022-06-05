@@ -9,6 +9,7 @@ import java.io.File;
 public class MusicPlayer {
     static MusicPlayer player = new MusicPlayer();
     public static Clip clip;
+
     private MusicPlayer() {
 
     }
@@ -29,8 +30,10 @@ public class MusicPlayer {
         }
     }
 
-    public void changeVolume(int v) {
+    public void changeVolume(double volume) {
         FloatControl gainControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
-        gainControl.setValue(v-74);
+        float range = gainControl.getMaximum() - gainControl.getMinimum();
+        double gain = (range * volume) + gainControl.getMinimum();
+        gainControl.setValue((float) gain);
     }
 }

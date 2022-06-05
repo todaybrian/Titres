@@ -33,7 +33,7 @@ public class GuiSettings extends Gui {
         }, Button.AnimationType.RIGHT));
 
         ImageIcon slider = new ImageIcon(Assets.Button.SLIDER);
-        buttonList.add(new Slider(688,500, slider, 200, 700));
+        buttonList.add(new Slider(785,500, slider, 200, 700));
 
     }
 
@@ -61,7 +61,7 @@ public class GuiSettings extends Gui {
     }
 
     public void updateSettings() {
-        GamePanel.getGamePanel().getSettings().volume = (int)(buttonList.get(2).getValue()*80);
+        GamePanel.getGamePanel().getSettings().volume = (buttonList.get(2).getValue());
         GamePanel.getGamePanel().getSettings().updateGameToSettings();
     }
 }

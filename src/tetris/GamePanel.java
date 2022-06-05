@@ -89,6 +89,7 @@ public class GamePanel extends JPanel implements Runnable {
         player.loadMusic(filePath);
         player.clip.start();
         player.clip.loop(Clip.LOOP_CONTINUOUSLY);
+        player.changeVolume(0.9);
 
         gameThread = new Thread(this);
         gameThread.start();
