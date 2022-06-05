@@ -25,7 +25,7 @@ public class GuiMainMenu extends Gui {
 
         ImageIcon solo_button = new ImageIcon(Assets.Button.SOLO_BUTTON);
         buttonList.add(new Button(400, 400, solo_button, (click)->{
-
+            instance.displayGui(new GuiMenuTransition(this, new GuiSolo(this)));
         }, AnimationType.RIGHT));
         ImageIcon settings_button = new ImageIcon(Assets.Button.SETTINGS_BUTTON);
         buttonList.add(new Button(400, 600, settings_button, (click)->{
