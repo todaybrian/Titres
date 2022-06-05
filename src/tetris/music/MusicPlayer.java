@@ -31,6 +31,6 @@ public class MusicPlayer {
 
     public void changeVolume(int v) {
         FloatControl gainControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
-        gainControl.setValue(v-60);
+        gainControl.setValue(v-74);
     }
 }
