@@ -18,7 +18,9 @@ public class GuiSettings extends Gui {
 
     public GuiSettings(Gui parentScreen) {
         super(parentScreen);
-        loadAssets();
+        topBar = new ImageIcon(Assets.TOP_SETTINGS_FILE);
+        bottomBar = new ImageIcon(Assets.BOTTOM_SETTINGS_FILE);
+
         gameSettings = GamePanel.getGamePanel().getSettings();
         ImageIcon exit_button = new ImageIcon(Assets.Button.EXIT_BUTTON);
 //        buttonList.add(new Button(-170,880, exit_button, (click)->{
@@ -54,8 +56,6 @@ public class GuiSettings extends Gui {
     }
 
     public void loadAssets() {
-        topBar = new ImageIcon(Assets.TOP_SETTINGS_FILE);
-        bottomBar = new ImageIcon(Assets.BOTTOM_SETTINGS_FILE);
     }
 
     public void updateSettings() {

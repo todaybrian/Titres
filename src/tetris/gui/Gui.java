@@ -47,10 +47,6 @@ public class Gui {
         }
     }
 
-    public void loadAssets(){
-        //Override this method
-    }
-
     public void mouseClicked(){
         //TODO: Check if mouse is above each button and run button interface if it is clicked
         for(Button button: buttonList){

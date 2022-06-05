@@ -20,7 +20,7 @@ public class GuiMenuTransition extends Gui{
     public GuiMenuTransition(Gui parentScreen, Gui nextScreen){
         super(parentScreen);
         this.nextScreen = nextScreen;
-        nextScreen.loadAssets();
+
         topBar = nextScreen.topBar;
         bottomBar = nextScreen.bottomBar;
 

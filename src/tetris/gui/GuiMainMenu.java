@@ -1,6 +1,7 @@
 package tetris.gui;
 
 import tetris.GamePanel;
+import tetris.gui.widget.AnimatedRectangle;
 import tetris.gui.widget.AnimationType;
 import tetris.util.Assets;
 import tetris.wrapper.GraphicsWrapper;
@@ -12,11 +13,10 @@ import java.net.URL;
 
 public class GuiMainMenu extends Gui {
 
-    private ImageIcon logo;
-
     public GuiMainMenu(Gui parentScreen) {
         super(parentScreen);
-        loadAssets();
+        topBar = new ImageIcon(Assets.TOP_MAIN_MENU_FILE);
+        bottomBar = new ImageIcon(Assets.BOTTOM_MAIN_MENU_FILE);
 
         ImageIcon exit_button = new ImageIcon(Assets.Button.EXIT_BUTTON);
         buttonList.add(new Button(-170,880, exit_button, (click)->{
@@ -41,13 +41,10 @@ public class GuiMainMenu extends Gui {
             }
         }, AnimationType.DOWN));
 
-
-    }
-
-    public void loadAssets(){
-        topBar = new ImageIcon(Assets.TOP_MAIN_MENU_FILE);
-        bottomBar = new ImageIcon(Assets.BOTTOM_MAIN_MENU_FILE);
-        logo = new ImageIcon(Assets.LOGO_FILE);
+        ImageIcon logo = new ImageIcon(Assets.LOGO_FILE);
+        componentList.add(new AnimatedRectangle((g, x)->{
+            g.drawImage(logo.getImage(), 20+x, 100, 1.25*logo.getIconWidth(), 1.25*logo.getIconHeight());
+        }, AnimationType.LEFT));
     }
 
     public void draw(GraphicsWrapper g){
@@ -55,7 +52,7 @@ public class GuiMainMenu extends Gui {
 
 
         //Draw logo
-        g.drawImage(logo.getImage(), 20, 100, 1.25*logo.getIconWidth(), 1.25*logo.getIconHeight());
+        //g.drawImage(logo.getImage(), 20, 100, 1.25*logo.getIconWidth(), 1.25*logo.getIconHeight());
 
 //        g.drawString(String.valueOf(MouseInput.getLocation().getX()), 500, 500);
 //        g.drawString(String.valueOf(MouseInput.getLocation().getY()), 550, 500);
