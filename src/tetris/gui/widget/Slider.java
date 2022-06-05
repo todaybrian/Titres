@@ -12,10 +12,10 @@ public class Slider extends Button{
     protected int minX;
     protected ImageIcon icon;
 
-    public Slider(int xPos, int yPos, ImageIcon imageIcon, int width) {
+    public Slider(int xPos, int yPos, ImageIcon imageIcon, int xMin, int width) {
         super(xPos, yPos, imageIcon, (click)->{});
 
-        minX = xPos;
+        minX = xMin;
         this.width = width;
         icon = imageIcon;
     }
@@ -37,7 +37,7 @@ public class Slider extends Button{
     }
 
     public double getValue() {
-        return (double)(x-minX) / (width-icon.getIconWidth());
+        return (x-minX) / (width-icon.getIconWidth());
     }
 
 }
