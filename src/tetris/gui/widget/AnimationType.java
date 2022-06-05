@@ -9,7 +9,7 @@ public enum AnimationType {
     private final static int[] TRANSITION_X_OFFSET = {0, 600, -600, 0, 0};
     private final static int[] HOVER_Y_OFFSET = {0, 0, 0, 10, -10};
     private final static int[] CLICK_Y_OFFSET = {0, 0, 0, 20, -20};
-    private final static int[] TRANSITION_Y_OFFSET = {0, 0, 0, -30, 1920};
+    private final static int[] TRANSITION_Y_OFFSET = {0, 0, 0, -30, 60};
 
 
     AnimationType(int id){
