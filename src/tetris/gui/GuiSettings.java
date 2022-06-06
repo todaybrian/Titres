@@ -43,6 +43,14 @@ public class GuiSettings extends Gui {
             g.setFont(Assets.KDAM_FONT.deriveFont(Font.BOLD, 50));
             g.setColor(Color.WHITE);
             g.drawString("Volume: " + (int)(volumeSlider.getValue()),500, 750);
+            boolean h = false;
+            for (Button b : buttonList) {
+                if (b.isMouseOver()) {
+                    h = true;
+                    break;
+                }
+            }
+            Button.hovering = h;
 
             updateSettings();
         }, AnimationType.RIGHT);

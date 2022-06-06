@@ -6,6 +6,7 @@ package tetris.gui.widget;
 
 import java.awt.*;
 
+import tetris.GamePanel;
 import tetris.wrapper.GraphicsWrapper;
 import tetris.controls.MouseInput;
 
@@ -32,6 +33,8 @@ public class Button extends AnimatedRectangle {
 	//Image of the button
 	protected ImageIcon imageIcon;
 
+	public static boolean hovering = false;
+
 	protected Button.IPressable onPress;
 	public Button (int xPos, int yPos, ImageIcon imageIcon, Button.IPressable onPress, AnimationType animationType) {
 		super(xPos, yPos, imageIcon.getIconWidth(), imageIcon.getIconHeight(), animationType);
@@ -55,6 +58,11 @@ public class Button extends AnimatedRectangle {
 	public void draw(GraphicsWrapper g){
 		g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, opacity));
 		checkHover();
+		if (hovering) {
+			GamePanel.getGamePanel().setCursor(new Cursor(Cursor.HAND_CURSOR));
+		} else {
+			GamePanel.getGamePanel().setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+		}
 		if(!inTransition) {
 			long animationLength = ANIMATION_LENGTH_HOVER;
 			int xOffsetGoal = 0, yOffsetGoal = 0, opacityGoal = 1;

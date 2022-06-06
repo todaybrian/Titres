@@ -1,6 +1,7 @@
 package tetris.gui;
 
 import tetris.GamePanel;
+import tetris.gui.widget.AnimatedRectangle;
 import tetris.gui.widget.AnimationType;
 import tetris.gui.widget.Button;
 import tetris.util.Assets;
@@ -28,5 +29,17 @@ public class GuiSolo extends Gui{
         instance.displayGui(new GuiMenuTransition(this,new GuiTetris()));
 
         }, AnimationType.RIGHT));
+
+        AnimatedRectangle cursor = new AnimatedRectangle((g,x)->{
+            boolean h = false;
+            for (Button b : buttonList) {
+                if (b.isMouseOver()) {
+                    h = true;
+                    break;
+                }
+            }
+            Button.hovering = h;
+        },AnimationType.NONE);
+        componentList.add(cursor);
     }
 }
