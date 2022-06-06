@@ -19,6 +19,6 @@ public class Tetromino {
         return image;
     }
     private Color pickColor() {
-
+        return Color.BLACK;
     }
 }
