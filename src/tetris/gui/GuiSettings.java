@@ -16,6 +16,8 @@ public class GuiSettings extends Gui {
     protected GameSettings gameSettings;
 
     private Slider volumeSlider;
+    private Slider sfxSlider;
+    private Slider fpsSlider;
 
     public GuiSettings(Gui parentScreen) {
         super(parentScreen);
@@ -37,12 +39,20 @@ public class GuiSettings extends Gui {
         volumeSlider = new Slider(200,500, 700, slider,  0, 100, (int)(GamePanel.getGamePanel().getSettings().musicVolume));
         buttonList.add(volumeSlider);
 
+        sfxSlider = new Slider(200,200, 700, slider,  0, 100, (int)(GamePanel.getGamePanel().getSettings().musicVolume));
+        buttonList.add(sfxSlider);
+
+        fpsSlider = new Slider(200,800, 700, slider,  10, 144, (int)(GamePanel.getGamePanel().getSettings().musicVolume));
+        buttonList.add(fpsSlider);
+
         AnimatedRectangle settings = new AnimatedRectangle((g, x)->{
             g.setColor(new Color(0x8540a0));
             g.fillRect(300 + x, 200, 1700, 800);
             g.setFont(Assets.KDAM_FONT.deriveFont(Font.BOLD, 50));
             g.setColor(Color.WHITE);
-            g.drawString("Volume: " + (int)(volumeSlider.getValue()),500, 750);
+            g.drawString("Music: " + (int)(volumeSlider.getValue()),1000, 550);
+            g.drawString("SFX: " + (int)(sfxSlider.getValue()),1000,250);
+            g.drawString("FPS: " + (int)(fpsSlider.getValue()),1000,850);
             boolean h = false;
             for (Button b : buttonList) {
                 if (b.isMouseOver()) {
