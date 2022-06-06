@@ -32,7 +32,7 @@ public class GuiSettings extends Gui {
         }, AnimationType.LEFT));
 
         ImageIcon slider = new ImageIcon(Assets.Button.SLIDER);
-        buttonList.add(new Slider(785,500, slider, 200, 700));
+        buttonList.add(new Slider((int)(GamePanel.getGamePanel().getSettings().musicVolume*650+200),500, slider, 200, 700));
 
         AnimatedRectangle settings = new AnimatedRectangle((g, x)->{
             g.setColor(new Color(0x8540a0));

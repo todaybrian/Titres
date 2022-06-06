@@ -21,7 +21,7 @@ public class Slider extends Button{
     }
     public void draw(GraphicsWrapper g) {
         g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, opacity));
-        super.animate();
+        //super.animate();
         checkHover();
         if (isClicked()) {
             if (MouseInput.getLocation().getX()+icon.getIconWidth() > width+minX) {

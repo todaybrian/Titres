@@ -13,6 +13,7 @@ public class GameSettings {
     public GameSettings(){
         instance = GamePanel.getGamePanel();
         renderFPS = 60;
+        musicVolume = 0.9;
     }
 
     public void updateGameToSettings() {
