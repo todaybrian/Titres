@@ -15,6 +15,8 @@ import java.awt.*;
 public class GuiSettings extends Gui {
     protected GameSettings gameSettings;
 
+    private Slider volumeSlider;
+
     public GuiSettings(Gui parentScreen) {
         super(parentScreen);
         topBar = new ImageIcon(Assets.TOP_SETTINGS_FILE);
@@ -32,14 +34,15 @@ public class GuiSettings extends Gui {
         }, AnimationType.LEFT));
 
         ImageIcon slider = new ImageIcon(Assets.Button.SLIDER);
-        buttonList.add(new Slider((int)(GamePanel.getGamePanel().getSettings().musicVolume*650+200),500, slider, 200, 700));
+        volumeSlider = new Slider(200,500, 700, slider,  0, 100, (int)(GamePanel.getGamePanel().getSettings().musicVolume));
+        buttonList.add(volumeSlider);
 
         AnimatedRectangle settings = new AnimatedRectangle((g, x)->{
             g.setColor(new Color(0x8540a0));
             g.fillRect(300 + x, 200, 1700, 800);
             g.setFont(Assets.KDAM_FONT.deriveFont(Font.BOLD, 50));
             g.setColor(Color.WHITE);
-            g.drawString("Volume: " + (int)(buttonList.get(1).getValue()*100),500, 750);
+            g.drawString("Volume: " + (int)(volumeSlider.getValue()),500, 750);
 
             updateSettings();
         }, AnimationType.RIGHT);
@@ -48,7 +51,7 @@ public class GuiSettings extends Gui {
     }
 
     public void updateSettings() {
-        instance.getSettings().musicVolume = (buttonList.get(1).getValue());
-        instance.getSettings().updateGameToSettings();
+//        instance.getSettings().musicVolume = (volumeSlider.getValue());
+//        instance.getSettings().updateGameToSettings();
     }
 }
