@@ -9,39 +9,47 @@ import java.awt.*;
 
 public class Slider extends Button{
 
-    protected int minX;
+    protected int xPos;
+    protected int minValue, maxValue;
     protected ImageIcon icon;
 
-    public Slider(int xPos, int yPos, ImageIcon imageIcon, int xMin, int width) {
-        super(xPos, yPos, imageIcon, (click)->{});
+    public Slider(int xPos, int yPos, int width, ImageIcon imageIcon, int minValue, int maxValue, int initValue) {
+        super(((initValue-minValue)/(maxValue-minValue))*(width-imageIcon.getIconWidth())+xPos, yPos, imageIcon, (click)->{});
 
-        minX = xMin;
+        this.xPos = xPos;
         this.width = width;
-        icon = imageIcon;
+        this.icon = imageIcon;
+        this.minValue = minValue;
+        this.maxValue = maxValue;
     }
+
+    public Slider(int xPos, int yPos, int width, ImageIcon imageIcon, int minValue, int maxValue) {
+        this(xPos, yPos, width, imageIcon, minValue, maxValue, 0);
+    }
+
     public void draw(GraphicsWrapper g) {
         g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, opacity));
-        //super.animate();
+
         checkHover();
         if (isClicked()) {
-            if (MouseInput.getLocation().getX()+icon.getIconWidth() > width+minX) {
-                x = width+minX -icon.getIconWidth();
-            } else if (MouseInput.getLocation().getX() < minX) {
-                x = minX;
+            if (MouseInput.getLocation().getX()+icon.getIconWidth() > width+xPos) {
+                x = width+xPos -icon.getIconWidth();
+            } else if (MouseInput.getLocation().getX() < xPos) {
+                x = xPos;
             } else {
                 x = (int) MouseInput.getLocation().getX();
             }
         }
         g.setColor(new Color(0, 0, 0, 200));
         int offsetY = 20;
-        g.fillRect(minX, y+offsetY, width, height-2*offsetY);
+        g.fillRect(xPos, y+offsetY, width, height-2*offsetY);
         g.drawImage(icon.getImage(), x, y, icon.getIconWidth(), icon.getIconHeight());
         g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1));
 
     }
 
     public double getValue() {
-        return (x-minX) / (width-icon.getIconWidth());
+        return ((x-xPos) / (width-icon.getIconWidth())) * (maxValue-minValue) + minValue;
     }
 
 }
