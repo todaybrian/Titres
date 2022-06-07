@@ -3,6 +3,7 @@ package tetris.gui;
 import tetris.GamePanel;
 import tetris.gui.widget.AnimatedRectangle;
 import tetris.gui.widget.AnimationType;
+import tetris.util.Assets;
 import tetris.wrapper.GraphicsWrapper;
 import tetris.gui.widget.Button;
 
@@ -18,12 +19,14 @@ public class Gui {
     protected ArrayList<AnimatedRectangle> componentList;
     protected ArrayList<Button> buttonList;
     protected GamePanel instance;
+    private boolean wasHovering;
 
     public Gui(Gui parentScreen){
         this.parentScreen = parentScreen;
         buttonList = new ArrayList<>();
         componentList = new ArrayList<>();
         instance = GamePanel.getGamePanel();
+        wasHovering = false;
     }
 
     public void draw(GraphicsWrapper g){
@@ -44,12 +47,22 @@ public class Gui {
             component.draw(g);
         }
         boolean h = false;
+
         for(Button button : buttonList){
             button.draw(g);
             if (button.isMouseOver()) {
                 h = true;
+                if (!wasHovering) {
+                    instance.getSFXPlayer().loadMusic(Assets.SFX_CLICK);
+                    instance.getSFXPlayer().playMusic();
+                    wasHovering = true;
+                }
             }
         }
+        if (!h) {
+            wasHovering = false;
+        }
+
         Button.hovering = h;
     }
 
