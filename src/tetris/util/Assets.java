@@ -30,7 +30,6 @@ public class Assets {
     public static final String NIGHT_SNOW = "src/assets/music/NightSnow.wav";
     public static final String VREMYA = "src/assets/music/Vremya.wav";
     public static final String VIRTUAL_LIGHT = "src/assets/music/VirtualLight.wav";
-    public static final String SFX_CLICK = "src/assets/sfx/sfx_click.wav";
 
     public static final String BACKGROUND_PREFIX = "src/assets/backgrounds/background";
 
@@ -53,5 +52,10 @@ public class Assets {
         public static final String GITHUB_BUTTON = "src/assets/button/github_button.png";
 
         public static final String SLIDER = "src/assets/button/slider.png";
+    }
+
+    public class SFX{
+        public static final String CLICK =  "src/assets/sfx/sfx_click.wav";
+        public static final String HOVER = "src/assets/sfx/sfx_hover.wav";
     }
 }

@@ -1,10 +1,8 @@
 package tetris.gui;
 
-import tetris.GamePanel;
 import tetris.gui.widget.AnimatedRectangle;
 import tetris.gui.widget.AnimationType;
 import tetris.util.Assets;
-import tetris.wrapper.GraphicsWrapper;
 import tetris.gui.widget.Button;
 
 import javax.swing.*;
@@ -26,13 +24,13 @@ public class GuiMainMenu extends Gui {
         ImageIcon solo_button = new ImageIcon(Assets.Button.SOLO_BUTTON);
         buttonList.add(new Button(400, 400, solo_button, (click)->{
             instance.displayGui(new GuiMenuTransition(this, new GuiSolo(this)));
-            instance.getSFXPlayer().loadMusic(Assets.SFX_CLICK);
+            instance.getSFXPlayer().loadMusic(Assets.SFX.CLICK);
             instance.getSFXPlayer().playMusic();
         }, AnimationType.RIGHT));
         ImageIcon settings_button = new ImageIcon(Assets.Button.SETTINGS_BUTTON);
         buttonList.add(new Button(400, 600, settings_button, (click)->{
             instance.displayGui(new GuiMenuTransition(this, new GuiSettings(this)));
-            instance.getSFXPlayer().loadMusic(Assets.SFX_CLICK);
+            instance.getSFXPlayer().loadMusic(Assets.SFX.CLICK);
             instance.getSFXPlayer().playMusic();
         }, AnimationType.RIGHT));
 

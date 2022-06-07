@@ -8,6 +8,7 @@ import tetris.wrapper.GraphicsWrapper;
 import tetris.gui.widget.Button;
 
 import javax.swing.*;
+import java.awt.*;
 import java.util.ArrayList;
 
 public class Gui {
@@ -19,14 +20,12 @@ public class Gui {
     protected ArrayList<AnimatedRectangle> componentList;
     protected ArrayList<Button> buttonList;
     protected GamePanel instance;
-    private boolean wasHovering;
 
     public Gui(Gui parentScreen){
         this.parentScreen = parentScreen;
         buttonList = new ArrayList<>();
         componentList = new ArrayList<>();
         instance = GamePanel.getGamePanel();
-        wasHovering = false;
     }
 
     public void draw(GraphicsWrapper g){
@@ -40,33 +39,22 @@ public class Gui {
             g.drawImage(bottomBar.getImage(), 0, GamePanel.INTERNAL_HEIGHT - bottomBar.getIconHeight(), bottomBar.getIconWidth(), bottomBar.getIconHeight());
         }
 
-        for (AnimatedRectangle component : componentList) {
-            component.draw(g);
-        }
         for(AnimatedRectangle component : componentList){
             component.draw(g);
         }
-        boolean h = false;
-
+        boolean mouseOverButton = false;
         for(Button button : buttonList){
-            button.draw(g);
-            if (button.isMouseOver()) {
-                h = true;
-                if (!wasHovering) {
-                    wasHovering = true;
-                }
-                if (button != Button.lastHovered) {
-                    Button.lastHovered = button;
-                    instance.getSFXPlayer().loadMusic(Assets.SFX_CLICK);
-                    instance.getSFXPlayer().playMusic();
-                }
+            if(button.isMouseOver()){
+                mouseOverButton = true;
             }
-        }
-        if (!h) {
-            wasHovering = false;
+            button.draw(g);
         }
 
-        Button.hovering = h;
+        if(mouseOverButton){
+            instance.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        } else{
+            instance.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+        }
     }
 
     public void mouseClicked(){

@@ -7,12 +7,15 @@ package tetris.gui.widget;
 import java.awt.*;
 
 import tetris.GamePanel;
+import tetris.util.Assets;
 import tetris.wrapper.GraphicsWrapper;
 import tetris.controls.MouseInput;
 
 import javax.swing.*;
 
 public class Button extends AnimatedRectangle {
+	private GamePanel instance;
+
 	// Length of animation in nanoseconds
 	private final long ANIMATION_LENGTH_HOVER = 120000000;
 	private final long ANIMATION_LENGTH_CLICK = 40000000;
@@ -33,23 +36,26 @@ public class Button extends AnimatedRectangle {
 	//Image of the button
 	protected ImageIcon imageIcon;
 
-	public static boolean hovering = false;
-	public static Button lastHovered;
+	private boolean wasHovered;
 
 	protected Button.IPressable onPress;
 	public Button (int xPos, int yPos, ImageIcon imageIcon, Button.IPressable onPress, AnimationType animationType) {
 		super(xPos, yPos, imageIcon.getIconWidth(), imageIcon.getIconHeight(), animationType);
 
+		this.instance = GamePanel.getGamePanel();
+
 		this.width = imageIcon.getIconWidth();
 		this.height = imageIcon.getIconHeight();
 		this.isMouseOver = false;
 		this.isClicked = false;
+		this.wasHovered = false;
 
 		this.imageIcon = imageIcon;
 
 		this.onPress = onPress;
 
 		this.animationType = animationType;
+
 	}
 
 	public Button(int xPos, int yPos, ImageIcon imageIcon, Button.IPressable onPress){
@@ -59,11 +65,13 @@ public class Button extends AnimatedRectangle {
 	public void draw(GraphicsWrapper g){
 		g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, opacity));
 		checkHover();
-		if (hovering) {
-			GamePanel.getGamePanel().setCursor(new Cursor(Cursor.HAND_CURSOR));
-		} else {
-			GamePanel.getGamePanel().setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+
+		if(!wasHovered && isMouseOver){
+			instance.getSFXPlayer().loadMusic(Assets.SFX.HOVER);
+			instance.getSFXPlayer().playMusic();
 		}
+		wasHovered = isMouseOver;
+
 		if(!inTransition) {
 			long animationLength = ANIMATION_LENGTH_HOVER;
 			int xOffsetGoal = 0, yOffsetGoal = 0, opacityGoal = 1;
