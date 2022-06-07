@@ -12,8 +12,9 @@ public class Slider extends Button{
     protected int xPos;
     protected int minValue, maxValue;
     protected ImageIcon icon;
+    protected IPressable onChange;
 
-    public Slider(int xPos, int yPos, int width, ImageIcon imageIcon, int minValue, int maxValue, int initValue) {
+    public Slider(int xPos, int yPos, int width, ImageIcon imageIcon, IPressable onChange, int minValue, int maxValue, int initValue) {
         super(((initValue-minValue)/(maxValue-minValue))*(width-imageIcon.getIconWidth())+xPos, yPos, imageIcon, (click)->{});
 
         this.xPos = xPos;
@@ -21,10 +22,12 @@ public class Slider extends Button{
         this.icon = imageIcon;
         this.minValue = minValue;
         this.maxValue = maxValue;
+
+        this.onChange = onChange;
     }
 
-    public Slider(int xPos, int yPos, int width, ImageIcon imageIcon, int minValue, int maxValue) {
-        this(xPos, yPos, width, imageIcon, minValue, maxValue, 0);
+    public Slider(int xPos, int yPos, int width, ImageIcon imageIcon, IPressable onChange, int minValue, int maxValue) {
+        this(xPos, yPos, width, imageIcon, onChange, minValue, maxValue, 0);
     }
 
     public void draw(GraphicsWrapper g) {
@@ -39,6 +42,7 @@ public class Slider extends Button{
             } else {
                 x = (int) MouseInput.getLocation().getX();
             }
+            this.onChange.onChange(this);
         }
         g.setColor(new Color(0, 0, 0, 200));
         int offsetY = 20;
@@ -50,6 +54,9 @@ public class Slider extends Button{
 
     public double getValue() {
         return ((x-xPos) / (width-icon.getIconWidth())) * (maxValue-minValue) + minValue;
+    }
+    public interface IPressable {
+        void onChange(Slider onSlide);
     }
 
 }

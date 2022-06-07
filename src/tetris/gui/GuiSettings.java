@@ -36,13 +36,19 @@ public class GuiSettings extends Gui {
         }, AnimationType.LEFT));
 
         ImageIcon slider = new ImageIcon(Assets.Button.SLIDER);
-        volumeSlider = new Slider(200,500, 700, slider,  0, 100, (int)(GamePanel.getGamePanel().getSettings().musicVolume));
+        volumeSlider = new Slider(200,500, 700, slider,  (onChange)->{
+
+        },0, 100, (int)(GamePanel.getGamePanel().getSettings().musicVolume));
         buttonList.add(volumeSlider);
 
-        sfxSlider = new Slider(200,200, 700, slider,  0, 100, (int)(GamePanel.getGamePanel().getSettings().musicVolume));
+        sfxSlider = new Slider(200,200, 700, slider, (onChange)->{
+
+        },0, 100, (int)(GamePanel.getGamePanel().getSettings().musicVolume));
         buttonList.add(sfxSlider);
 
-        fpsSlider = new Slider(200,800, 700, slider,  10, 144, (int)(GamePanel.getGamePanel().getSettings().musicVolume));
+        fpsSlider = new Slider(200,800, 700, slider,  (onChange)->{
+
+        },10, 144, (int)(GamePanel.getGamePanel().getSettings().musicVolume));
         buttonList.add(fpsSlider);
 
         AnimatedRectangle settings = new AnimatedRectangle((g, x)->{
