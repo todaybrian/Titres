@@ -15,6 +15,7 @@ public class Tetromino {
     public Image drawImage() {
         BufferedImage image = new BufferedImage(SQUARE_SIDE,SQUARE_SIDE, BufferedImage.TYPE_INT_ARGB);
         Graphics2D g = image.createGraphics();
+        g.setColor(Color.WHITE);
         g.fillRect(x, y,SQUARE_SIDE,SQUARE_SIDE);
         return image;
     }
