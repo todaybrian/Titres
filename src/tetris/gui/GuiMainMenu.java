@@ -55,14 +55,6 @@ public class GuiMainMenu extends Gui {
 //            g.setFont(Assets.KDAM_FONT.deriveFont(Font.BOLD, 50));
 //            g.setColor(Color.WHITE);
 //            g.drawString(String.valueOf(buttonList.get(0).isMouseOver())+ buttonList.get(1).isMouseOver() + buttonList.get(2).isMouseOver(),500, 350);
-            boolean h = false;
-            for (Button b : buttonList) {
-                if (b.isMouseOver()) {
-                    h = true;
-                    break;
-                }
-            }
-            Button.hovering = h;
 
         }, AnimationType.RIGHT);
 

@@ -59,15 +59,6 @@ public class GuiSettings extends Gui {
             g.drawString("Music: " + (int)(volumeSlider.getValue()),1000, 550);
             g.drawString("SFX: " + (int)(sfxSlider.getValue()),1000,250);
             g.drawString("FPS: " + (int)(fpsSlider.getValue()),1000,850);
-            boolean h = false;
-            for (Button b : buttonList) {
-                if (b.isMouseOver()) {
-                    h = true;
-                    break;
-                }
-            }
-            Button.hovering = h;
-
             updateSettings();
         }, AnimationType.RIGHT);
 

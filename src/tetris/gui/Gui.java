@@ -2,6 +2,7 @@ package tetris.gui;
 
 import tetris.GamePanel;
 import tetris.gui.widget.AnimatedRectangle;
+import tetris.gui.widget.AnimationType;
 import tetris.wrapper.GraphicsWrapper;
 import tetris.gui.widget.Button;
 
@@ -42,9 +43,14 @@ public class Gui {
         for(AnimatedRectangle component : componentList){
             component.draw(g);
         }
+        boolean h = false;
         for(Button button : buttonList){
             button.draw(g);
+            if (button.isMouseOver()) {
+                h = true;
+            }
         }
+        Button.hovering = h;
     }
 
     public void mouseClicked(){

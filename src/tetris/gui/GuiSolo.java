@@ -30,16 +30,6 @@ public class GuiSolo extends Gui{
 
         }, AnimationType.RIGHT));
 
-        AnimatedRectangle cursor = new AnimatedRectangle((g,x)->{
-            boolean h = false;
-            for (Button b : buttonList) {
-                if (b.isMouseOver()) {
-                    h = true;
-                    break;
-                }
-            }
-            Button.hovering = h;
-        },AnimationType.NONE);
-        componentList.add(cursor);
+
     }
 }
