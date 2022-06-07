@@ -55,7 +55,8 @@ public class Assets {
     }
 
     public class SFX {
-        public static final String CLICK =  "src/assets/sfx/sfx_click.wav";
+        public static final String CLICK_1 = "src/assets/sfx/sfx_click_lvl_1.wav";
+        public static final String CLICK_2 = "src/assets/sfx/sfx_click_lvl_2.wav";
         public static final String HOVER = "src/assets/sfx/sfx_hover.wav";
     }
 }
