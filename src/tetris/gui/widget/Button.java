@@ -34,6 +34,7 @@ public class Button extends AnimatedRectangle {
 	protected ImageIcon imageIcon;
 
 	public static boolean hovering = false;
+	public static Button lastHovered;
 
 	protected Button.IPressable onPress;
 	public Button (int xPos, int yPos, ImageIcon imageIcon, Button.IPressable onPress, AnimationType animationType) {

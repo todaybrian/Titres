@@ -53,9 +53,12 @@ public class Gui {
             if (button.isMouseOver()) {
                 h = true;
                 if (!wasHovering) {
+                    wasHovering = true;
+                }
+                if (button != Button.lastHovered) {
+                    Button.lastHovered = button;
                     instance.getSFXPlayer().loadMusic(Assets.SFX_CLICK);
                     instance.getSFXPlayer().playMusic();
-                    wasHovering = true;
                 }
             }
         }
