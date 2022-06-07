@@ -33,6 +33,9 @@ public class GuiSettings extends Gui {
         ImageIcon back_button = new ImageIcon(Assets.Button.BACK_BUTTON);
         buttonList.add(new Button(-170, 120, back_button, (click)->{
             instance.displayGui(new GuiMenuTransition(this, new GuiMainMenu(null)));
+
+            instance.getSFXPlayer().loadMusic(Assets.SFX.CLICK_BACK);
+            instance.getSFXPlayer().playMusic();
         }, AnimationType.LEFT));
 
         ImageIcon slider = new ImageIcon(Assets.Button.SLIDER);
