@@ -1,6 +1,5 @@
 package tetris;
 
-import javax.sound.sampled.Clip;
 import javax.swing.*;
 import java.awt.*;
 
@@ -56,8 +55,10 @@ public class GamePanel extends JPanel implements Runnable {
     private MusicPlayer musicPlayer;
     private MusicPlayer sfxPlayer;
 
-    private int physicsFPS;
-    private int renderFPS;
+    private int maxRenderFPS;
+
+    private int realPhysicsFPS;
+    private int realRenderFPS;
 
     public GamePanel(int width, int height, int renderWidth, int renderHeight, int horizontalPadding, int verticalPadding) {
         GamePanel.instance = this;
@@ -131,8 +132,8 @@ public class GamePanel extends JPanel implements Runnable {
 
             if(System.nanoTime() - previousFPSTime >= 1000000000) {
                 previousFPSTime = System.nanoTime();
-                this.renderFPS = countRender;
-                this.physicsFPS = countUpdate;
+                this.realRenderFPS = countRender;
+                this.realPhysicsFPS = countUpdate;
                 countUpdate = 0;
                 countRender = 0;
             }
@@ -148,6 +149,7 @@ public class GamePanel extends JPanel implements Runnable {
     }
 
     public void setRenderFPS(int fps){
+        this.maxRenderFPS = fps;
         renderNS = 1e9 / fps;
     }
 
@@ -186,12 +188,16 @@ public class GamePanel extends JPanel implements Runnable {
         return gameSettings;
     }
 
-    public int getPhysicsFPS(){
-        return physicsFPS;
+    public int getRealPhysicsFPS(){
+        return realPhysicsFPS;
     }
 
-    public int getRenderFPS(){
-        return renderFPS;
+    public int getRealRenderFPS(){
+        return realRenderFPS;
+    }
+
+    public int getMaxRenderFPS(){
+        return maxRenderFPS;
     }
 
     public MusicPlayer getMusicPlayer(){

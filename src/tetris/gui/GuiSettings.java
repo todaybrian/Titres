@@ -51,7 +51,7 @@ public class GuiSettings extends Gui {
         buttonList.add(sfxSlider);
         fpsSlider = new Slider(320,800, 670, slider,  (onChange)->{
             instance.setRenderFPS((int)onChange.getValue());
-        },10, 144, instance.getRenderFPS());
+        },10, 260, instance.getMaxRenderFPS());
         buttonList.add(fpsSlider);
 
         AnimatedRectangle settings = new AnimatedRectangle((g, x)->{
@@ -61,7 +61,7 @@ public class GuiSettings extends Gui {
             g.setColor(Color.WHITE);
             g.drawString("Music: " + (int)(musicSlider.getValue()),1000, 550);
             g.drawString("SFX: " + (int)(sfxSlider.getValue()),1000,250);
-            g.drawString("FPS: " + (int)(fpsSlider.getValue()),1000,850);
+            g.drawString("FPS: " + (int)(Math.round(fpsSlider.getValue())),1000,850);
             updateSettings();
         }, AnimationType.RIGHT);
 
