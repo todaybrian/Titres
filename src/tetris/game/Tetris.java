@@ -6,8 +6,8 @@ import java.awt.image.BufferedImage;
 public class Tetris extends Rectangle {
 
     //Game width and height of the gameboard only
-    public static int GAME_WIDTH = 100;
-    public static int GAME_HEIGHT = 100;
+    public static int GAME_WIDTH = 732;
+    public static int GAME_HEIGHT = 696;
 
     public Tetris(){
 

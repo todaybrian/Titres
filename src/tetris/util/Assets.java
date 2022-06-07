@@ -54,7 +54,7 @@ public class Assets {
         public static final String SLIDER = "src/assets/button/slider.png";
     }
 
-    public class SFX{
+    public class SFX {
         public static final String CLICK =  "src/assets/sfx/sfx_click.wav";
         public static final String HOVER = "src/assets/sfx/sfx_hover.wav";
     }

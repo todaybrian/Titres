@@ -7,6 +7,7 @@ import java.util.HashMap;
 public class MusicPlayer {
     public Clip clip;
     private HashMap<String, File> cache;
+    private double volume;
 
     public MusicPlayer() {
         try {
@@ -50,8 +51,12 @@ public class MusicPlayer {
         }
     }
 
+    public int getVolume(){
+        return (int)(volume*100);
+    }
 
     public void changeVolume(double volume) {
+        this.volume = volume;
         FloatControl gainControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
         float range = gainControl.getMaximum() - gainControl.getMinimum();
         double gain = (range * volume) + gainControl.getMinimum();

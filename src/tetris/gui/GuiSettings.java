@@ -15,7 +15,7 @@ import java.awt.*;
 public class GuiSettings extends Gui {
     protected GameSettings gameSettings;
 
-    private Slider volumeSlider;
+    private Slider musicSlider;
     private Slider sfxSlider;
     private Slider fpsSlider;
 
@@ -36,19 +36,19 @@ public class GuiSettings extends Gui {
         }, AnimationType.LEFT));
 
         ImageIcon slider = new ImageIcon(Assets.Button.SLIDER);
-        volumeSlider = new Slider(200,500, 700, slider,  (onChange)->{
-
-        },0, 100, (int)(GamePanel.getGamePanel().getSettings().musicVolume));
-        buttonList.add(volumeSlider);
+        musicSlider = new Slider(200,500, 700, slider,  (onChange)->{
+            instance.getMusicPlayer().changeVolume((onChange.getValue()/100.0));
+        },0, 100, (int)(instance.getMusicPlayer().getVolume()));
+        buttonList.add(musicSlider);
 
         sfxSlider = new Slider(200,200, 700, slider, (onChange)->{
+            instance.getSFXPlayer().changeVolume((onChange.getValue()/100.0));
+        },0, 100, (int)(instance.getSFXPlayer().getVolume()));
 
-        },0, 100, (int)(GamePanel.getGamePanel().getSettings().musicVolume));
         buttonList.add(sfxSlider);
-
-        fpsSlider = new Slider(200,800, 700, slider,  (onChange)->{
-
-        },10, 144, (int)(GamePanel.getGamePanel().getSettings().musicVolume));
+        fpsSlider = new Slider(320,800, 670, slider,  (onChange)->{
+            instance.setRenderFPS((int)onChange.getValue());
+        },10, 144, instance.getRenderFPS());
         buttonList.add(fpsSlider);
 
         AnimatedRectangle settings = new AnimatedRectangle((g, x)->{
@@ -56,7 +56,7 @@ public class GuiSettings extends Gui {
             g.fillRect(300 + x, 200, 1700, 800);
             g.setFont(Assets.KDAM_FONT.deriveFont(Font.BOLD, 50));
             g.setColor(Color.WHITE);
-            g.drawString("Music: " + (int)(volumeSlider.getValue()),1000, 550);
+            g.drawString("Music: " + (int)(musicSlider.getValue()),1000, 550);
             g.drawString("SFX: " + (int)(sfxSlider.getValue()),1000,250);
             g.drawString("FPS: " + (int)(fpsSlider.getValue()),1000,850);
             updateSettings();
