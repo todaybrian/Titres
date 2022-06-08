@@ -36,7 +36,7 @@ public class GameFrame extends JFrame {
             verticalPadding = 0;
         }
 
-        panel = new GamePanel(displayWidth, displayHeight, renderWidth, renderHeight, horizontalPadding, verticalPadding);
+        panel = new GamePanel(displayWidth, displayHeight, renderHeight, horizontalPadding, verticalPadding);
 
         this.add(panel);
         panel.setPhysicsFPS(144);
