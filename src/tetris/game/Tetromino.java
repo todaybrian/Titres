@@ -17,7 +17,6 @@ public class Tetromino {
         Z_PIECE(6),
         S_PIECE(7);
 
-        public static Tetrominos[] values;
         public final int id;
 
         Tetrominos(int i) {
@@ -32,7 +31,7 @@ public class Tetromino {
     public Tetromino(int id) {
         x = 1.5 * Tetris.GAME_WIDTH;
         y = Tetris.GAME_HEIGHT;
-        thisPiece = Tetrominos.values[id];
+        thisPiece = Tetrominos.values()[id];
     }
     public void draw(Graphics g) {
         g.setColor(pickColor());
