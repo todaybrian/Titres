@@ -1,13 +1,11 @@
 package tetris.game.randomizer;
 
-import tetris.game.Tetromino;
-
-import java.awt.*;
+import java.util.ArrayList;
 
 public abstract class Randomizer {
-    protected String[] list =  {"T", "L","BL","I","O","squigglyLeft","squigglyRight"};
+    ArrayList<Integer> bag;
     public Randomizer() {
 
     }
-    abstract Image getNext();
+    abstract int getNext();
 }

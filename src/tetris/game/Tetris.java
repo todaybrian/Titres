@@ -20,4 +20,8 @@ public class Tetris extends Rectangle {
         g.fillRect(0, 0, GAME_WIDTH, GAME_HEIGHT);
         return image;
     }
+
+    public void putTheNextTetrominoOnScreen() {
+
+    }
 }
