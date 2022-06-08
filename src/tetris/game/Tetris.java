@@ -49,36 +49,43 @@ public class Tetris extends Rectangle {
                 occupiedGrid[4][1] = newRender.color;
                 occupiedGrid[5][1] = newRender.color;
                 occupiedGrid[6][1] = newRender.color;
+                break;
             case 2:
                 occupiedGrid[4][0] = newRender.color;
                 occupiedGrid[4][1] = newRender.color;
                 occupiedGrid[5][1] = newRender.color;
                 occupiedGrid[6][1] = newRender.color;
+                break;
             case 3:
                 occupiedGrid[5][0] = newRender.color;
+                occupiedGrid[6][1] = newRender.color;
                 occupiedGrid[4][1] = newRender.color;
                 occupiedGrid[5][1] = newRender.color;
-                occupiedGrid[6][1] = newRender.color;
+                break;
             case 4:
                 occupiedGrid[4][1] = newRender.color;
                 occupiedGrid[5][1] = newRender.color;
                 occupiedGrid[6][1] = newRender.color;
                 occupiedGrid[7][1] = newRender.color;
+                break;
             case 5:
                 occupiedGrid[5][0] = newRender.color;
                 occupiedGrid[6][0] = newRender.color;
                 occupiedGrid[5][1] = newRender.color;
                 occupiedGrid[6][1] = newRender.color;
+                break;
             case 6:
                 occupiedGrid[4][0] = newRender.color;
                 occupiedGrid[5][0] = newRender.color;
                 occupiedGrid[5][1] = newRender.color;
                 occupiedGrid[6][1] = newRender.color;
+                break;
             case 7:
                 occupiedGrid[5][0] = newRender.color;
-                occupiedGrid[6][1] = newRender.color;
+                occupiedGrid[6][0] = newRender.color;
                 occupiedGrid[4][1] = newRender.color;
                 occupiedGrid[5][1] = newRender.color;
+                break;
         }
     }
 }
