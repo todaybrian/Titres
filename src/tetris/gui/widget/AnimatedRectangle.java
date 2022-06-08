@@ -1,7 +1,6 @@
 package tetris.gui.widget;
 
 import tetris.controls.MouseInput;
-import tetris.wrapper.GraphicsWrapper;
 
 import java.awt.*;
 
@@ -67,7 +66,7 @@ public class AnimatedRectangle extends Rectangle {
         this(0, 0, 0, 0, drawable, animationType);
     }
 
-    public void draw(GraphicsWrapper g){
+    public void draw(Graphics2D g){
         g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, opacity));
         drawable.draw(g, this.x);
         animate();
@@ -161,7 +160,7 @@ public class AnimatedRectangle extends Rectangle {
     }
 
     public interface IDrawable {
-        void draw(GraphicsWrapper g, double x);
+        void draw(Graphics2D g, double x);
     }
 
 }

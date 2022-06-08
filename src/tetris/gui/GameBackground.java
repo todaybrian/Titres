@@ -2,7 +2,6 @@ package tetris.gui;
 
 import tetris.GamePanel;
 import tetris.util.Assets;
-import tetris.wrapper.GraphicsWrapper;
 
 import javax.swing.*;
 import java.awt.*;
@@ -18,11 +17,11 @@ public class GameBackground {
         randomBackground();
     }
 
-    public void draw(GraphicsWrapper g){
+    public void draw(Graphics2D g){
         g.setColor(Color.BLACK);
         g.fillRect(0, 0, GamePanel.INTERNAL_WIDTH, GamePanel.INTERNAL_HEIGHT);
         g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.25f));
-        g.drawImage(currentBackground.getImage(), 0, 0, currentBackground.getIconWidth(), currentBackground.getIconHeight());
+        g.drawImage(currentBackground.getImage(), 0, 0, currentBackground.getIconWidth(), currentBackground.getIconHeight(), null);
         g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1f));
     }
 

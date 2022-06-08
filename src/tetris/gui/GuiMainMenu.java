@@ -45,7 +45,7 @@ public class GuiMainMenu extends Gui {
 
         ImageIcon logo = new ImageIcon(Assets.LOGO_FILE);
         componentList.add(new AnimatedRectangle((g, x)->{
-            g.drawImage(logo.getImage(), 20+x, 100, 1.25*logo.getIconWidth(), 1.25*logo.getIconHeight());
+            g.drawImage(logo.getImage(), (int)(20+x), 100, (int)(1.25*logo.getIconWidth()), (int)(1.25*logo.getIconHeight()), null);
         }, AnimationType.LEFT));
 
         AnimatedRectangle debug = new AnimatedRectangle((g, x)->{

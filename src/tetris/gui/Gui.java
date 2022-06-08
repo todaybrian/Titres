@@ -4,7 +4,6 @@ import tetris.GamePanel;
 import tetris.gui.widget.AnimatedRectangle;
 import tetris.gui.widget.AnimationType;
 import tetris.util.Assets;
-import tetris.wrapper.GraphicsWrapper;
 import tetris.gui.widget.Button;
 
 import javax.swing.*;
@@ -28,15 +27,15 @@ public class Gui {
         instance = GamePanel.getGamePanel();
     }
 
-    public void draw(GraphicsWrapper g){
+    public void draw(Graphics2D g){
         instance.getGameBackground().draw(g);
         //Top bar
         if(topBar != null) {
-            g.drawImage(topBar.getImage(), 0, 0, topBar.getIconWidth(), topBar.getIconHeight());
+            g.drawImage(topBar.getImage(), 0, 0, topBar.getIconWidth(), topBar.getIconHeight(), null);
         }
         //Bottom bar
         if(bottomBar != null) {
-            g.drawImage(bottomBar.getImage(), 0, GamePanel.INTERNAL_HEIGHT - bottomBar.getIconHeight(), bottomBar.getIconWidth(), bottomBar.getIconHeight());
+            g.drawImage(bottomBar.getImage(), 0, GamePanel.INTERNAL_HEIGHT - bottomBar.getIconHeight(), bottomBar.getIconWidth(), bottomBar.getIconHeight(), null);
         }
 
         for(AnimatedRectangle component : componentList){

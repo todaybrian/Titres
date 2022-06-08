@@ -56,7 +56,7 @@ public class GuiSettings extends Gui {
 
         AnimatedRectangle settings = new AnimatedRectangle((g, x)->{
             g.setColor(new Color(0x8540a0));
-            g.fillRect(300 + x, 200, 1700, 800);
+            g.fillRect((int) (300 + x), 200, 1700, 800);
             g.setFont(Assets.KDAM_FONT.deriveFont(Font.BOLD, 50));
             g.setColor(Color.WHITE);
             g.drawString("Music: " + (int)(musicSlider.getValue()),1000, 550);

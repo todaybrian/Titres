@@ -5,8 +5,8 @@ package tetris.gui;
 
 import tetris.gui.widget.AnimatedRectangle;
 import tetris.gui.widget.Button;
-import tetris.wrapper.GraphicsWrapper;
 
+import java.awt.*;
 import java.util.ArrayList;
 
 public class GuiMenuTransition extends Gui{
@@ -89,7 +89,7 @@ public class GuiMenuTransition extends Gui{
         currentTime = System.nanoTime();
     }
 
-    public void draw(GraphicsWrapper g){
+    public void draw(Graphics2D g){
         //If the animation time has elapsed, switch to the next screen
         if(System.nanoTime() - currentTime > GuiMenuTransition.ANIMATION_TRANSITION) {
             //Reset all buttons and components to original positions and opacity

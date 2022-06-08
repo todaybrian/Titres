@@ -11,7 +11,6 @@ import tetris.gui.GuiWelcome;
 import tetris.music.MusicPlayer;
 import tetris.settings.GameSettings;
 import tetris.util.Assets;
-import tetris.wrapper.GraphicsWrapper;
 
 
 public class GamePanel extends JPanel implements Runnable {
@@ -157,16 +156,15 @@ public class GamePanel extends JPanel implements Runnable {
     }
 
     public void paint(Graphics g){
-        image = createImage(renderWidth, renderHeight); //draw off screen
+        image = createImage(1920, 1080); //draw off screen
         Graphics2D g2d = (Graphics2D) image.getGraphics();
-        GraphicsWrapper gw = new GraphicsWrapper(g2d, (double)renderHeight/ INTERNAL_HEIGHT);
 
-        draw(gw);//update the positions of everything on the screen
+        draw(g2d);//update the positions of everything on the screen
 
-        g.drawImage(image, horizontalPadding, verticalPadding, gameWidth-horizontalPadding, gameHeight-verticalPadding, 0, 0, renderWidth, renderHeight, this);
+        g.drawImage(image, horizontalPadding, verticalPadding, gameWidth-horizontalPadding, gameHeight-verticalPadding, 0, 0, 1920, 1080, this);
     }
 
-    public void draw(GraphicsWrapper g){
+    public void draw(Graphics2D g){
         this.gui.draw(g);
     }
 
