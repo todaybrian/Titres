@@ -7,5 +7,5 @@ public abstract class Randomizer {
     public Randomizer() {
 
     }
-    abstract int getNext();
+    public abstract int getNext();
 }

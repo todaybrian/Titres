@@ -9,7 +9,7 @@ public class RandomizerFourteenBag extends Randomizer{
             bag.add(i);
         }
     }
-    int getNext() {
+    public int getNext() {
         int next = (int)(Math.random()*bag.size());
         int returnVal = bag.get(next)/2+1;
         bag.remove(next);

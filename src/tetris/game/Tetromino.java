@@ -8,7 +8,7 @@ import java.awt.image.BufferedImage;
 public class Tetromino {
 
 
-    protected enum Tetrominos{
+    public enum Tetrominos{
         L_PIECE(1),
         J_PIECE(2),
         T_PIECE(3),
@@ -24,18 +24,26 @@ public class Tetromino {
         }
     }
     public static final int SQUARE_SIDE = 20;
+    public static int yVelocity = 10;
     public double x;
     public double y;
     public Tetrominos thisPiece;
     public Color color;
     public Tetromino(int id) {
-        x = 1.5 * Tetris.GAME_WIDTH;
-        y = Tetris.GAME_HEIGHT;
+        x = 0.5 * Tetris.GAME_WIDTH;
+        y = 0;
         thisPiece = Tetrominos.values()[id];
     }
-    public void draw(Graphics g) {
+    public Image drawImage(){
+        BufferedImage image = new BufferedImage(Tetris.GAME_WIDTH, Tetris.GAME_HEIGHT, BufferedImage.TYPE_INT_ARGB);
+        Graphics2D g = image.createGraphics();
         g.setColor(pickColor());
-        g.fillRect((int)x,(int)y,SQUARE_SIDE,SQUARE_SIDE);
+        y += yVelocity;
+        if (y + SQUARE_SIDE > Tetris.GAME_HEIGHT) {
+            y = Tetris.GAME_HEIGHT-SQUARE_SIDE;
+        }
+        g.fillRect((int)x, (int)y, SQUARE_SIDE,SQUARE_SIDE);
+        return image;
     }
     private Color pickColor() {
         switch(thisPiece.id) {
