@@ -1,10 +1,10 @@
 package tetris.gui;
 
 import tetris.GamePanel;
-import tetris.wrapper.GraphicsWrapper;
 import tetris.util.Assets;
 
 import javax.swing.*;
+import java.awt.*;
 
 public class GuiWelcome extends Gui {
     //Number of nanoseconds that this will be displayed on the screen
@@ -18,10 +18,10 @@ public class GuiWelcome extends Gui {
         currentNS = System.nanoTime();
     }
 
-    public void draw(GraphicsWrapper g){
+    public void draw(Graphics2D g){
         currentNS++;
         ImageIcon welcomeScreen = new ImageIcon(Assets.WELCOME_SCREEN);
-        g.drawImage(welcomeScreen.getImage(), 0, 0, GamePanel.INTERNAL_WIDTH, GamePanel.INTERNAL_HEIGHT);
+        g.drawImage(welcomeScreen.getImage(), 0, 0, GamePanel.INTERNAL_WIDTH, GamePanel.INTERNAL_HEIGHT, null);
 
         if(System.nanoTime() - currentNS >= NUMBER_OF_NS){
             //Display Main Menu

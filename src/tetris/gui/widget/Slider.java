@@ -2,7 +2,6 @@ package tetris.gui.widget;
 
 import tetris.GamePanel;
 import tetris.controls.MouseInput;
-import tetris.wrapper.GraphicsWrapper;
 
 import javax.swing.*;
 import java.awt.*;
@@ -30,7 +29,7 @@ public class Slider extends Button{
         this(xPos, yPos, width, imageIcon, onChange, minValue, maxValue, 0);
     }
 
-    public void draw(GraphicsWrapper g) {
+    public void draw(Graphics2D g) {
         g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, opacity));
 
         checkHover();
@@ -46,8 +45,8 @@ public class Slider extends Button{
         }
         g.setColor(new Color(0, 0, 0, 200));
         int offsetY = 20;
-        g.fillRect(xPos, y+offsetY, width, height-2*offsetY);
-        g.drawImage(icon.getImage(), x, y, icon.getIconWidth(), icon.getIconHeight());
+        g.fillRect(xPos, (int) (y+offsetY), width, height-2*offsetY);
+        g.drawImage(icon.getImage(), (int) x, (int) y, icon.getIconWidth(), icon.getIconHeight(), null);
         g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1));
 
     }

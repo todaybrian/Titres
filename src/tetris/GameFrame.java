@@ -7,7 +7,7 @@ public class GameFrame extends JFrame {
     GamePanel panel;
     private GraphicsEnvironment graphicsEnvironment;
     private GraphicsDevice graphicsDevice;
-    private GraphicsConfiguration graphicsConfiguration;
+
     public DisplayMode displayMode;
     private int displayWidth, displayHeight;
     private int renderWidth, renderHeight;
@@ -17,7 +17,7 @@ public class GameFrame extends JFrame {
         // What does this do?
         graphicsEnvironment = GraphicsEnvironment.getLocalGraphicsEnvironment();
         graphicsDevice = graphicsEnvironment.getDefaultScreenDevice();
-        graphicsConfiguration = graphicsDevice.getDefaultConfiguration();
+
         displayMode = graphicsDevice.getDisplayMode();
 
         displayWidth = displayMode.getWidth();
@@ -36,7 +36,7 @@ public class GameFrame extends JFrame {
             verticalPadding = 0;
         }
 
-        panel = new GamePanel(displayWidth, displayHeight, renderWidth, renderHeight, horizontalPadding, verticalPadding);
+        panel = new GamePanel(displayWidth, displayHeight, renderHeight, horizontalPadding, verticalPadding);
 
         this.add(panel);
         panel.setPhysicsFPS(144);

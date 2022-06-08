@@ -8,7 +8,6 @@ import java.awt.*;
 
 import tetris.GamePanel;
 import tetris.util.Assets;
-import tetris.wrapper.GraphicsWrapper;
 import tetris.controls.MouseInput;
 
 import javax.swing.*;
@@ -47,7 +46,7 @@ public class Button extends AnimatedRectangle {
 		this(xPos, yPos, imageIcon, onPress, AnimationType.NONE);
 	}
 
-	public void draw(GraphicsWrapper g){
+	public void draw(Graphics2D g){
 		g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, opacity));
 		checkHover();
 
@@ -72,15 +71,15 @@ public class Button extends AnimatedRectangle {
 		}
 		super.animate();
 
-		g.drawImage(imageIcon.getImage(), x, y, imageIcon.getIconWidth(), imageIcon.getIconHeight());
+		g.drawImage(imageIcon.getImage(), (int)x, (int)y, imageIcon.getIconWidth(), imageIcon.getIconHeight(), null);
 		if(isClicked) {
 			
 		} else if (isMouseOver) {
 			g.setColor(new Color(0, 0, 0, 35));
-			g.fillRect(x, y, width, height);
+			g.fillRect((int)x, (int)y, width, height);
 		} else{
 			g.setColor(new Color(0, 0, 0, 50));
-			g.fillRect(x, y, width, height);
+			g.fillRect((int)x, (int)y, width, height);
 		}
 		g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1.0f));
 	}

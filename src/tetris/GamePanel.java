@@ -11,7 +11,6 @@ import tetris.gui.GuiWelcome;
 import tetris.music.MusicPlayer;
 import tetris.settings.GameSettings;
 import tetris.util.Assets;
-import tetris.wrapper.GraphicsWrapper;
 
 
 public class GamePanel extends JPanel implements Runnable {
@@ -28,7 +27,6 @@ public class GamePanel extends JPanel implements Runnable {
     public int gameWidth;
     public int gameHeight;
 
-    public int renderWidth;
     public int renderHeight;
 
     //Vertical/Horizontal padding of the game, used in case monitor is not 16:9
@@ -60,14 +58,13 @@ public class GamePanel extends JPanel implements Runnable {
     private int realPhysicsFPS;
     private int realRenderFPS;
 
-    public GamePanel(int width, int height, int renderWidth, int renderHeight, int horizontalPadding, int verticalPadding) {
+    public GamePanel(int width, int height, int renderHeight, int horizontalPadding, int verticalPadding) {
         GamePanel.instance = this;
 
         gameWidth = width;
         gameHeight = height;
 
         this.renderHeight = renderHeight;
-        this.renderWidth = renderWidth;
 
         this.horizontalPadding = horizontalPadding;
         this.verticalPadding = verticalPadding;
@@ -157,16 +154,25 @@ public class GamePanel extends JPanel implements Runnable {
     }
 
     public void paint(Graphics g){
-        image = createImage(renderWidth, renderHeight); //draw off screen
+        image = createImage(INTERNAL_WIDTH, INTERNAL_HEIGHT); //draw off screen
         Graphics2D g2d = (Graphics2D) image.getGraphics();
-        GraphicsWrapper gw = new GraphicsWrapper(g2d, (double)renderHeight/ INTERNAL_HEIGHT);
+        g2d.setRenderingHint(RenderingHints.KEY_INTERPOLATION,
+                RenderingHints.VALUE_INTERPOLATION_BILINEAR);
 
-        draw(gw);//update the positions of everything on the screen
+        //TODO: TEST: test if this is needed
+        g2d.setRenderingHint(RenderingHints.KEY_FRACTIONALMETRICS,
+                RenderingHints.VALUE_FRACTIONALMETRICS_ON);
 
-        g.drawImage(image, horizontalPadding, verticalPadding, gameWidth-horizontalPadding, gameHeight-verticalPadding, 0, 0, renderWidth, renderHeight, this);
+        //Enable subpixel antialiasing for better legibility on LCD Screens
+        g2d.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING,
+                RenderingHints.VALUE_TEXT_ANTIALIAS_LCD_HRGB);
+
+        draw(g2d);//update the positions of everything on the screen
+
+        g.drawImage(image, horizontalPadding, verticalPadding, gameWidth-horizontalPadding, gameHeight-verticalPadding, 0, 0, 1920, 1080, this);
     }
 
-    public void draw(GraphicsWrapper g){
+    public void draw(Graphics2D g){
         this.gui.draw(g);
     }
 
