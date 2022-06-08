@@ -1,5 +1,6 @@
 package tetris.gui.widget;
 
+import tetris.controls.MouseInput;
 import tetris.wrapper.GraphicsWrapper;
 
 import java.awt.*;
@@ -11,6 +12,12 @@ public class AnimatedRectangle extends Rectangle {
 
     private final int originalX;
     private final int originalY;
+
+    //Was the left button of mouse pressed (but not released) on this button?
+    protected boolean isClicked;
+
+    //Is the cursor over the button?
+    protected boolean isMouseOver;
 
     private int xOffsetGoal;
     private int yOffsetGoal;
@@ -42,6 +49,8 @@ public class AnimatedRectangle extends Rectangle {
         this.animationType = animationType;
 
         this.opacity = 1;
+        this.isMouseOver = false;
+        this.isClicked = false;
 
         lastSystemTime = System.nanoTime();
     }
@@ -63,6 +72,22 @@ public class AnimatedRectangle extends Rectangle {
         drawable.draw(g, this.x);
         animate();
         g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1));
+    }
+
+    protected void checkHover() {
+        isMouseOver = (MouseInput.getLocation().getX() > x && MouseInput.getLocation().getX() < x +width) && (MouseInput.getLocation().getY() > y && MouseInput.getLocation().getY() < y +height);
+    }
+
+    public boolean isMouseOver() {
+        return isMouseOver;
+    }
+
+    public boolean isClicked() {
+        return isClicked;
+    }
+
+    public void setClicked(boolean isClicked) {
+        this.isClicked = isClicked;
     }
 
     public void animate(){

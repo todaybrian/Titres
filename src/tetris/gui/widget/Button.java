@@ -20,19 +20,6 @@ public class Button extends AnimatedRectangle {
 	private final long ANIMATION_LENGTH_HOVER = 120000000;
 	private final long ANIMATION_LENGTH_CLICK = 40000000;
 
-	//Is the cursor over the button?
-	protected boolean isMouseOver;
-
-	//Was the left button of mouse pressed (but not released) on this button?
-	private boolean isClicked;
-
-
-	// Button width
-	protected int width;
-
-	//Button height
-	protected int height;
-
 	//Image of the button
 	protected ImageIcon imageIcon;
 
@@ -46,8 +33,6 @@ public class Button extends AnimatedRectangle {
 
 		this.width = imageIcon.getIconWidth();
 		this.height = imageIcon.getIconHeight();
-		this.isMouseOver = false;
-		this.isClicked = false;
 		this.wasHovered = false;
 
 		this.imageIcon = imageIcon;
@@ -100,26 +85,12 @@ public class Button extends AnimatedRectangle {
 		g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1.0f));
 	}
 
-	protected void checkHover() {
-		isMouseOver = (MouseInput.getLocation().getX() > x && MouseInput.getLocation().getX() < x +width) && (MouseInput.getLocation().getY() > y && MouseInput.getLocation().getY() < y +height);
-	}
 
 	public void clicked(){
 		//Stop buttons from being clicked when they are in the middle of a menu switch animation
+		//Otherwise call the interface function to handle the button press
 		if(!inTransition)
 			onPress.onPress(this);
-	}
-
-	public boolean isMouseOver() {
-		return isMouseOver;
-	}
-
-	public boolean isClicked() {
-		return isClicked;
-	}
-
-	public void setClicked(boolean isClicked) {
-		this.isClicked = isClicked;
 	}
 
 	public interface IPressable {

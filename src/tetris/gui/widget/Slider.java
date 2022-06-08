@@ -14,7 +14,6 @@ public class Slider extends Button{
     protected ImageIcon icon;
     protected IPressable onChange;
 
-
     public Slider(int xPos, int yPos, int width, ImageIcon imageIcon, IPressable onChange, int minValue, int maxValue, int initValue) {
         super((int)(((initValue-minValue+0.0)/(maxValue-minValue))*(width-imageIcon.getIconWidth()))+xPos, yPos, imageIcon, (click)->{});
 
