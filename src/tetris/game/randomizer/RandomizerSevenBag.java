@@ -11,6 +11,11 @@ public class RandomizerSevenBag extends Randomizer{
 
     }
     public int getNext() {
+        if (bag.size() == 0) {
+            for (int i = 0; i < 7 ; i++) {
+                bag.add(i);
+            }
+        }
         int next = (int)(Math.random()*bag.size());
         int returnVal = bag.get(next);
         bag.remove(next);
