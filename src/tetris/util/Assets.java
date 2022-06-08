@@ -42,7 +42,7 @@ public class Assets {
     public static final String BOTTOM_SOLO_FILE = "src/assets/menus/bottom_solo.png";
 
     public class Game{
-        public static final String TETRIS_GRID = "src/assets/tetris_grid.png";
+        public static final String TETRIS_GRID = "src/assets/game/tetris_grid.png";
     }
 
     public class Button{
