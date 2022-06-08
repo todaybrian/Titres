@@ -16,6 +16,7 @@ public class MusicPlayer {
             e.printStackTrace();
         }
         cache = new HashMap<>();
+        volume = 0.8;
     }
 
     public void loadMusic(String filepath) {
@@ -33,6 +34,7 @@ public class MusicPlayer {
 
                 clip = (Clip) AudioSystem.getLine(info);
                 clip.open(audioInput);
+                this.changeVolume(volume);
             }
         }catch (Exception e) {
             e.printStackTrace();

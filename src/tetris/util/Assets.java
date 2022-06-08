@@ -60,5 +60,8 @@ public class Assets {
         public static final String HOVER = "src/assets/sfx/sfx_hover.wav";
 
         public static final String CLICK_BACK = "src/assets/sfx/sfx_click_back.wav";
+
+        //This is used to unlag the music/sfx player
+        public static final String SILENCE = "src/assets/sfx/silence.wav";
     }
 }
