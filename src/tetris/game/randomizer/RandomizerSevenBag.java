@@ -7,11 +7,11 @@ import java.util.LinkedList;
 public class RandomizerSevenBag extends Randomizer{
     private LinkedList<Integer> bag;
     public RandomizerSevenBag() {
-        bag = new LinkedList<Integer>();
+        bag = new LinkedList<>();
     }
     public int getNext() {
         if (bag.size() == 0) {
-            for (int i = 0; i < 7 ; i++) {
+            for (int i = 1; i <8  ; i++) {
                 bag.add(i);
             }
             Collections.shuffle(bag);

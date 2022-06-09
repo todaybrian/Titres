@@ -17,7 +17,7 @@ public class Tetris extends Rectangle {
     private Tetromino activePiece;
     // The array below is me lazily declaring a bunch of dummy holder tetrominos at once.
     private Tetromino[] tetrominoList = new Tetromino[]{new Tetromino(1), new Tetromino(2), new Tetromino(3), new Tetromino(4), new Tetromino(5), new Tetromino(6), new Tetromino(7)};
-    Randomizer randomizer = new RandomizerSevenBag();
+    RandomizerSevenBag randomizer = new RandomizerSevenBag();
 
     private final ImageIcon TETRIS_GRID;
 
