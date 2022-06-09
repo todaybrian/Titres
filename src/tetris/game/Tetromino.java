@@ -1,9 +1,6 @@
 package tetris.game;
 
-import tetris.GamePanel;
-
 import java.awt.*;
-import java.awt.image.BufferedImage;
 
 public class Tetromino {
 
@@ -24,14 +21,15 @@ public class Tetromino {
         }
     }
     public static final int SQUARE_SIDE = 20;
-    public Tetrominos thisPiece;
+    public Tetrominos pieceName;
+    private int[][] position = new int[2][4];
     public Color color;
     public Tetromino(int id) {
-        thisPiece = Tetrominos.values()[id];
+        pieceName = Tetrominos.values()[id-1];
         color = this.getColor();
     }
     private Color getColor() {
-        switch(thisPiece.id) {
+        switch(pieceName.id) {
             case 1:
                 return Color.ORANGE;
             case 2:
@@ -49,5 +47,12 @@ public class Tetromino {
             default:
                 return Color.black;
         }
+    }
+    public void setPosition(int[][] coords) {
+        this.position = coords;
+    }
+
+    public int[][] getPosition(){
+        return position;
     }
 }
