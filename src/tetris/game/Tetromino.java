@@ -20,7 +20,7 @@ public class Tetromino {
             this.id = i;
         }
     }
-    public static final int SQUARE_SIDE = 20;
+    public static final int SQUARE_SIDE = 34;
     public Tetrominos pieceName;
     private int[][] position = new int[2][4];
     public Color color;

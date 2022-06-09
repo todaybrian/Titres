@@ -1,25 +1,23 @@
 package tetris.game.randomizer;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.LinkedList;
 
 public class RandomizerSevenBag extends Randomizer{
+    private LinkedList<Integer> bag;
     public RandomizerSevenBag() {
-        bag = new ArrayList<Integer>();
-        for (int i = 0; i < 7 ; i++) {
-            bag.add(i);
-        }
-
+        bag = new LinkedList<Integer>();
     }
     public int getNext() {
         if (bag.size() == 0) {
             for (int i = 0; i < 7 ; i++) {
                 bag.add(i);
             }
+            Collections.shuffle(bag);
         }
-        int next = (int)(Math.random()*bag.size());
-        int returnVal = bag.get(next);
-        bag.remove(next);
-        return returnVal;
-
+        int out = bag.getFirst();
+        bag.removeFirst();
+        return out;
     }
 }

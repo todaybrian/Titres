@@ -13,7 +13,7 @@ public class Tetris extends Rectangle {
     //Game width and height of the gameboard only
     public static int GAME_WIDTH = 732;
     public static int GAME_HEIGHT = 1080;
-    private Tetromino[][] occupiedGrid = new Tetromino[10][22];
+    private Tetromino[][] occupiedGrid = new Tetromino[10][25];
     private Tetromino activePiece;
     // The array below is me lazily declaring a bunch of dummy holder tetrominos at once.
     private Tetromino[] tetrominoList = new Tetromino[]{new Tetromino(1), new Tetromino(2), new Tetromino(3), new Tetromino(4), new Tetromino(5), new Tetromino(6), new Tetromino(7)};
@@ -32,9 +32,9 @@ public class Tetris extends Rectangle {
     public Image drawImage(){
         BufferedImage image = new BufferedImage(GAME_WIDTH, GAME_HEIGHT, BufferedImage.TYPE_INT_ARGB);
         Graphics2D g = image.createGraphics();
-        //g.setColor(Color.BLACK);
+        g.setColor(Color.BLACK);
         //g.fillRect(0, 0, GAME_WIDTH, GAME_HEIGHT);
-        //drawGrid(g);
+        drawGrid(g);
         g.drawImage(TETRIS_GRID.getImage(), 0, 1080/2 - TETRIS_GRID.getIconHeight()/2, TETRIS_GRID.getIconWidth(), TETRIS_GRID.getIconHeight(), null);
 
         return image;
