@@ -12,7 +12,7 @@ public class Tetris extends Rectangle {
 
     //Game width and height of the gameboard only
     public static int GAME_WIDTH = 732;
-    public static int GAME_HEIGHT = 696;
+    public static int GAME_HEIGHT = 1080;
     private Tetromino[][] occupiedGrid = new Tetromino[10][22];
     private Tetromino activePiece;
     // The array below is me lazily declaring a bunch of dummy holder tetrominos at once.
