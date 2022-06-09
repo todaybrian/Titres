@@ -38,4 +38,18 @@ public class KeyboardInput implements KeyListener {
     // Useless
     @Override
     public void keyTyped(KeyEvent e) {}
+
+    public boolean isPressed(int keyCode) {
+        if (keyCode < keys.length) {
+            return keys[keyCode];
+        }
+        return false;
+    }
+
+    public int getKeyTime(int keyCode) {
+        if (keyCode < keys.length) {
+            return keyTimes[keyCode];
+        }
+        return -1;
+    }
 }

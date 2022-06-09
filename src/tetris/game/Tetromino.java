@@ -12,7 +12,8 @@ public class Tetromino {
         I_PIECE(4),
         O_PIECE(5),
         Z_PIECE(6),
-        S_PIECE(7);
+        S_PIECE(7),
+        DROP_PREVIEW(69);
 
         public final int id;
 
@@ -45,7 +46,7 @@ public class Tetromino {
             case 7:
                 return Color.GREEN;
             default:
-                return Color.black;
+                return Color.LIGHT_GRAY;
         }
     }
     public void setPosition(int[][] coords) {

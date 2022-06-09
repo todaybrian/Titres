@@ -42,10 +42,10 @@ public class Tetris extends Rectangle {
 
     public void drawGrid(Graphics2D g) {
         for (int i = 0; i < 10; i++) { // ik this is o(n*m) time but idk how else to render everything
-            for (int j = 0; j < 22; j++) {
+            for (int j = 0; j < 25; j++) {
                 try {
                     g.setColor(occupiedGrid[i][j].color);
-                    g.fillRect(Tetromino.SQUARE_SIDE*i, Tetromino.SQUARE_SIDE*j, Tetromino.SQUARE_SIDE, Tetromino.SQUARE_SIDE);
+                    g.fillRect(Tetromino.SQUARE_SIDE*i+i-1, Tetromino.SQUARE_SIDE*j+j-1, Tetromino.SQUARE_SIDE, Tetromino.SQUARE_SIDE);
                 } catch (NullPointerException e) {
 
                 }
