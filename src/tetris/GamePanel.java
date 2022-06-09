@@ -197,6 +197,7 @@ public class GamePanel extends JPanel implements Runnable {
         return gameSettings;
     }
 
+
     public int getRealPhysicsFPS(){
         return realPhysicsFPS;
     }
