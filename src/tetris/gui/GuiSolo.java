@@ -26,7 +26,7 @@ public class GuiSolo extends Gui{
 
         ImageIcon fourty_lines_button = new ImageIcon(Assets.Button.FOURTY_LINES_BUTTON);
         buttonList.add(new Button(400, 120, fourty_lines_button, (click)->{
-        instance.displayGui(new GuiMenuTransition(this,new GuiTetris()));
+        instance.displayGui(new GuiMenuTransition(this,new GuiFourty(this)));
             instance.getSFXPlayer().loadMusic(Assets.SFX.CLICK_2);
             instance.getSFXPlayer().playMusic();
 

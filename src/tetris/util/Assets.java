@@ -41,6 +41,9 @@ public class Assets {
     public static final String TOP_SOLO_FILE = "src/assets/menus/top_solo.png";
     public static final String BOTTOM_SOLO_FILE = "src/assets/menus/bottom_solo.png";
 
+    public static final String TOP_40_FILE = "src/assets/menus/top_40.png";
+    public static final String BOTTOM_40_FILE = "src/assets/menus/bottom_40.png";
+
     public class Game{
         public static final String TETRIS_GRID = "src/assets/game/tetris_grid.png";
     }
@@ -56,6 +59,8 @@ public class Assets {
         public static final String GITHUB_BUTTON = "src/assets/button/github_button.png";
 
         public static final String SLIDER = "src/assets/button/slider.png";
+
+        public static final String START_40_BUTTON = "src/assets/button/start_40.gif";
     }
 
     public class SFX {
