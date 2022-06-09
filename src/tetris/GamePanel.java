@@ -2,9 +2,11 @@ package tetris;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.ArrayList;
 
 import tetris.controls.KeyboardInput;
 import tetris.controls.MouseInput;
+import tetris.game.Tetris;
 import tetris.gui.GameBackground;
 import tetris.gui.Gui;
 import tetris.gui.GuiWelcome;
@@ -58,6 +60,8 @@ public class GamePanel extends JPanel implements Runnable {
     private int realPhysicsFPS;
     private int realRenderFPS;
 
+    public ArrayList<Tetris> tetrises;
+
     public GamePanel(int width, int height, int renderHeight, int horizontalPadding, int verticalPadding) {
         GamePanel.instance = this;
 
@@ -93,6 +97,8 @@ public class GamePanel extends JPanel implements Runnable {
 
         sfxPlayer.loadMusic(Assets.SFX.SILENCE);
         sfxPlayer.playMusic();
+
+        tetrises = new ArrayList<>();
 
         gameThread = new Thread(this);
         gameThread.start();
@@ -142,6 +148,9 @@ public class GamePanel extends JPanel implements Runnable {
 
     public void update(){
         keyboardInput.update();
+        for(Tetris tetris: tetrises){
+            tetris.update();
+        }
     }
 
     public void setPhysicsFPS(int fps){
