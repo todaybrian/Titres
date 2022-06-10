@@ -1,6 +1,39 @@
 package tetris.game;
 
-public enum PieceType {
-    J, Z, S, L, T, O, I, NULL;
+import java.util.Arrays;
 
+public enum PieceType {
+    J, Z, S, L, T, O, I, BORDER, GHOST, NULL;
+
+    public static PieceType[][] getPieceGrid(PieceType pieceType){
+        PieceType[][] ret = new PieceType[5][5];
+        for (int i = 0; i < 5; i++) {
+            Arrays.fill(ret[i], PieceType.NULL);
+        }
+        ret[2][2] = pieceType;
+        switch(pieceType) {
+            case I:
+                ret[2][1] = ret[2][3] = ret[2][4] = pieceType;
+                break;
+            case J:
+                ret[1][1] = ret[2][1] = ret[2][3] = pieceType;
+                break;
+            case L:
+                ret[1][3] = ret[2][1] = ret[2][3] = pieceType;
+                break;
+            case O:
+                ret[1][2] = ret[1][3] = ret[2][3] = pieceType;
+                break;
+            case S:
+                ret[1][2] = ret[1][3] = ret[2][1] = pieceType;
+                break;
+            case T:
+                ret[1][2] = ret[2][1] = ret[2][3] = pieceType;
+                break;
+            case Z:
+                ret[1][2] = ret[1][1] = ret[2][3] = pieceType;
+                break;
+        }
+        return ret;
+    }
 }
