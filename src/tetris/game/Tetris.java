@@ -51,8 +51,14 @@ public class Tetris extends Rectangle {
         return image;
     }
 
-    public void update(){
+    public long lastDropTimer = 144;
 
+    public void update(){
+        lastDropTimer--;
+        if(lastDropTimer==0){
+            current.centerY++;
+            lastDropTimer = 144;
+        }
     }
 
     private void drawGrid(Graphics2D g){

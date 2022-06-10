@@ -100,6 +100,7 @@ public class GamePanel extends JPanel implements Runnable {
 
         tetrises = new ArrayList<>();
 
+
         gameThread = new Thread(this);
         gameThread.start();
 

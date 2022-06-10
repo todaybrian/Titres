@@ -28,7 +28,11 @@ public class GuiTetris extends Gui {
             instance.getSFXPlayer().loadMusic(Assets.SFX.CLICK_BACK);
             instance.getSFXPlayer().playMusic();
             instance.getGameBackground().setOpacity(0.25f);
+
+            instance.tetrises.clear();
         }, AnimationType.LEFT));
+
+        instance.tetrises.add(tetris);
     }
 
     public void draw(Graphics2D g) {
