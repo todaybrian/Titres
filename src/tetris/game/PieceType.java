@@ -36,4 +36,12 @@ public enum PieceType {
         }
         return ret;
     }
+
+    public static PieceType[][] getPieceGridFromRot(PieceType pieceType, int rotIdx){
+        PieceType[][] ret = getPieceGrid(pieceType);
+        for (int i = 1; i <= rotIdx; i++) {
+
+        }
+        return ret;
+    }
 }
