@@ -23,10 +23,9 @@ public class Tetris extends Rectangle {
 
     public Tetris(){
         TETRIS_GRID =  new ImageIcon(Assets.Game.TETRIS_GRID);
-
-
         putTheNextTetrominoOnScreen();
-        moveActive(1,2);
+        moveActive(0,5);
+
     }
 
     public Image drawImage(){
@@ -34,9 +33,8 @@ public class Tetris extends Rectangle {
         Graphics2D g = image.createGraphics();
         g.setColor(Color.BLACK);
         //g.fillRect(0, 0, GAME_WIDTH, GAME_HEIGHT);
-        drawGrid(g);
         g.drawImage(TETRIS_GRID.getImage(), 0, 1080/2 - TETRIS_GRID.getIconHeight()/2, TETRIS_GRID.getIconWidth(), TETRIS_GRID.getIconHeight(), null);
-
+        drawGrid(g);
         return image;
     }
 
@@ -45,7 +43,7 @@ public class Tetris extends Rectangle {
             for (int j = 0; j < 25; j++) {
                 try {
                     g.setColor(occupiedGrid[i][j].color);
-                    g.fillRect(Tetromino.SQUARE_SIDE*i+i-1, Tetromino.SQUARE_SIDE*j+j-1, Tetromino.SQUARE_SIDE, Tetromino.SQUARE_SIDE);
+                    g.fillRect(180+Tetromino.SQUARE_SIDE*i+i-1, 1080/2 - TETRIS_GRID.getIconHeight()/2+Tetromino.SQUARE_SIDE*(j-4)+(j-4)+1, Tetromino.SQUARE_SIDE, Tetromino.SQUARE_SIDE);
                 } catch (NullPointerException e) {
 
                 }
@@ -72,53 +70,53 @@ public class Tetris extends Rectangle {
         activePiece = new Tetromino(randomizer.getNext());
         switch(activePiece.pieceName.id) {
             case 1:
-                occupiedGrid[6][0] = activePiece;
-                occupiedGrid[4][1] = activePiece;
-                occupiedGrid[5][1] = activePiece;
-                occupiedGrid[6][1] = activePiece;
-                activePiece.setPosition(new int[][]{{6,0},{4,1},{5,1},{6,1}});
+                occupiedGrid[6][2] = activePiece;
+                occupiedGrid[4][3] = activePiece;
+                occupiedGrid[5][3] = activePiece;
+                occupiedGrid[6][3] = activePiece;
+                activePiece.setPosition(new int[][]{{6,2},{4,3},{5,3},{6,3}});
                 break;
             case 2:
-                occupiedGrid[4][0] = activePiece;
-                occupiedGrid[4][1] = activePiece;
-                occupiedGrid[5][1] = activePiece;
-                occupiedGrid[6][1] = activePiece;
-                activePiece.setPosition(new int[][]{{4,0},{4,1},{5,1},{6,1}});
+                occupiedGrid[4][2] = activePiece;
+                occupiedGrid[4][3] = activePiece;
+                occupiedGrid[5][3] = activePiece;
+                occupiedGrid[6][3] = activePiece;
+                activePiece.setPosition(new int[][]{{4,2},{4,3},{5,3},{6,3}});
                 break;
             case 3:
-                occupiedGrid[5][0] = activePiece;
-                occupiedGrid[6][1] = activePiece;
-                occupiedGrid[4][1] = activePiece;
-                occupiedGrid[5][1] = activePiece;
-                activePiece.setPosition(new int[][]{{5,0},{4,1},{5,1},{6,1}});
+                occupiedGrid[5][2] = activePiece;
+                occupiedGrid[6][3] = activePiece;
+                occupiedGrid[4][3] = activePiece;
+                occupiedGrid[5][3] = activePiece;
+                activePiece.setPosition(new int[][]{{5,2},{4,3},{5,3},{6,3}});
                 break;
             case 4:
-                occupiedGrid[4][1] = activePiece;
-                occupiedGrid[5][1] = activePiece;
-                occupiedGrid[6][1] = activePiece;
-                occupiedGrid[7][1] = activePiece;
-                activePiece.setPosition(new int[][]{{7,1},{4,1},{5,1},{6,1}});
+                occupiedGrid[4][3] = activePiece;
+                occupiedGrid[5][3] = activePiece;
+                occupiedGrid[6][3] = activePiece;
+                occupiedGrid[7][3] = activePiece;
+                activePiece.setPosition(new int[][]{{7,3},{4,3},{5,3},{6,3}});
                 break;
             case 5:
-                occupiedGrid[5][0] = activePiece;
-                occupiedGrid[6][0] = activePiece;
-                occupiedGrid[5][1] = activePiece;
-                occupiedGrid[6][1] = activePiece;
-                activePiece.setPosition(new int[][]{{5,0},{6,0},{5,1},{6,1}});
+                occupiedGrid[5][2] = activePiece;
+                occupiedGrid[6][2] = activePiece;
+                occupiedGrid[5][3] = activePiece;
+                occupiedGrid[6][3] = activePiece;
+                activePiece.setPosition(new int[][]{{5,2},{6,2},{5,3},{6,3}});
                 break;
             case 6:
-                occupiedGrid[4][0] = activePiece;
-                occupiedGrid[5][0] = activePiece;
-                occupiedGrid[5][1] = activePiece;
-                occupiedGrid[6][1] = activePiece;
-                activePiece.setPosition(new int[][]{{4,0},{5,0},{5,1},{6,1}});
+                occupiedGrid[4][2] = activePiece;
+                occupiedGrid[5][2] = activePiece;
+                occupiedGrid[5][3] = activePiece;
+                occupiedGrid[6][3] = activePiece;
+                activePiece.setPosition(new int[][]{{4,2},{5,2},{5,3},{6,3}});
                 break;
             case 7:
-                occupiedGrid[5][0] = activePiece;
-                occupiedGrid[6][0] = activePiece;
-                occupiedGrid[4][1] = activePiece;
-                occupiedGrid[5][1] = activePiece;
-                activePiece.setPosition(new int[][]{{6,0},{5,0},{5,1},{4,1}});
+                occupiedGrid[5][2] = activePiece;
+                occupiedGrid[6][2] = activePiece;
+                occupiedGrid[4][3] = activePiece;
+                occupiedGrid[5][3] = activePiece;
+                activePiece.setPosition(new int[][]{{6,2},{5,2},{5,3},{4,3}});
                 break;
         }
     }
