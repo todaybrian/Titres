@@ -16,5 +16,12 @@ public class Piece {
         this.currentPieceGrid = PieceType.getPieceGrid(type);
     }
 
-
+    public Piece clone(){
+        Piece clone = new Piece(this.type);
+        clone.rotationIndex = this.rotationIndex;
+        clone.centerX = this.centerX;
+        clone.centerY = this.centerY;
+        clone.currentPieceGrid = PieceType.getPieceGrid(this.type);
+        return clone;
+    }
 }

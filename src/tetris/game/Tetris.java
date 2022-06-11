@@ -34,6 +34,7 @@ public class Tetris extends Rectangle {
             grid[i][0] = PieceType.BORDER;
             grid[i][11] = PieceType.BORDER;
         }
+        Arrays.fill(grid[30], PieceType.BORDER);
 
         current = new Piece(randomizer.getNextPiece());
     }
@@ -48,6 +49,10 @@ public class Tetris extends Rectangle {
 
         drawGrid(g);
         drawPiece(g, current);
+
+        drawSquare(g, PieceType.I, 10, 1);
+        drawSquare(g, PieceType.I, 29, 10);
+
         return image;
     }
 
@@ -56,7 +61,7 @@ public class Tetris extends Rectangle {
     public void update(){
         lastDropTimer--;
         if(lastDropTimer==0){
-            current.centerY++;
+            dropPiece();
             lastDropTimer = 144;
         }
     }
@@ -78,15 +83,30 @@ public class Tetris extends Rectangle {
     }
 
     public void moveRight(){
-        this.current.centerX++;
+        Piece temp = current.clone();
+        temp.centerX++;
+        if(checkLegal(temp)){
+            current.centerX++;
+        }
     }
 
     public void moveLeft(){
-        this.current.centerX--;
+        Piece temp = current.clone();
+        temp.centerX--;
+        if(checkLegal(temp)){
+            current.centerX--;
+        }
     }
 
     public boolean dropPiece(){
-        this.current.centerY++;
+        Piece temp = current.clone();
+        temp.centerY++;
+        if(checkLegal(temp)){
+            current.centerY++;
+            return true;
+        }
+        System.out.println(current.centerY + " " + current.centerX);
+
         return true;
     }
 
@@ -100,6 +120,19 @@ public class Tetris extends Rectangle {
 
     public void die(){
 
+    }
+
+    public boolean checkLegal(Piece piece){
+        for (int i = 0; i < 5; i++) {
+            for (int j = 0; j < 5; j++) {
+                if(piece.currentPieceGrid[i][j] != PieceType.NULL){
+                    if(grid[piece.centerY-2+i][piece.centerX-2+j] != PieceType.NULL){
+                        return false;
+                    }
+                }
+            }
+        }
+        return true;
     }
 
     private void drawSquare(Graphics2D g, PieceType piece, int row, int column){
