@@ -104,18 +104,24 @@ public class Tetris extends Rectangle {
         if(checkLegal(temp)){
             current.centerY++;
             return true;
-        }
-        System.out.println(current.centerY + " " + current.centerX);
-
-        return true;
+        } else return false;
     }
 
     public void setPiece(){
-
+        if(!checkLegal(current)) return;
+        for (int i = 0; i < 5; i++) {
+            for (int j = 0; j < 5; j++) {
+                if(current.currentPieceGrid[i][j] != PieceType.NULL){
+                    grid[current.centerY+i-2][current.centerX+j-2] = current.currentPieceGrid[i][j];
+                }
+            }
+        }
+        current = new Piece(randomizer.getNextPiece());
     }
 
     public void hardDrop(){
-
+        while(dropPiece());
+        setPiece();
     }
 
     public void die(){

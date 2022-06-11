@@ -9,7 +9,6 @@ import tetris.util.FrameTimer;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
-import java.security.Key;
 
 public class GuiTetris extends Gui {
     private static final double BLACK_IN_TIME = 1;
@@ -50,6 +49,7 @@ public class GuiTetris extends Gui {
     }
 
     private FrameTimer downTimer = new FrameTimer(0.1);
+    private boolean hardDropPrevious = false;
 
     @Override
     public void update(){
@@ -61,6 +61,10 @@ public class GuiTetris extends Gui {
             downTimer = new FrameTimer(0.1);
             tetris.dropPiece();
         }
+        if(instance.keyboardInput.keyPressed[KeyEvent.VK_SPACE] && !hardDropPrevious) {
+            tetris.hardDrop();
+        }
+        hardDropPrevious = instance.keyboardInput.keyPressed[KeyEvent.VK_SPACE];
     }
 
     @Override
