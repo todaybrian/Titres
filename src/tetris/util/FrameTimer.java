@@ -21,6 +21,10 @@ public class FrameTimer {
         this.length = (long)(length*1e9);
     }
 
+    public void disable() {
+        startTime = Long.MAX_VALUE;
+    }
+
     public double getProgress() {
         return (double)(System.nanoTime() - startTime) / (double)length;
     }

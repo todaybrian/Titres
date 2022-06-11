@@ -8,6 +8,7 @@ import tetris.gui.widget.Button;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 
 public class Gui {
@@ -76,4 +77,18 @@ public class Gui {
     public ArrayList<AnimatedRectangle> getComponentList(){
         return componentList;
     }
+
+    public void update() {
+
+    }
+
+    public void keyPressed(KeyEvent e){
+
+    }
+
+    public void keyReleased(KeyEvent e){
+
+    }
+
+
 }

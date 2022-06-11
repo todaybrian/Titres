@@ -28,10 +28,7 @@ public class GuiTetris extends Gui {
             instance.getSFXPlayer().playMusic();
             instance.getGameBackground().setOpacity(0.25f);
 
-            instance.tetrises.clear();
         }, AnimationType.LEFT));
-
-        instance.tetrises.add(tetris);
 
         blackInTimer = new FrameTimer(BLACK_IN_TIME);
     }
