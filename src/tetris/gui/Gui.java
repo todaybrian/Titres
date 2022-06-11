@@ -8,20 +8,18 @@ import tetris.gui.widget.Button;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 
 public class Gui {
     protected ImageIcon topBar;
     protected ImageIcon bottomBar;
 
-    protected Gui parentScreen;
-
     protected ArrayList<AnimatedRectangle> componentList;
     protected ArrayList<Button> buttonList;
     protected GamePanel instance;
 
-    public Gui(Gui parentScreen){
-        this.parentScreen = parentScreen;
+    public Gui(){
         buttonList = new ArrayList<>();
         componentList = new ArrayList<>();
         instance = GamePanel.getGamePanel();
@@ -79,4 +77,18 @@ public class Gui {
     public ArrayList<AnimatedRectangle> getComponentList(){
         return componentList;
     }
+
+    public void update() {
+
+    }
+
+    public void keyPressed(KeyEvent e){
+
+    }
+
+    public void keyReleased(KeyEvent e){
+
+    }
+
+
 }

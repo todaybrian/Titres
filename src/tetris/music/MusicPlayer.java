@@ -60,8 +60,6 @@ public class MusicPlayer {
     public void changeVolume(double volume) {
         this.volume = volume;
         FloatControl gainControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
-        float range = gainControl.getMaximum() - gainControl.getMinimum();
-        double gain = (range * volume) + gainControl.getMinimum();
-        gainControl.setValue((float) gain);
+        gainControl.setValue(20f * (float) Math.log10(volume+0.001)+1); // If a computer can't handle -59dB I give up
     }
 }

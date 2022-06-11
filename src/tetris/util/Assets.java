@@ -31,21 +31,26 @@ public class Assets {
     public static final String VREMYA = "src/assets/music/Vremya.wav";
     public static final String VIRTUAL_LIGHT = "src/assets/music/VirtualLight.wav";
 
-    public static final String BACKGROUND_PREFIX = "src/assets/backgrounds/background";
+    public static final String BACKGROUND_PREFIX = "src/assets/backgrounds/";
 
     public static final String TOP_MAIN_MENU_FILE = "src/assets/menus/top_main_menu.png";
     public static final String BOTTOM_MAIN_MENU_FILE = "src/assets/menus/bottom_main_menu.png";
+
+
     public static final String TOP_SETTINGS_FILE = "src/assets/menus/top_settings.png";
     public static final String BOTTOM_SETTINGS_FILE = "src/assets/menus/bottom_settings.png";
 
     public static final String TOP_SOLO_FILE = "src/assets/menus/top_solo.png";
     public static final String BOTTOM_SOLO_FILE = "src/assets/menus/bottom_solo.png";
 
-    public class Game{
+    public static final String TOP_40_FILE = "src/assets/menus/top_40.png";
+    public static final String BOTTOM_40_FILE = "src/assets/menus/bottom_40.png";
+
+    public static class Game{
         public static final String TETRIS_GRID = "src/assets/game/tetris_grid.png";
     }
 
-    public class Button{
+    public static class Button{
         public static final String EXIT_BUTTON="src/assets/button/exit_button.png";
         public static final String SOLO_BUTTON="src/assets/button/solo_button.png";
         public static final String BACK_BUTTON = "src/assets/button/back_button.png";
@@ -56,9 +61,11 @@ public class Assets {
         public static final String GITHUB_BUTTON = "src/assets/button/github_button.png";
 
         public static final String SLIDER = "src/assets/button/slider.png";
+
+        public static final String START_40_BUTTON = "src/assets/button/start_40.gif";
     }
 
-    public class SFX {
+    public static class SFX {
         public static final String CLICK_1 = "src/assets/sfx/sfx_click_lvl_1.wav";
         public static final String CLICK_2 = "src/assets/sfx/sfx_click_lvl_2.wav";
         public static final String HOVER = "src/assets/sfx/sfx_hover.wav";

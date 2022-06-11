@@ -2,9 +2,11 @@ package tetris;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.ArrayList;
 
 import tetris.controls.KeyboardInput;
 import tetris.controls.MouseInput;
+import tetris.game.Tetris;
 import tetris.gui.GameBackground;
 import tetris.gui.Gui;
 import tetris.gui.GuiWelcome;
@@ -44,7 +46,7 @@ public class GamePanel extends JPanel implements Runnable {
     private Gui gui;
 
     //Keyboard Input class
-    private KeyboardInput keyboardInput;
+    public KeyboardInput keyboardInput;
 
     private GameSettings gameSettings;
 
@@ -75,7 +77,7 @@ public class GamePanel extends JPanel implements Runnable {
         this.setPreferredSize(new Dimension(gameWidth, gameHeight));
 
         //Display Main Menu
-        displayGui(new GuiWelcome(null));
+        displayGui(new GuiWelcome());
 
         this.addMouseListener(new MouseInput());
         MouseInput.setScale((double)renderHeight/1080, horizontalPadding, verticalPadding);
@@ -141,7 +143,7 @@ public class GamePanel extends JPanel implements Runnable {
     }
 
     public void update(){
-        keyboardInput.update();
+        this.gui.update();
     }
 
     public void setPhysicsFPS(int fps){

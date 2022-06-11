@@ -126,14 +126,14 @@ public class AnimatedRectangle extends Rectangle {
         lastSystemTime = System.nanoTime();
     }
 
-    public void initAnimate(int xOffsetGoal, int yOffsetGoal, float opacityGoal, long animationLength){
+    public void initAnimate(int xOffsetGoal, int yOffsetGoal, float opacityGoal, double animationLength){
         this.xOffsetGoal = xOffsetGoal;
         this.yOffsetGoal = yOffsetGoal;
         this.opacityGoal = opacityGoal;
 
-        this.xOffsetStep = (xOffsetGoal - xOffsetCurrent+0.0) / (animationLength);
-        this.opacityStep = (this.opacityGoal - opacity+0.0) / (animationLength);
-        this.yOffsetStep = (yOffsetGoal - yOffsetCurrent+0.0) / (animationLength);
+        this.xOffsetStep = (xOffsetGoal - xOffsetCurrent+0.0) / (animationLength * 1000000000);
+        this.opacityStep = (this.opacityGoal - opacity+0.0) / (animationLength* 1000000000);
+        this.yOffsetStep = (yOffsetGoal - yOffsetCurrent+0.0) / (animationLength* 1000000000);
     }
 
     public void reset(){
