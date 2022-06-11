@@ -24,4 +24,9 @@ public class Piece {
         clone.currentPieceGrid = PieceType.getPieceGrid(this.type);
         return clone;
     }
+
+    public void rotateCW(){
+        this.rotationIndex = (this.rotationIndex+1)%4;
+        this.currentPieceGrid = PieceType.getPieceGridFromRot(this.type, this.rotationIndex);
+    }
 }

@@ -50,6 +50,7 @@ public class GuiTetris extends Gui {
 
     private FrameTimer downTimer = new FrameTimer(0.1);
     private boolean hardDropPrevious = false;
+    private boolean rotateCWPrevious = false;
 
     @Override
     public void update(){
@@ -65,6 +66,11 @@ public class GuiTetris extends Gui {
             tetris.hardDrop();
         }
         hardDropPrevious = instance.keyboardInput.keyPressed[KeyEvent.VK_SPACE];
+
+        if(instance.keyboardInput.keyPressed[KeyEvent.VK_UP] && !rotateCWPrevious) {
+            tetris.rotateCW();
+        }
+        rotateCWPrevious = instance.keyboardInput.keyPressed[KeyEvent.VK_UP];
     }
 
     @Override
@@ -73,8 +79,6 @@ public class GuiTetris extends Gui {
             tetris.moveRight();
         } else if(e.getKeyCode() == KeyEvent.VK_LEFT){
             tetris.moveLeft();
-        } else if(e.getKeyCode() == KeyEvent.VK_DOWN){
-            //tetris.dropPiece();
         }
     }
 

@@ -116,12 +116,27 @@ public class Tetris extends Rectangle {
                 }
             }
         }
+        spawnPiece();
+    }
+
+    public void spawnPiece(){
         current = new Piece(randomizer.getNextPiece());
+        if(!checkLegal(current)){
+            die();
+        }
     }
 
     public void hardDrop(){
         while(dropPiece());
         setPiece();
+    }
+
+    public void rotateCW(){
+        Piece temp = current.clone();
+        temp.rotateCW();
+        if(checkLegal(temp)){
+            current.rotateCW();
+        }
     }
 
     public void die(){
