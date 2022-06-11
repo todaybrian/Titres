@@ -75,6 +75,10 @@ public class GuiTetris extends Gui {
             tetris.moveLeft();
         } else if(e.getKeyCode() == KeyEvent.VK_DOWN){
             //tetris.dropPiece();
+        } else if (e.getKeyCode() == KeyEvent.VK_D) {
+            tetris.rotateCW(1);
+        } else if (e.getKeyCode() == KeyEvent.VK_A) {
+            tetris.rotateCW(3);
         }
     }
 

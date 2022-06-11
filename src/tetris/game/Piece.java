@@ -21,7 +21,7 @@ public class Piece {
         clone.rotationIndex = this.rotationIndex;
         clone.centerX = this.centerX;
         clone.centerY = this.centerY;
-        clone.currentPieceGrid = PieceType.getPieceGrid(this.type);
+        clone.currentPieceGrid = this.currentPieceGrid;
         return clone;
     }
 }

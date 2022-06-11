@@ -61,7 +61,9 @@ public class Tetris extends Rectangle {
     public void update(){
         lastDropTimer--;
         if(lastDropTimer==0){
-            dropPiece();
+            if (!dropPiece()) {
+                setPiece();
+            }
             lastDropTimer = 144;
         }
     }
@@ -126,6 +128,16 @@ public class Tetris extends Rectangle {
 
     public void die(){
 
+    }
+
+    public void rotateCW(int rotIDX) {
+        Piece temp = current.clone();
+        temp.rotationIndex+=rotIDX;
+        temp.currentPieceGrid = PieceType.getPieceGridFromRot(temp.type, temp.rotationIndex%4);
+        if (checkLegal(temp)) {
+            current.rotationIndex+=rotIDX;
+            current.currentPieceGrid = PieceType.getPieceGridFromRot(current.type, current.rotationIndex%4);
+        }
     }
 
     public boolean checkLegal(Piece piece){
