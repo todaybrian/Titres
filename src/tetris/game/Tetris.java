@@ -78,15 +78,15 @@ public class Tetris extends Rectangle {
     }
 
     public void moveRight(){
-
+        this.current.centerX++;
     }
 
     public void moveLeft(){
-
+        this.current.centerX--;
     }
 
     public boolean dropPiece(){
-
+        this.current.centerY++;
         return true;
     }
 

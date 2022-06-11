@@ -8,6 +8,8 @@ import tetris.util.FrameTimer;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.KeyEvent;
+import java.security.Key;
 
 public class GuiTetris extends Gui {
     private static final double BLACK_IN_TIME = 1;
@@ -45,5 +47,21 @@ public class GuiTetris extends Gui {
             g.fillRect(0, 0, instance.getWidth(), instance.getHeight());
             g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1.0f));
         }
+    }
+
+    @Override
+    public void keyPressed(KeyEvent e) {
+        if(e.getKeyCode() == KeyEvent.VK_RIGHT){
+            tetris.moveRight();
+        } else if(e.getKeyCode() == KeyEvent.VK_LEFT){
+            tetris.moveLeft();
+        } else if(e.getKeyCode() == KeyEvent.VK_DOWN){
+            tetris.dropPiece();
+        }
+    }
+
+    @Override
+    public void keyReleased(KeyEvent e) {
+
     }
 }
