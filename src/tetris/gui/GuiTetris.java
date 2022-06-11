@@ -49,6 +49,20 @@ public class GuiTetris extends Gui {
         }
     }
 
+    private FrameTimer downTimer = new FrameTimer(0.1);
+
+    @Override
+    public void update(){
+        super.update();
+        if(blackInTimer.isDone()) {
+            tetris.update();
+        }
+        if(downTimer.isDone() && instance.keyboardInput.keyPressed[KeyEvent.VK_DOWN]) {
+            downTimer = new FrameTimer(0.1);
+            tetris.dropPiece();
+        }
+    }
+
     @Override
     public void keyPressed(KeyEvent e) {
         if(e.getKeyCode() == KeyEvent.VK_RIGHT){
@@ -56,7 +70,7 @@ public class GuiTetris extends Gui {
         } else if(e.getKeyCode() == KeyEvent.VK_LEFT){
             tetris.moveLeft();
         } else if(e.getKeyCode() == KeyEvent.VK_DOWN){
-            tetris.dropPiece();
+            //tetris.dropPiece();
         }
     }
 

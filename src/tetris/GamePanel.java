@@ -46,7 +46,7 @@ public class GamePanel extends JPanel implements Runnable {
     private Gui gui;
 
     //Keyboard Input class
-    private KeyboardInput keyboardInput;
+    public KeyboardInput keyboardInput;
 
     private GameSettings gameSettings;
 
