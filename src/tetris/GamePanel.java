@@ -79,7 +79,7 @@ public class GamePanel extends JPanel implements Runnable {
         this.setPreferredSize(new Dimension(gameWidth, gameHeight));
 
         //Display Main Menu
-        displayGui(new GuiWelcome(null));
+        displayGui(new GuiWelcome());
 
         this.addMouseListener(new MouseInput());
         MouseInput.setScale((double)renderHeight/1080, horizontalPadding, verticalPadding);

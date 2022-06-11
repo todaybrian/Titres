@@ -9,16 +9,14 @@ import javax.swing.*;
 import java.awt.*;
 
 public class GuiFourty extends Gui{
-
-    public GuiFourty(Gui parentScreen) {
-        super(parentScreen);
-
+    public GuiFourty() {
+        super();
         topBar = new ImageIcon(Assets.TOP_40_FILE);
         bottomBar = new ImageIcon(Assets.BOTTOM_40_FILE);
 
         ImageIcon back_button = new ImageIcon(Assets.Button.BACK_BUTTON);
         buttonList.add(new Button(-170, 120, back_button, (click)->{
-            instance.displayGui(new GuiMenuTransition(this, new GuiSolo(null)));
+            instance.displayGui(new GuiMenuTransition( this, new GuiSolo()));
 
             instance.getSFXPlayer().loadMusic(Assets.SFX.CLICK_BACK);
             instance.getSFXPlayer().playMusic();

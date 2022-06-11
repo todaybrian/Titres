@@ -19,8 +19,8 @@ public class GuiSettings extends Gui {
     private Slider sfxSlider;
     private Slider fpsSlider;
 
-    public GuiSettings(Gui parentScreen) {
-        super(parentScreen);
+    public GuiSettings() {
+        super();
         topBar = new ImageIcon(Assets.TOP_SETTINGS_FILE);
         bottomBar = new ImageIcon(Assets.BOTTOM_SETTINGS_FILE);
 
@@ -32,7 +32,7 @@ public class GuiSettings extends Gui {
 
         ImageIcon back_button = new ImageIcon(Assets.Button.BACK_BUTTON);
         buttonList.add(new Button(-170, 120, back_button, (click)->{
-            instance.displayGui(new GuiMenuTransition(this, new GuiMainMenu(null)));
+            instance.displayGui(new GuiMenuTransition(this, new GuiMainMenu()));
 
             instance.getSFXPlayer().loadMusic(Assets.SFX.CLICK_BACK);
             instance.getSFXPlayer().playMusic();
@@ -41,12 +41,12 @@ public class GuiSettings extends Gui {
         ImageIcon slider = new ImageIcon(Assets.Button.SLIDER);
         musicSlider = new Slider(200,500, 700, slider,  (onChange)->{
             instance.getMusicPlayer().changeVolume((onChange.getValue()/100.0));
-        },0, 100, (int)(instance.getMusicPlayer().getVolume()));
+        },0, 100, (instance.getMusicPlayer().getVolume()));
         buttonList.add(musicSlider);
 
         sfxSlider = new Slider(200,200, 700, slider, (onChange)->{
             instance.getSFXPlayer().changeVolume((onChange.getValue()/100.0));
-        },0, 100, (int)(instance.getSFXPlayer().getVolume()));
+        },0, 100, (instance.getSFXPlayer().getVolume()));
 
         buttonList.add(sfxSlider);
         fpsSlider = new Slider(320,800, 670, slider,  (onChange)->{

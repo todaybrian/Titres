@@ -14,14 +14,11 @@ public class Gui {
     protected ImageIcon topBar;
     protected ImageIcon bottomBar;
 
-    protected Gui parentScreen;
-
     protected ArrayList<AnimatedRectangle> componentList;
     protected ArrayList<Button> buttonList;
     protected GamePanel instance;
 
-    public Gui(Gui parentScreen){
-        this.parentScreen = parentScreen;
+    public Gui(){
         buttonList = new ArrayList<>();
         componentList = new ArrayList<>();
         instance = GamePanel.getGamePanel();

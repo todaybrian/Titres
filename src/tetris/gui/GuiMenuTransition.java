@@ -5,19 +5,22 @@ package tetris.gui;
 
 import tetris.gui.widget.AnimatedRectangle;
 import tetris.gui.widget.Button;
+import tetris.util.FrameTimer;
 
 import java.awt.*;
 import java.util.ArrayList;
 
 public class GuiMenuTransition extends Gui{
-    private static final long ANIMATION_TRANSITION = 200000000;
+    private static final double ANIMATION_TRANSITION = 0.2;
 
+    private FrameTimer timer;
+
+    private Gui parentScreen;
     private final Gui nextScreen;
 
-    private final long currentTime;
-
     public GuiMenuTransition(Gui parentScreen, Gui nextScreen){
-        super(parentScreen);
+        super();
+        this.parentScreen = parentScreen;
         this.nextScreen = nextScreen;
 
         //Use the top bar and the bottom bar of the next screen to be the transition screen's top bar and bottom bar
@@ -85,13 +88,12 @@ public class GuiMenuTransition extends Gui{
             buttonList.add(button);
         }
 
-        //Set the current time so that the transition time can be calculated
-        currentTime = System.nanoTime();
+        timer = new FrameTimer(ANIMATION_TRANSITION);
     }
 
     public void draw(Graphics2D g){
         //If the animation time has elapsed, switch to the next screen
-        if(System.nanoTime() - currentTime > GuiMenuTransition.ANIMATION_TRANSITION) {
+        if(timer.isDone()) {
             //Reset all buttons and components to original positions and opacity
             for(Button button : buttonList){
                 button.reset();

@@ -11,8 +11,8 @@ import java.net.URL;
 
 public class GuiMainMenu extends Gui {
 
-    public GuiMainMenu(Gui parentScreen) {
-        super(parentScreen);
+    public GuiMainMenu() {
+        super();
         topBar = new ImageIcon(Assets.TOP_MAIN_MENU_FILE);
         bottomBar = new ImageIcon(Assets.BOTTOM_MAIN_MENU_FILE);
 
@@ -23,13 +23,13 @@ public class GuiMainMenu extends Gui {
 
         ImageIcon solo_button = new ImageIcon(Assets.Button.SOLO_BUTTON);
         buttonList.add(new Button(400, 400, solo_button, (click)->{
-            instance.displayGui(new GuiMenuTransition(this, new GuiSolo(this)));
+            instance.displayGui(new GuiMenuTransition( this, new GuiSolo()));
             instance.getSFXPlayer().loadMusic(Assets.SFX.CLICK_1);
             instance.getSFXPlayer().playMusic();
         }, AnimationType.RIGHT));
         ImageIcon settings_button = new ImageIcon(Assets.Button.SETTINGS_BUTTON);
         buttonList.add(new Button(400, 600, settings_button, (click)->{
-            instance.displayGui(new GuiMenuTransition(this, new GuiSettings(this)));
+            instance.displayGui(new GuiMenuTransition( this, new GuiSettings()));
             instance.getSFXPlayer().loadMusic(Assets.SFX.CLICK_1);
             instance.getSFXPlayer().playMusic();
         }, AnimationType.RIGHT));
@@ -48,14 +48,5 @@ public class GuiMainMenu extends Gui {
             g.drawImage(logo.getImage(), (int)(20+x), 100, (int)(1.25*logo.getIconWidth()), (int)(1.25*logo.getIconHeight()), null);
         }, AnimationType.LEFT));
 
-        AnimatedRectangle debug = new AnimatedRectangle((g, x)->{
-
-//            g.setFont(Assets.KDAM_FONT.deriveFont(Font.BOLD, 50));
-//            g.setColor(Color.WHITE);
-//            g.drawString(String.valueOf(buttonList.get(0).isMouseOver())+ buttonList.get(1).isMouseOver() + buttonList.get(2).isMouseOver(),500, 350);
-
-        }, AnimationType.RIGHT);
-
-        componentList.add(debug);
     }
 }
