@@ -1,7 +1,9 @@
 package tetris.game;
 
+import tetris.GamePanel;
 import tetris.game.randomizer.Randomizer;
 import tetris.game.randomizer.RandomizerSevenBag;
+import tetris.gui.GuiFourty;
 import tetris.util.Assets;
 
 import javax.swing.*;
@@ -119,6 +121,9 @@ public class Tetris extends Rectangle {
             }
         }
         current = new Piece(randomizer.getNextPiece());
+        if (!dropPiece()) {
+            die();
+        }
     }
 
     public void hardDrop(){
@@ -127,7 +132,7 @@ public class Tetris extends Rectangle {
     }
 
     public void die(){
-
+        GamePanel.getGamePanel().displayGui(new GuiFourty());
     }
 
     public void rotateCW(int rotIDX) {
