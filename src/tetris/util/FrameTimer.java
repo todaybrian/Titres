@@ -3,17 +3,20 @@ package tetris.util;
 public class FrameTimer {
     private long length;
     private long startTime;
+    private boolean isDisabled;
 
     public FrameTimer(double length) {
         startTime = System.nanoTime();
         this.length = (long)(length*1e9);
+        isDisabled = false;
     }
 
     public boolean isDone() {
-        return System.nanoTime() - startTime >= length;
+        return !isDisabled && System.nanoTime() - startTime > length;
     }
 
     public void reset() {
+        isDisabled = false;
         startTime = System.nanoTime();
     }
 
@@ -22,7 +25,11 @@ public class FrameTimer {
     }
 
     public void disable() {
-        startTime = Long.MAX_VALUE;
+        isDisabled = true;
+    }
+
+    public boolean isDisabled() {
+        return isDisabled;
     }
 
     public double getProgress() {

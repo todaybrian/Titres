@@ -3,6 +3,7 @@ package tetris.game;
 import tetris.game.randomizer.Randomizer;
 import tetris.game.randomizer.RandomizerSevenBag;
 import tetris.util.Assets;
+import tetris.util.FrameTimer;
 
 import javax.swing.*;
 import java.awt.*;
@@ -23,6 +24,9 @@ public class Tetris extends Rectangle {
     public PieceType[][] grid;
     public PieceType hold;
     public Piece current;
+
+    public FrameTimer dropTimer = new FrameTimer(1);
+    public FrameTimer lockTimer = new FrameTimer(0.5);
 
     public Tetris(){
         TETRIS_GRID =  new ImageIcon(Assets.Game.TETRIS_GRID);
@@ -56,13 +60,22 @@ public class Tetris extends Rectangle {
         return image;
     }
 
-    public long lastDropTimer = 144;
 
     public void update(){
-        lastDropTimer--;
-        if(lastDropTimer==0){
+        if(dropTimer.isDone()){
             dropPiece();
-            lastDropTimer = 144;
+            dropTimer.reset();
+        }
+        if (!onGround()) {
+            lockTimer.disable();
+        }
+        if(onGround()){
+            if(lockTimer.isDone()){
+                setPiece();
+                lockTimer.disable();
+            } else if(lockTimer.isDisabled()){
+                lockTimer.reset();
+            }
         }
     }
 
@@ -137,6 +150,12 @@ public class Tetris extends Rectangle {
         if(checkLegal(temp)){
             current.rotateCW();
         }
+    }
+
+    public boolean onGround(){
+        Piece temp = current.clone();
+        temp.centerY++;
+        return !checkLegal(temp);
     }
 
     public void die(){
