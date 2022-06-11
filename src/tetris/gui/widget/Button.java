@@ -16,8 +16,8 @@ public class Button extends AnimatedRectangle {
 	private GamePanel instance;
 
 	// Length of animation in nanoseconds
-	private final long ANIMATION_LENGTH_HOVER = 120000000;
-	private final long ANIMATION_LENGTH_CLICK = 40000000;
+	private final double ANIMATION_LENGTH_HOVER = 0.12;
+	private final double ANIMATION_LENGTH_CLICK = 0.04;
 
 	//Image of the button
 	protected ImageIcon imageIcon;
@@ -57,7 +57,7 @@ public class Button extends AnimatedRectangle {
 		wasHovered = isMouseOver;
 
 		if(!inTransition) {
-			long animationLength = ANIMATION_LENGTH_HOVER;
+			double animationLength = ANIMATION_LENGTH_HOVER;
 			int xOffsetGoal = 0, yOffsetGoal = 0, opacityGoal = 1;
 			if (isClicked()) { // Clicked animation
 				xOffsetGoal = this.animationType.getClickXOffset();
