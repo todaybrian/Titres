@@ -43,7 +43,7 @@ public enum PieceType {
             PieceType[][] rot = new PieceType[ret.length][ret[0].length];
             for (int j = 0; j < ret.length;j++) {
                 for (int k = 0; k < ret[0].length;k++) {
-                    rot[ret.length-1-k][j] = ret[j][k];
+                    rot[j][k] = ret[k][ret.length-1-j];
                 }
             }
             ret = rot;
