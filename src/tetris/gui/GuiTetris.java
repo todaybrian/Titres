@@ -14,6 +14,12 @@ public class GuiTetris extends Gui {
     private FrameTimer blackInTimer;
 
     Tetris tetris = new Tetris();
+
+    private int xOffset = 0;
+    private int yOffset = 0;
+    private int xVelocity = 0;
+    private int yVelocity = 0;
+
     public GuiTetris() {
         super();
         instance.getGameBackground().randomBackground();
@@ -33,10 +39,11 @@ public class GuiTetris extends Gui {
         blackInTimer = new FrameTimer(BLACK_IN_TIME);
     }
 
+    @Override
     public void draw(Graphics2D g) {
         super.draw(g);
 
-        g.drawImage(tetris.drawImage(), 1920/2-Tetris.GAME_WIDTH/2, 1080/2-Tetris.GAME_HEIGHT/2, Tetris.GAME_WIDTH, Tetris.GAME_HEIGHT, null);
+        g.drawImage(tetris.drawImage(), 1920/2-Tetris.GAME_WIDTH/2 + xOffset, 1080/2-Tetris.GAME_HEIGHT/2 + yOffset, Tetris.GAME_WIDTH, Tetris.GAME_HEIGHT, null);
         g.drawString("Tetris", 100, 100);
 
         if(!blackInTimer.isDone()) {
@@ -53,18 +60,26 @@ public class GuiTetris extends Gui {
     private boolean held_rotateCCW = false;
     private boolean held_holdPiece = false;
 
+    private FrameTimer hardDropAnimationTimer = new FrameTimer(0.1);
+
     @Override
     public void update(){
         super.update();
         if(blackInTimer.isDone()) {
             tetris.update();
         }
+
+        boolean resetUpwards = false;
+        boolean hardDropAnimation = false;
+
         if(downTimer.isDone() && instance.keyboardInput.keyPressed[KeyEvent.VK_DOWN]) {
             downTimer = new FrameTimer(0.1);
             tetris.dropPiece();
         }
         if(instance.keyboardInput.keyPressed[KeyEvent.VK_SPACE] && !held_hardDrop) {
             tetris.hardDrop();
+            hardDropAnimation = true;
+            hardDropAnimationTimer.reset();
         }
         held_hardDrop = instance.keyboardInput.keyPressed[KeyEvent.VK_SPACE];
 
@@ -82,7 +97,27 @@ public class GuiTetris extends Gui {
             tetris.holdPiece();
         }
         held_holdPiece = instance.keyboardInput.keyPressed[KeyEvent.VK_C];
+
+        xOffset += xVelocity;
+        yOffset += yVelocity;
+
+        if (yOffset > 4) {
+            yVelocity = -1;
+            yOffset = 4;
+        } else if(yOffset < 0){
+            yVelocity = 0;
+            yOffset = 0;
+        }
+
+        if(!hardDropAnimationTimer.isDone() && !hardDropAnimationTimer.isDisabled()) {
+            yVelocity = 1;
+        } else{
+            hardDropAnimationTimer.disable();
+        }
+
     }
+
+
 
     @Override
     public void keyPressed(KeyEvent e) {
