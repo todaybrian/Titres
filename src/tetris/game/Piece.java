@@ -10,7 +10,7 @@ public class Piece {
     public Piece(PieceType type){
         this.type = type;
         this.rotationIndex = 0;
-        this.centerX = 5;
+        this.centerX = 4;
         this.centerY = 8;
 
         this.currentPieceGrid = PieceType.getPieceGrid(type);

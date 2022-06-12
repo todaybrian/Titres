@@ -8,6 +8,7 @@ import tetris.util.FrameTimer;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Random;
 
@@ -33,13 +34,10 @@ public class Tetris extends Rectangle {
         TETRIS_GRID =  Assets.Game.TETRIS_GRID.get();
         randomizer = new RandomizerSevenBag();
 
-        grid = new PieceType[31][12];
+        grid = new PieceType[30][10];
         for (int i = 0; i < grid.length; i++) {
             Arrays.fill(grid[i], PieceType.NULL);
-            grid[i][0] = PieceType.BORDER;
-            grid[i][11] = PieceType.BORDER;
         }
-        Arrays.fill(grid[30], PieceType.BORDER);
 
         current = new Piece(randomizer.getNextPiece());
     }
@@ -53,11 +51,12 @@ public class Tetris extends Rectangle {
         g.setColor(Color.BLUE);
 
         drawGrid(g);
-        drawPiece(g, current, false);
 
         Piece ghost = current.clone();
         ghost.centerY = findDropHeight();
         drawPiece(g, ghost, true);
+
+        drawPiece(g, current, false);
 
         return image;
     }
@@ -82,8 +81,8 @@ public class Tetris extends Rectangle {
     }
 
     private void drawGrid(Graphics2D g){
-        for (int row = 1; row < grid.length; row++) {
-            for (int column = 1; column <= 10; column++) {
+        for (int row = 0; row < grid.length; row++) {
+            for (int column = 0; column < grid[0].length; column++) {
                 drawSquare(g, grid[row][column], row, column);
             }
         }
@@ -158,6 +157,7 @@ public class Tetris extends Rectangle {
             }
         }
 
+        clearLines();
         spawnPiece();
     }
 
@@ -183,7 +183,7 @@ public class Tetris extends Rectangle {
         }
         Piece temp = current.clone();
         temp.rotateCW();
-        int wallKick[][][];
+        int[][][] wallKick;
         if(temp.type == PieceType.I){
             wallKick = PieceType.wallKickDataI;
         } else{
@@ -206,7 +206,7 @@ public class Tetris extends Rectangle {
         }
         Piece temp = current.clone();
         temp.rotateCCW();
-        int wallKick[][][];
+        int[][][] wallKick;
         if(temp.type == PieceType.I){
             wallKick = PieceType.wallKickDataI;
         } else{
@@ -227,6 +227,33 @@ public class Tetris extends Rectangle {
         Piece temp = current.clone();
         temp.centerY++;
         return !checkLegal(temp);
+    }
+
+    public ArrayList<Integer> clearLines(){
+        PieceType[][] temp = new PieceType[grid.length][];
+        for (int i = 0; i < grid.length; i++) {
+            temp[i] = new PieceType[grid[i].length];
+            Arrays.fill(temp[i], PieceType.NULL);
+        }
+        int lstFilled = grid.length-1;
+
+        ArrayList<Integer> lines = new ArrayList<>();
+        for (int i = grid.length-1; i >=1; i--) {
+            boolean full = true;
+            for (int j = 0; j < grid[0].length; j++) {
+                if(grid[i][j] == PieceType.NULL){
+                    full = false;
+                    temp[lstFilled] = grid[i];
+                    lstFilled--;
+                    break;
+                }
+            }
+            if(full){
+                lines.add(i);
+            }
+        }
+        grid = temp;
+        return lines;
     }
 
     public void die(){
@@ -252,7 +279,7 @@ public class Tetris extends Rectangle {
         for (int i = 0; i < length; i++) {
             for (int j = 0; j < length; j++) {
                 if(piece.currentPieceGrid[i][j] != PieceType.NULL){
-                    if(piece.centerY + i - 1 < 1 || piece.centerY + i - 1 > grid.length || piece.centerX + j - 1 < 1 || piece.centerX + j - 1 > grid[0].length){
+                    if(piece.centerY + i - 1 < 0 || piece.centerY + i - 1 >= grid.length || piece.centerX + j - 1 < 0 || piece.centerX + j - 1 >= grid[0].length){
                         return false;
                     }
                     if(grid[piece.centerY-1+i][piece.centerX-1+j] != PieceType.NULL){
@@ -294,6 +321,6 @@ public class Tetris extends Rectangle {
             default:
                 return;
         }
-        g.fillRect(179 + 35*(column-1), -160 + 35*row, 34, 34);
+        g.fillRect(179 + 35*(column), -160 + 35*row, 34, 34);
     }
 }
