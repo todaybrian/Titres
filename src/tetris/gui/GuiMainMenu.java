@@ -13,8 +13,8 @@ public class GuiMainMenu extends Gui {
 
     public GuiMainMenu() {
         super();
-        topBar = new ImageIcon(Assets.TOP_MAIN_MENU_FILE);
-        bottomBar = new ImageIcon(Assets.BOTTOM_MAIN_MENU_FILE);
+        topBar = new ImageIcon(Assets.Menu.TOP_MAIN_MENU);
+        bottomBar = new ImageIcon(Assets.Menu.BOTTOM_MAIN_MENU);
 
         ImageIcon exit_button = new ImageIcon(Assets.Button.EXIT_BUTTON);
         buttonList.add(new Button(-170,880, exit_button, (click)->{

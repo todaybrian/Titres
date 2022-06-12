@@ -21,8 +21,8 @@ public class GuiSettings extends Gui {
 
     public GuiSettings() {
         super();
-        topBar = new ImageIcon(Assets.TOP_SETTINGS_FILE);
-        bottomBar = new ImageIcon(Assets.BOTTOM_SETTINGS_FILE);
+        topBar = new ImageIcon(Assets.Menu.TOP_SETTINGS);
+        bottomBar = new ImageIcon(Assets.Menu.BOTTOM_SETTINGS);
 
         gameSettings = GamePanel.getGamePanel().getSettings();
         ImageIcon exit_button = new ImageIcon(Assets.Button.EXIT_BUTTON);

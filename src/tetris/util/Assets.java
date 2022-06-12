@@ -33,21 +33,24 @@ public class Assets {
 
     public static final String BACKGROUND_PREFIX = "src/assets/backgrounds/";
 
-    public static final String TOP_MAIN_MENU_FILE = "src/assets/menus/top_main_menu.png";
-    public static final String BOTTOM_MAIN_MENU_FILE = "src/assets/menus/bottom_main_menu.png";
 
+    public static class Menu{
+        public static final String TOP_MAIN_MENU = "src/assets/menus/top_main_menu.png";
+        public static final String BOTTOM_MAIN_MENU = "src/assets/menus/bottom_main_menu.png";
 
-    public static final String TOP_SETTINGS_FILE = "src/assets/menus/top_settings.png";
-    public static final String BOTTOM_SETTINGS_FILE = "src/assets/menus/bottom_settings.png";
+        public static final String TOP_SETTINGS = "src/assets/menus/top_settings.png";
+        public static final String BOTTOM_SETTINGS = "src/assets/menus/bottom_settings.png";
 
-    public static final String TOP_SOLO_FILE = "src/assets/menus/top_solo.png";
-    public static final String BOTTOM_SOLO_FILE = "src/assets/menus/bottom_solo.png";
+        public static final String TOP_SOLO = "src/assets/menus/top_solo.png";
+        public static final String BOTTOM_SOLO = "src/assets/menus/bottom_solo.png";
 
-    public static final String TOP_40_FILE = "src/assets/menus/top_40.png";
-    public static final String BOTTOM_40_FILE = "src/assets/menus/bottom_40.png";
+        public static final String TOP_40 = "src/assets/menus/top_40.png";
+        public static final String BOTTOM_40 = "src/assets/menus/bottom_40.png";
+    }
 
     public static class Game{
         public static final String TETRIS_GRID = "src/assets/game/tetris_grid.png";
+        public static final String PIECES = "src/assets/game/pieces.png";
     }
 
     public static class Button{

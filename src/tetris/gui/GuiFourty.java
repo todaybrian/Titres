@@ -11,8 +11,8 @@ import java.awt.*;
 public class GuiFourty extends Gui{
     public GuiFourty() {
         super();
-        topBar = new ImageIcon(Assets.TOP_40_FILE);
-        bottomBar = new ImageIcon(Assets.BOTTOM_40_FILE);
+        topBar = new ImageIcon(Assets.Menu.TOP_40);
+        bottomBar = new ImageIcon(Assets.Menu.BOTTOM_40);
 
         ImageIcon back_button = new ImageIcon(Assets.Button.BACK_BUTTON);
         buttonList.add(new Button(-170, 120, back_button, (click)->{

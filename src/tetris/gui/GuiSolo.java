@@ -1,7 +1,5 @@
 package tetris.gui;
 
-import tetris.GamePanel;
-import tetris.gui.widget.AnimatedRectangle;
 import tetris.gui.widget.AnimationType;
 import tetris.gui.widget.Button;
 import tetris.util.Assets;
@@ -12,8 +10,8 @@ public class GuiSolo extends Gui{
 
     public GuiSolo() {
         super();
-        topBar = new ImageIcon(Assets.TOP_SOLO_FILE);
-        bottomBar = new ImageIcon(Assets.BOTTOM_SOLO_FILE);
+        topBar = new ImageIcon(Assets.Menu.TOP_SOLO);
+        bottomBar = new ImageIcon(Assets.Menu.BOTTOM_SOLO);
 
         ImageIcon back_button = new ImageIcon(Assets.Button.BACK_BUTTON);
         buttonList.add(new Button(-170, 120, back_button, (click)->{
