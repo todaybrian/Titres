@@ -55,12 +55,20 @@ public class GuiTetris extends Gui {
     }
 
     private FrameTimer downTimer = new FrameTimer(0.1);
+
+
     private boolean held_hardDrop = false;
     private boolean held_rotateCW = false;
     private boolean held_rotateCCW = false;
     private boolean held_holdPiece = false;
 
+    private FrameTimer moveLeftTimerDAS = new FrameTimer(0.167);
+    private FrameTimer moveLeftTimer = new FrameTimer(0.033);
+
     private FrameTimer hardDropAnimationTimer = new FrameTimer(0.1);
+
+    private FrameTimer moveRightTimerDAS = new FrameTimer(0.167);
+    private FrameTimer moveRightTimer = new FrameTimer(0.033);
 
     @Override
     public void update(){
@@ -69,28 +77,48 @@ public class GuiTetris extends Gui {
             tetris.update();
         }
 
-        boolean resetUpwards = false;
-        boolean hardDropAnimation = false;
-
         if(downTimer.isDone() && instance.keyboardInput.keyPressed[KeyEvent.VK_DOWN]) {
             downTimer = new FrameTimer(0.1);
             tetris.dropPiece();
         }
         if(instance.keyboardInput.keyPressed[KeyEvent.VK_SPACE] && !held_hardDrop) {
             tetris.hardDrop();
-            hardDropAnimation = true;
             hardDropAnimationTimer.reset();
         }
         held_hardDrop = instance.keyboardInput.keyPressed[KeyEvent.VK_SPACE];
 
+        if(instance.keyboardInput.keyPressed[KeyEvent.VK_LEFT]){
+            if(moveLeftTimerDAS.isDisabled()){
+                tetris.moveLeft();
+                moveLeftTimerDAS.reset();
+                moveLeftTimer.reset();
+            } else if(moveLeftTimerDAS.isDone() && moveLeftTimer.isDone()){
+                tetris.moveLeft();
+                moveLeftTimer.reset();
+            }
+        } else{
+            moveLeftTimerDAS.disable();
+        }
+
+        if(instance.keyboardInput.keyPressed[KeyEvent.VK_RIGHT]) {
+            if (moveRightTimerDAS.isDisabled()) {
+                tetris.moveRight();
+                moveRightTimerDAS.reset();
+                moveRightTimer.reset();
+            } else if (moveRightTimerDAS.isDone() && moveRightTimer.isDone()) {
+                tetris.moveRight();
+                moveRightTimer.reset();
+            }
+        } else {
+            moveRightTimerDAS.disable();
+        }
+
         if(instance.keyboardInput.keyPressed[KeyEvent.VK_UP] && !held_rotateCW) {
             tetris.rotateCW();
-        }
-        held_rotateCW = instance.keyboardInput.keyPressed[KeyEvent.VK_UP];
-
-        if(instance.keyboardInput.keyPressed[KeyEvent.VK_CONTROL] && !held_rotateCCW) {
+        } else if(instance.keyboardInput.keyPressed[KeyEvent.VK_CONTROL] && !held_rotateCCW) {
             tetris.rotateCCW();
         }
+        held_rotateCW = instance.keyboardInput.keyPressed[KeyEvent.VK_UP];
         held_rotateCCW = instance.keyboardInput.keyPressed[KeyEvent.VK_CONTROL];
 
         if(instance.keyboardInput.keyPressed[KeyEvent.VK_C] && !held_holdPiece) {
@@ -117,19 +145,4 @@ public class GuiTetris extends Gui {
 
     }
 
-
-
-    @Override
-    public void keyPressed(KeyEvent e) {
-        if(e.getKeyCode() == KeyEvent.VK_RIGHT){
-            tetris.moveRight();
-        } else if(e.getKeyCode() == KeyEvent.VK_LEFT){
-            tetris.moveLeft();
-        }
-    }
-
-    @Override
-    public void keyReleased(KeyEvent e) {
-
-    }
 }
