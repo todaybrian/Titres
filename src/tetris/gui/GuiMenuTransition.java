@@ -11,7 +11,7 @@ import java.awt.*;
 import java.util.ArrayList;
 
 public class GuiMenuTransition extends Gui{
-    private static final double ANIMATION_TRANSITION = 0.2;
+    private static final double ANIMATION_TRANSITION = 0.19;
 
     private FrameTimer timer;
 
