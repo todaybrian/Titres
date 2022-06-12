@@ -26,7 +26,7 @@ public class Tetris extends Rectangle {
     public Piece current;
 
     public FrameTimer dropTimer = new FrameTimer(1);
-    public FrameTimer lockTimer = new FrameTimer(55555);
+    public FrameTimer lockTimer = new FrameTimer(0.5);
 
     public Tetris(){
         TETRIS_GRID =  Assets.Game.TETRIS_GRID.get();
