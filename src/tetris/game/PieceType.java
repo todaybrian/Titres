@@ -3,38 +3,64 @@ package tetris.game;
 import java.util.Arrays;
 
 public enum PieceType {
-    J, Z, S, L, T, O, I, BORDER, GHOST, NULL;
+    J(0), Z(1), S(2), L(3), T(4), O(5), I(6), BORDER, GHOST, NULL;
+
+    private int id;
+    private static PieceType[][][] pieceGrid;
+
+    PieceType(int id) {
+        this.id = id;
+    }
+
+    PieceType() {
+        this.id = -1;
+    }
+
+    static{
+        pieceGrid = new PieceType[7][][];
+
+        //J
+        pieceGrid[0] = new PieceType[3][];
+        pieceGrid[0][0] = new PieceType[]{PieceType.J, PieceType.NULL, PieceType.NULL};
+        pieceGrid[0][1] = new PieceType[]{PieceType.J, PieceType.J, PieceType.J};
+        pieceGrid[0][2] = new PieceType[]{PieceType.NULL, PieceType.NULL, PieceType.NULL};
+
+        //Z
+        pieceGrid[1] = new PieceType[3][];
+        pieceGrid[1][0] = new PieceType[]{PieceType.Z, PieceType.Z, PieceType.NULL};
+        pieceGrid[1][1] = new PieceType[]{PieceType.NULL, PieceType.Z, PieceType.Z};
+        pieceGrid[1][2] = new PieceType[]{PieceType.NULL, PieceType.NULL, PieceType.NULL};
+        //S
+        pieceGrid[2] = new PieceType[3][];
+        pieceGrid[2][0] = new PieceType[]{PieceType.S, PieceType.S, PieceType.NULL};
+        pieceGrid[2][1] = new PieceType[]{PieceType.NULL, PieceType.S, PieceType.S};
+        pieceGrid[2][2] = new PieceType[]{PieceType.NULL, PieceType.NULL, PieceType.NULL};
+
+        //L
+        pieceGrid[3] = new PieceType[3][];
+        pieceGrid[3][0] = new PieceType[]{PieceType.NULL, PieceType.NULL, PieceType.L};
+        pieceGrid[3][1] = new PieceType[]{PieceType.L, PieceType.L, PieceType.L};
+        pieceGrid[3][2] = new PieceType[]{PieceType.NULL, PieceType.NULL, PieceType.NULL};
+
+        //T
+        pieceGrid[4] = new PieceType[3][];
+        pieceGrid[4][0] = new PieceType[]{PieceType.NULL, PieceType.T, PieceType.NULL};
+        pieceGrid[4][1] = new PieceType[]{PieceType.T, PieceType.T, PieceType.T};
+        pieceGrid[4][2] = new PieceType[]{PieceType.NULL, PieceType.NULL, PieceType.NULL};
+
+        //O
+        pieceGrid[5] = new PieceType[3][];
+        pieceGrid[5][0] = pieceGrid[5][1] = new PieceType[]{PieceType.O, PieceType.O, PieceType.NULL};
+        pieceGrid[5][2] = new PieceType[]{PieceType.NULL, PieceType.NULL, PieceType.NULL};
+
+        //I
+        pieceGrid[6] = new PieceType[4][];
+        pieceGrid[6][0] = pieceGrid[6][2] = pieceGrid[6][3] = new PieceType[]{PieceType.NULL, PieceType.NULL, PieceType.NULL, PieceType.NULL};
+        pieceGrid[6][1] = new PieceType[]{PieceType.I, PieceType.I, PieceType.I, PieceType.I};
+    }
 
     public static PieceType[][] getPieceGrid(PieceType pieceType){
-        PieceType[][] ret = new PieceType[5][5];
-        for (int i = 0; i < 5; i++) {
-            Arrays.fill(ret[i], PieceType.NULL);
-        }
-        ret[2][2] = pieceType;
-        switch(pieceType) {
-            case I:
-                ret[2][1] = ret[2][3] = ret[2][4] = pieceType;
-                break;
-            case J:
-                ret[1][1] = ret[2][1] = ret[2][3] = pieceType;
-                break;
-            case L:
-                ret[1][3] = ret[2][1] = ret[2][3] = pieceType;
-                break;
-            case O:
-                ret[1][2] = ret[1][3] = ret[2][3] = pieceType;
-                break;
-            case S:
-                ret[1][2] = ret[1][3] = ret[2][1] = pieceType;
-                break;
-            case T:
-                ret[1][2] = ret[2][1] = ret[2][3] = pieceType;
-                break;
-            case Z:
-                ret[1][2] = ret[1][1] = ret[2][3] = pieceType;
-                break;
-        }
-        return ret;
+        return pieceGrid[pieceType.id];
     }
 
     public static PieceType[][] getPieceGridFromRot(PieceType pieceType, int rotIdx){
@@ -49,23 +75,5 @@ public enum PieceType {
             ret = rot;
         }
         return ret;
-    }
-
-    public int[][][] getRotations(PieceType pieceType) {
-        if(pieceType == PieceType.O){
-            return new int[][][]{{{0, 0}, {0, -1}, {-1, -1}, {-1, 0}}};
-        } else if(pieceType == PieceType.I){
-            return new int[][][]{{{0, 0}, {-1, 0}, {-1, 1}, {0, 1}},
-                    {{-1, 0}, {0, 0}, {1, 1}, {0, 1}},
-                    {{2, 0}, {0, 0}, {-2, 1}, {0, 1}},
-                    {{-1, 0}, {0, 1}, {1, 0}, {0, -1}},
-                    {{2, 0}, {0, -2}, {-2, 0}, {0, 2}}};
-        } else{
-            return new int[][][]{{{0, 0}, {0, 0}, {0, 0}, {0, 0}},
-                    {{0, 0}, {1, 0}, {0, 0}, {-1, 0}},
-                    {{0, 0}, {1, -1}, {0, 0}, {-1, -1}},
-                    {{0, 0}, {0, 2}, {0, 0}, {0, 2}},
-                    {{0, 0}, {1, 2}, {0, 0}, {-1, 2}}};
-        }
     }
 }

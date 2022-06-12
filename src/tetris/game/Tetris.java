@@ -88,9 +88,14 @@ public class Tetris extends Rectangle {
     }
 
     private void drawPiece(Graphics2D g, Piece piece){
-        for (int i = 0; i < 5; i++) {
-            for (int j = 0; j < 5; j++) {
-                drawSquare(g, piece.currentPieceGrid[i][j], piece.centerY-2+i, piece.centerX-2+j);
+        int length = 3;
+        if(current.type == PieceType.I){
+            length = 4;
+        }
+
+        for (int i = 0; i < length; i++) {
+            for (int j = 0; j < length; j++) {
+                drawSquare(g, piece.currentPieceGrid[i][j], piece.centerY - 1 + i, piece.centerX - 1 + j);
             }
         }
     }
@@ -122,13 +127,18 @@ public class Tetris extends Rectangle {
 
     public void setPiece(){
         if(!checkLegal(current)) return;
-        for (int i = 0; i < 5; i++) {
-            for (int j = 0; j < 5; j++) {
-                if(current.currentPieceGrid[i][j] != PieceType.NULL){
-                    grid[current.centerY+i-2][current.centerX+j-2] = current.currentPieceGrid[i][j];
+        int length = 3;
+        if(current.type == PieceType.I){
+            length = 4;
+        }
+        for (int i = 0; i < length; i++) {
+            for (int j = 0; j < length; j++) {
+                if (current.currentPieceGrid[i][j] != PieceType.NULL) {
+                    grid[current.centerY + i - 1][current.centerX + j - 1] = current.currentPieceGrid[i][j];
                 }
             }
         }
+
         spawnPiece();
     }
 
@@ -166,15 +176,20 @@ public class Tetris extends Rectangle {
     }
 
     public boolean checkLegal(Piece piece){
-        for (int i = 0; i < 5; i++) {
-            for (int j = 0; j < 5; j++) {
+        int length = 3;
+        if(current.type == PieceType.I){
+            length = 4;
+        }
+        for (int i = 0; i < length; i++) {
+            for (int j = 0; j < length; j++) {
                 if(piece.currentPieceGrid[i][j] != PieceType.NULL){
-                    if(grid[piece.centerY-2+i][piece.centerX-2+j] != PieceType.NULL){
+                    if(grid[piece.centerY-1+i][piece.centerX-1+j] != PieceType.NULL){
                         return false;
                     }
                 }
             }
         }
+
         return true;
     }
 
