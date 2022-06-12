@@ -39,7 +39,7 @@ public class Slider extends Button{
             } else if (MouseInput.getLocation().getX() < xPos) {
                 x = xPos;
             } else {
-                x = (int) MouseInput.getLocation().getX();
+                x = (int) MouseInput.getLocation().getX() - icon.getWidth(null)/2;
             }
             this.onChange.onChange(this);
         }
