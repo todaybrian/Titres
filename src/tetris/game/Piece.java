@@ -29,4 +29,9 @@ public class Piece {
         this.rotationIndex = (this.rotationIndex+1)%4;
         this.currentPieceGrid = PieceType.getPieceGridFromRot(this.type, this.rotationIndex);
     }
+
+    public void rotateCCW(){
+        this.rotationIndex = (this.rotationIndex+3)%4;
+        this.currentPieceGrid = PieceType.getPieceGridFromRot(this.type, this.rotationIndex);
+    }
 }

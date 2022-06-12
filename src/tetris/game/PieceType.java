@@ -1,12 +1,14 @@
 package tetris.game;
 
-import java.util.Arrays;
-
 public enum PieceType {
     J(0), Z(1), S(2), L(3), T(4), O(5), I(6), BORDER, GHOST, NULL;
 
     private int id;
     private static PieceType[][][] pieceGrid;
+
+    //wall kick data
+    public static int[][][] wallKickDataJLSTZ;
+    public static int[][][] wallKickDataI;
 
     PieceType(int id) {
         this.id = id;
@@ -32,8 +34,8 @@ public enum PieceType {
         pieceGrid[1][2] = new PieceType[]{PieceType.NULL, PieceType.NULL, PieceType.NULL};
         //S
         pieceGrid[2] = new PieceType[3][];
-        pieceGrid[2][0] = new PieceType[]{PieceType.S, PieceType.S, PieceType.NULL};
-        pieceGrid[2][1] = new PieceType[]{PieceType.NULL, PieceType.S, PieceType.S};
+        pieceGrid[2][0] = new PieceType[]{PieceType.NULL, PieceType.S, PieceType.S};
+        pieceGrid[2][1] = new PieceType[]{PieceType.S, PieceType.S, PieceType.NULL};
         pieceGrid[2][2] = new PieceType[]{PieceType.NULL, PieceType.NULL, PieceType.NULL};
 
         //L
@@ -57,6 +59,20 @@ public enum PieceType {
         pieceGrid[6] = new PieceType[4][];
         pieceGrid[6][0] = pieceGrid[6][2] = pieceGrid[6][3] = new PieceType[]{PieceType.NULL, PieceType.NULL, PieceType.NULL, PieceType.NULL};
         pieceGrid[6][1] = new PieceType[]{PieceType.I, PieceType.I, PieceType.I, PieceType.I};
+
+        wallKickDataJLSTZ = new int[][][]{
+                {{0, 0}, {-1, 0}, {-1, 1}, {0, -2}, {-1, -2}},
+                {{0, 0}, {1, 0}, {1, -1}, {0, 2}, {1, 2}},
+                {{0, 0}, {1, 0}, {1, 1}, {0, -2}, {1, -2}},
+                {{0, 0}, {-1, 0}, {-1, -1}, {0, 2}, {-1, 2}}
+        };
+
+        wallKickDataI = new int[][][]{
+                {{0, 0}, {-2, 0}, {1, 0}, {-2, 1}, {1, 2}},
+                {{0, 0}, {-1, 0}, {2, 0}, {-1, 2}, {2, -1}},
+                {{0, 0}, {2, 0}, {-1, 0}, {2, 1}, {-1, -2}},
+                {{0, 0}, {1, 0}, {-2, 0}, {1, -2}, {-2, 1}}
+        };
     }
 
     public static PieceType[][] getPieceGrid(PieceType pieceType){

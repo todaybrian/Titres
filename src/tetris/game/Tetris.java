@@ -26,7 +26,7 @@ public class Tetris extends Rectangle {
     public Piece current;
 
     public FrameTimer dropTimer = new FrameTimer(1);
-    public FrameTimer lockTimer = new FrameTimer(0.5);
+    public FrameTimer lockTimer = new FrameTimer(55);
 
     public Tetris(){
         TETRIS_GRID =  Assets.Game.TETRIS_GRID.get();
@@ -53,9 +53,6 @@ public class Tetris extends Rectangle {
 
         drawGrid(g);
         drawPiece(g, current);
-
-        drawSquare(g, PieceType.I, 10, 1);
-        drawSquare(g, PieceType.I, 29, 10);
 
         return image;
     }
@@ -143,7 +140,11 @@ public class Tetris extends Rectangle {
     }
 
     public void spawnPiece(){
-        current = new Piece(randomizer.getNextPiece());
+        spawnPiece(randomizer.getNextPiece());
+    }
+
+    public void spawnPiece(PieceType type){
+        current = new Piece(type);
         if(!checkLegal(current)){
             die();
         }
@@ -160,8 +161,43 @@ public class Tetris extends Rectangle {
         }
         Piece temp = current.clone();
         temp.rotateCW();
-        if(checkLegal(temp)){
-            current.rotateCW();
+        int wallKick[][][];
+        if(temp.type == PieceType.I){
+            wallKick = PieceType.wallKickDataI;
+        } else{
+            wallKick = PieceType.wallKickDataJLSTZ;
+        }
+        for (int i = 0; i < 5; i++) {
+            Piece temp2 = temp.clone();
+            temp2.centerX += wallKick[current.rotationIndex][i][0];
+            temp2.centerY += wallKick[current.rotationIndex][i][1];
+            if(checkLegal(temp2)){
+                current = temp2;
+                return;
+            }
+        }
+    }
+
+    public void rotateCCW(){
+        if(current.type == PieceType.O){ //The O piece doesn't rotate or follow any wall kicks so we don't need to check
+            return;
+        }
+        Piece temp = current.clone();
+        temp.rotateCCW();
+        int wallKick[][][];
+        if(temp.type == PieceType.I){
+            wallKick = PieceType.wallKickDataI;
+        } else{
+            wallKick = PieceType.wallKickDataJLSTZ;
+        }
+        for (int i = 0; i < 5; i++) {
+            Piece temp2 = temp.clone();
+            temp2.centerX -= wallKick[temp2.rotationIndex][i][0];
+            temp2.centerY -= wallKick[temp2.rotationIndex][i][1];
+            if(checkLegal(temp2)){
+                current = temp2;
+                return;
+            }
         }
     }
 
@@ -175,6 +211,17 @@ public class Tetris extends Rectangle {
 
     }
 
+    public void holdPiece(){
+        if(hold == null){
+            hold = current.type;
+            spawnPiece();
+        } else {
+            PieceType temp = current.type;
+            spawnPiece(hold);
+            hold = temp;
+        }
+    }
+
     public boolean checkLegal(Piece piece){
         int length = 3;
         if(current.type == PieceType.I){
@@ -183,6 +230,9 @@ public class Tetris extends Rectangle {
         for (int i = 0; i < length; i++) {
             for (int j = 0; j < length; j++) {
                 if(piece.currentPieceGrid[i][j] != PieceType.NULL){
+                    if(piece.centerY + i - 1 < 1 || piece.centerY + i - 1 > grid.length || piece.centerX + j - 1 < 1 || piece.centerX + j - 1 > grid[0].length){
+                        return false;
+                    }
                     if(grid[piece.centerY-1+i][piece.centerX-1+j] != PieceType.NULL){
                         return false;
                     }
