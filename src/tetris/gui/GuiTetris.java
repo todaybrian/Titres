@@ -6,7 +6,6 @@ import tetris.gui.widget.Button;
 import tetris.util.Assets;
 import tetris.util.FrameTimer;
 
-import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 
@@ -49,10 +48,10 @@ public class GuiTetris extends Gui {
     }
 
     private FrameTimer downTimer = new FrameTimer(0.1);
-    private boolean hardDropPrevious = false;
-    private boolean rotateCWPrevious = false;
-    private boolean rotateCCWPrevious = false;
-    private boolean holdPiece = false;
+    private boolean held_hardDrop = false;
+    private boolean held_rotateCW = false;
+    private boolean held_rotateCCW = false;
+    private boolean held_holdPiece = false;
 
     @Override
     public void update(){
@@ -64,25 +63,25 @@ public class GuiTetris extends Gui {
             downTimer = new FrameTimer(0.1);
             tetris.dropPiece();
         }
-        if(instance.keyboardInput.keyPressed[KeyEvent.VK_SPACE] && !hardDropPrevious) {
+        if(instance.keyboardInput.keyPressed[KeyEvent.VK_SPACE] && !held_hardDrop) {
             tetris.hardDrop();
         }
-        hardDropPrevious = instance.keyboardInput.keyPressed[KeyEvent.VK_SPACE];
+        held_hardDrop = instance.keyboardInput.keyPressed[KeyEvent.VK_SPACE];
 
-        if(instance.keyboardInput.keyPressed[KeyEvent.VK_UP] && !rotateCWPrevious) {
+        if(instance.keyboardInput.keyPressed[KeyEvent.VK_UP] && !held_rotateCW) {
             tetris.rotateCW();
         }
-        rotateCWPrevious = instance.keyboardInput.keyPressed[KeyEvent.VK_UP];
+        held_rotateCW = instance.keyboardInput.keyPressed[KeyEvent.VK_UP];
 
-        if(instance.keyboardInput.keyPressed[KeyEvent.VK_CONTROL] && !rotateCCWPrevious) {
+        if(instance.keyboardInput.keyPressed[KeyEvent.VK_CONTROL] && !held_rotateCCW) {
             tetris.rotateCCW();
         }
-        rotateCCWPrevious = instance.keyboardInput.keyPressed[KeyEvent.VK_CONTROL];
+        held_rotateCCW = instance.keyboardInput.keyPressed[KeyEvent.VK_CONTROL];
 
-        if(instance.keyboardInput.keyPressed[KeyEvent.VK_C] && !holdPiece) {
+        if(instance.keyboardInput.keyPressed[KeyEvent.VK_C] && !held_holdPiece) {
             tetris.holdPiece();
         }
-        holdPiece = instance.keyboardInput.keyPressed[KeyEvent.VK_C];
+        held_holdPiece = instance.keyboardInput.keyPressed[KeyEvent.VK_C];
     }
 
     @Override

@@ -25,6 +25,7 @@ public class Tetris extends Rectangle {
     public PieceType hold;
     public Piece current;
 
+
     public FrameTimer dropTimer = new FrameTimer(1);
     public FrameTimer lockTimer = new FrameTimer(0.5);
 
@@ -52,7 +53,11 @@ public class Tetris extends Rectangle {
         g.setColor(Color.BLUE);
 
         drawGrid(g);
-        drawPiece(g, current);
+        drawPiece(g, current, false);
+
+        Piece ghost = current.clone();
+        ghost.centerY = findDropHeight();
+        drawPiece(g, ghost, true);
 
         return image;
     }
@@ -84,7 +89,7 @@ public class Tetris extends Rectangle {
         }
     }
 
-    private void drawPiece(Graphics2D g, Piece piece){
+    private void drawPiece(Graphics2D g, Piece piece, boolean isGhost){
         int length = 3;
         if(current.type == PieceType.I){
             length = 4;
@@ -92,25 +97,42 @@ public class Tetris extends Rectangle {
 
         for (int i = 0; i < length; i++) {
             for (int j = 0; j < length; j++) {
-                drawSquare(g, piece.currentPieceGrid[i][j], piece.centerY - 1 + i, piece.centerX - 1 + j);
+                PieceType type = piece.currentPieceGrid[i][j];
+                if(isGhost && type != PieceType.NULL){
+                    type = PieceType.GHOST;
+                }
+                drawSquare(g, type, piece.centerY - 1 + i, piece.centerX - 1 + j);
             }
         }
     }
 
-    public void moveRight(){
+    public boolean moveRight(){
         Piece temp = current.clone();
         temp.centerX++;
         if(checkLegal(temp)){
             current.centerX++;
+            return true;
         }
+        return false;
     }
 
-    public void moveLeft(){
+    public boolean moveLeft(){
         Piece temp = current.clone();
         temp.centerX--;
         if(checkLegal(temp)){
             current.centerX--;
+            return true;
         }
+        return false;
+    }
+
+    public int findDropHeight(){
+        Piece temp = current.clone();
+        temp.centerY++;
+        while(checkLegal(temp)){
+            temp.centerY++;
+        }
+        return temp.centerY - 1;
     }
 
     public boolean dropPiece(){
@@ -151,7 +173,7 @@ public class Tetris extends Rectangle {
     }
 
     public void hardDrop(){
-        while(dropPiece());
+        current.centerY = findDropHeight();
         setPiece();
     }
 
