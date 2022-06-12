@@ -25,7 +25,7 @@ public class GuiTetris extends Gui {
         buttonList.add(new Button(-170, 120, back_button, (click)->{
             instance.displayGui(new GuiMenuTransition( this, new GuiSolo()));
 
-            instance.getSFXPlayer().loadMusic(Assets.SFX.CLICK_BACK);
+            instance.getSFXPlayer().loadMusic(Assets.SFX.CLICK_BACK.get());
             instance.getSFXPlayer().playMusic();
             instance.getGameBackground().setOpacity(0.25f);
 

@@ -50,7 +50,7 @@ public class Button extends AnimatedRectangle {
 		checkHover();
 
 		if(!wasHovered && isMouseOver){
-			instance.getSFXPlayer().loadMusic(Assets.SFX.HOVER);
+			instance.getSFXPlayer().loadMusic(Assets.SFX.HOVER.get());
 			instance.getSFXPlayer().playMusic();
 		}
 		wasHovered = isMouseOver;

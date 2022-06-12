@@ -30,7 +30,7 @@ public class GuiSettings extends Gui {
         buttonList.add(new Button(-170, 120, back_button, (click)->{
             instance.displayGui(new GuiMenuTransition(this, new GuiMainMenu()));
 
-            instance.getSFXPlayer().loadMusic(Assets.SFX.CLICK_BACK);
+            instance.getSFXPlayer().loadMusic(Assets.SFX.CLICK_BACK.get());
             instance.getSFXPlayer().playMusic();
         }, AnimationType.LEFT));
 
@@ -53,7 +53,7 @@ public class GuiSettings extends Gui {
         AnimatedRectangle settings = new AnimatedRectangle((g, x)->{
             g.setColor(new Color(0x8540a0));
             g.fillRect((int) (300 + x), 200, 1700, 800);
-            g.setFont(Assets.Fonts.KDAM_FONT.deriveFont(Font.BOLD, 50));
+            g.setFont(Assets.Fonts.KDAM_FONT.get().deriveFont(Font.BOLD, 50));
             g.setColor(Color.WHITE);
             g.drawString("Music: " + (int)(musicSlider.getValue()),1000, 550);
             g.drawString("SFX: " + (int)(sfxSlider.getValue()),1000,250);

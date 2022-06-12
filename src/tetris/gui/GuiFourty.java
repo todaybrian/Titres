@@ -18,7 +18,7 @@ public class GuiFourty extends Gui{
         buttonList.add(new Button(-170, 120, back_button, (click)->{
             instance.displayGui(new GuiMenuTransition( this, new GuiSolo()));
 
-            instance.getSFXPlayer().loadMusic(Assets.SFX.CLICK_BACK);
+            instance.getSFXPlayer().loadMusic(Assets.SFX.CLICK_BACK.get());
             instance.getSFXPlayer().playMusic();
         }, AnimationType.LEFT));
 
@@ -26,14 +26,14 @@ public class GuiFourty extends Gui{
             g.setColor(new Color(82, 61, 45));
             g.fillRect((int) (x+300), 160, 1400, 280);
 
-            g.setFont(Assets.Fonts.KDAM_FONT.deriveFont(Font.BOLD, 50));
+            g.setFont(Assets.Fonts.KDAM_FONT.get().deriveFont(Font.BOLD, 50));
             g.setColor(new Color(233, 181, 142));
             g.drawString("40 LINES", (int) (x+320), 230);
 
-            g.setFont(Assets.Fonts.KDAM_FONT.deriveFont(Font.PLAIN, 25));
+            g.setFont(Assets.Fonts.KDAM_FONT.get().deriveFont(Font.PLAIN, 25));
             g.drawString("Clear 40 lines in the shortest time possible", (int) (x+320), 270);
 
-            g.setFont(Assets.Fonts.KDAM_FONT.deriveFont(Font.BOLD, 30));
+            g.setFont(Assets.Fonts.KDAM_FONT.get().deriveFont(Font.BOLD, 30));
             g.drawString("PERSONAL BEST: ", (int) (x+320), 340);
 
             g.setColor(new Color(82, 61, 45));
@@ -43,7 +43,7 @@ public class GuiFourty extends Gui{
         Image start_40_button = Assets.Button.START_40_BUTTON.get();
         buttonList.add(new Button(1700-start_40_button.getWidth(null), 460, start_40_button, (click)->{
             instance.displayGui(new GuiTetris());
-            instance.getSFXPlayer().loadMusic(Assets.SFX.CLICK_2);
+            instance.getSFXPlayer().loadMusic(Assets.SFX.CLICK_2.get());
             instance.getSFXPlayer().playMusic();
         }, AnimationType.NONE));
     }

@@ -93,7 +93,7 @@ public class GamePanel extends JPanel implements Runnable {
         musicPlayer.setLoop(true);
         musicPlayer.changeVolume(0.9);
 
-        sfxPlayer.loadMusic(Assets.SFX.SILENCE);
+        sfxPlayer.loadMusic(Assets.SFX.SILENCE.get());
         sfxPlayer.playMusic();
 
         gameThread = new Thread(this);

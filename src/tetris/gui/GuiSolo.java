@@ -18,14 +18,14 @@ public class GuiSolo extends Gui{
         buttonList.add(new Button(-170, 120, back_button, (click)->{
             instance.displayGui(new GuiMenuTransition(this, new GuiMainMenu()));
 
-            instance.getSFXPlayer().loadMusic(Assets.SFX.CLICK_BACK);
+            instance.getSFXPlayer().loadMusic(Assets.SFX.CLICK_BACK.get());
             instance.getSFXPlayer().playMusic();
         }, AnimationType.LEFT));
 
         Image fourty_lines_button = Assets.Button.FOURTY_LINES_BUTTON.get();
         buttonList.add(new Button(400, 120, fourty_lines_button, (click)->{
         instance.displayGui(new GuiMenuTransition(this, new GuiFourty()));
-            instance.getSFXPlayer().loadMusic(Assets.SFX.CLICK_2);
+            instance.getSFXPlayer().loadMusic(Assets.SFX.CLICK_2.get());
             instance.getSFXPlayer().playMusic();
 
         }, AnimationType.RIGHT));

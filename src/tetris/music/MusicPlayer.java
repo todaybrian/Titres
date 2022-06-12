@@ -19,17 +19,10 @@ public class MusicPlayer {
         volume = 0.8;
     }
 
-    public void loadMusic(String filepath) {
+    public void loadMusic(File musicFile) {
         try {
-            File musicPath = null;
-            if(cache.containsKey(filepath)){
-                musicPath = cache.get(filepath);
-            } else {
-                musicPath = new File(filepath);
-                cache.put(filepath, musicPath);
-            }
-            if (musicPath.exists()) {
-                AudioInputStream audioInput = AudioSystem.getAudioInputStream(musicPath);
+            if (musicFile.exists()) {
+                AudioInputStream audioInput = AudioSystem.getAudioInputStream(musicFile);
                 DataLine.Info info = new DataLine.Info(Clip.class, audioInput.getFormat());
 
                 clip = (Clip) AudioSystem.getLine(info);

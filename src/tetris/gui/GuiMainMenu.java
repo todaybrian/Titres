@@ -24,14 +24,14 @@ public class GuiMainMenu extends Gui {
         Image solo_button = Assets.Button.SOLO_BUTTON.get();
         buttonList.add(new Button(400, 400, solo_button, (click)->{
             instance.displayGui(new GuiMenuTransition( this, new GuiSolo()));
-            instance.getSFXPlayer().loadMusic(Assets.SFX.CLICK_1);
+            instance.getSFXPlayer().loadMusic(Assets.SFX.CLICK_1.get());
             instance.getSFXPlayer().playMusic();
         }, AnimationType.RIGHT));
 
         Image settings_button = Assets.Button.SETTINGS_BUTTON.get();
         buttonList.add(new Button(400, 600, settings_button, (click)->{
             instance.displayGui(new GuiMenuTransition( this, new GuiSettings()));
-            instance.getSFXPlayer().loadMusic(Assets.SFX.CLICK_1);
+            instance.getSFXPlayer().loadMusic(Assets.SFX.CLICK_1.get());
             instance.getSFXPlayer().playMusic();
         }, AnimationType.RIGHT));
 
