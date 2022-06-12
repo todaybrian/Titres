@@ -26,7 +26,7 @@ public class Tetris extends Rectangle {
     public Piece current;
 
     public FrameTimer dropTimer = new FrameTimer(1);
-    public FrameTimer lockTimer = new FrameTimer(55);
+    public FrameTimer lockTimer = new FrameTimer(55555);
 
     public Tetris(){
         TETRIS_GRID =  Assets.Game.TETRIS_GRID.get();
@@ -170,7 +170,7 @@ public class Tetris extends Rectangle {
         for (int i = 0; i < 5; i++) {
             Piece temp2 = temp.clone();
             temp2.centerX += wallKick[current.rotationIndex][i][0];
-            temp2.centerY += wallKick[current.rotationIndex][i][1];
+            temp2.centerY -= wallKick[current.rotationIndex][i][1];
             if(checkLegal(temp2)){
                 current = temp2;
                 return;
@@ -193,7 +193,7 @@ public class Tetris extends Rectangle {
         for (int i = 0; i < 5; i++) {
             Piece temp2 = temp.clone();
             temp2.centerX -= wallKick[temp2.rotationIndex][i][0];
-            temp2.centerY -= wallKick[temp2.rotationIndex][i][1];
+            temp2.centerY += wallKick[temp2.rotationIndex][i][1];
             if(checkLegal(temp2)){
                 current = temp2;
                 return;
