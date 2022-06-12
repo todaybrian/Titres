@@ -8,7 +8,6 @@ import java.awt.*;
 
 import tetris.GamePanel;
 import tetris.util.Assets;
-import tetris.controls.MouseInput;
 
 import javax.swing.*;
 
@@ -20,21 +19,21 @@ public class Button extends AnimatedRectangle {
 	private final double ANIMATION_LENGTH_CLICK = 0.04;
 
 	//Image of the button
-	protected ImageIcon imageIcon;
+	protected Image image;
 
 	private boolean wasHovered;
 
 	protected Button.IPressable onPress;
-	public Button (int xPos, int yPos, ImageIcon imageIcon, Button.IPressable onPress, AnimationType animationType) {
-		super(xPos, yPos, imageIcon.getIconWidth(), imageIcon.getIconHeight(), animationType);
+	public Button (int xPos, int yPos, Image image, Button.IPressable onPress, AnimationType animationType) {
+		super(xPos, yPos, image.getWidth(null), image.getHeight(null), animationType);
 
 		this.instance = GamePanel.getGamePanel();
 
-		this.width = imageIcon.getIconWidth();
-		this.height = imageIcon.getIconHeight();
+		this.width = image.getWidth(null);
+		this.height = image.getHeight(null);
 		this.wasHovered = false;
 
-		this.imageIcon = imageIcon;
+		this.image = image;
 
 		this.onPress = onPress;
 
@@ -42,8 +41,8 @@ public class Button extends AnimatedRectangle {
 
 	}
 
-	public Button(int xPos, int yPos, ImageIcon imageIcon, Button.IPressable onPress){
-		this(xPos, yPos, imageIcon, onPress, AnimationType.NONE);
+	public Button(int xPos, int yPos, Image image, Button.IPressable onPress){
+		this(xPos, yPos, image, onPress, AnimationType.NONE);
 	}
 
 	public void draw(Graphics2D g){
@@ -71,7 +70,7 @@ public class Button extends AnimatedRectangle {
 		}
 		super.animate();
 
-		g.drawImage(imageIcon.getImage(), (int)x, (int)y, imageIcon.getIconWidth(), imageIcon.getIconHeight(), null);
+		g.drawImage(image, (int)x, (int)y, image.getWidth(null), image.getHeight(null), null);
 		if(isClicked) {
 			
 		} else if (isMouseOver) {

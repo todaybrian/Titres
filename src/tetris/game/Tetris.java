@@ -17,7 +17,7 @@ public class Tetris extends Rectangle {
     public static int GAME_WIDTH = 732;
     public static int GAME_HEIGHT = 1080;
 
-    private final ImageIcon TETRIS_GRID;
+    private final Image TETRIS_GRID;
     private Randomizer randomizer;
 
 
@@ -29,7 +29,7 @@ public class Tetris extends Rectangle {
     public FrameTimer lockTimer = new FrameTimer(0.5);
 
     public Tetris(){
-        TETRIS_GRID =  new ImageIcon(Assets.Game.TETRIS_GRID);
+        TETRIS_GRID =  Assets.Game.TETRIS_GRID.get();
         randomizer = new RandomizerSevenBag();
 
         grid = new PieceType[31][12];
@@ -47,7 +47,7 @@ public class Tetris extends Rectangle {
         BufferedImage image = new BufferedImage(GAME_WIDTH, GAME_HEIGHT, BufferedImage.TYPE_INT_ARGB);
         Graphics2D g = image.createGraphics();
 
-        g.drawImage(TETRIS_GRID.getImage(), 0, 1080/2 - TETRIS_GRID.getIconHeight()/2, TETRIS_GRID.getIconWidth(), TETRIS_GRID.getIconHeight(), null);
+        g.drawImage(TETRIS_GRID, 0, 1080/2 - TETRIS_GRID.getHeight(null)/2, TETRIS_GRID.getWidth(null), TETRIS_GRID.getHeight(null), null);
 
         g.setColor(Color.BLUE);
 

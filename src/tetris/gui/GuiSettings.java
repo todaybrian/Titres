@@ -21,16 +21,12 @@ public class GuiSettings extends Gui {
 
     public GuiSettings() {
         super();
-        topBar = new ImageIcon(Assets.Menu.TOP_SETTINGS);
-        bottomBar = new ImageIcon(Assets.Menu.BOTTOM_SETTINGS);
+        topBar = Assets.Gui.TOP_SETTINGS.get();
+        bottomBar = Assets.Gui.BOTTOM_SETTINGS.get();
 
         gameSettings = GamePanel.getGamePanel().getSettings();
-        ImageIcon exit_button = new ImageIcon(Assets.Button.EXIT_BUTTON);
-//        buttonList.add(new Button(-170,880, exit_button, (click)->{
-//            GamePanel.getGamePanel().exitGame();
-//        }, AnimationType.LEFT));
 
-        ImageIcon back_button = new ImageIcon(Assets.Button.BACK_BUTTON);
+        Image back_button = Assets.Button.BACK_BUTTON.get();
         buttonList.add(new Button(-170, 120, back_button, (click)->{
             instance.displayGui(new GuiMenuTransition(this, new GuiMainMenu()));
 
@@ -38,7 +34,7 @@ public class GuiSettings extends Gui {
             instance.getSFXPlayer().playMusic();
         }, AnimationType.LEFT));
 
-        ImageIcon slider = new ImageIcon(Assets.Button.SLIDER);
+        Image slider = Assets.Button.SLIDER.get();
         musicSlider = new Slider(200,500, 700, slider,  (onChange)->{
             instance.getMusicPlayer().changeVolume((onChange.getValue()/100.0));
         },0, 100, (instance.getMusicPlayer().getVolume()));
@@ -57,7 +53,7 @@ public class GuiSettings extends Gui {
         AnimatedRectangle settings = new AnimatedRectangle((g, x)->{
             g.setColor(new Color(0x8540a0));
             g.fillRect((int) (300 + x), 200, 1700, 800);
-            g.setFont(Assets.KDAM_FONT.deriveFont(Font.BOLD, 50));
+            g.setFont(Assets.Fonts.KDAM_FONT.deriveFont(Font.BOLD, 50));
             g.setColor(Color.WHITE);
             g.drawString("Music: " + (int)(musicSlider.getValue()),1000, 550);
             g.drawString("SFX: " + (int)(sfxSlider.getValue()),1000,250);

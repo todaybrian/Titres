@@ -7,65 +7,126 @@ package tetris.util;
 
 import tetris.Main;
 
+import javax.swing.*;
 import java.awt.*;
 import java.io.IOException;
 
 public class Assets {
-    public static final String WELCOME_SCREEN = "src/assets/welcome_screen.gif";
-
-    public static final String KDAM_FONT_FILE = "../assets/fonts/KdamThmorPro-Regular.ttf";
-    public static final Font KDAM_FONT;
-
-    static {
-        try {
-            KDAM_FONT = Font.createFont(Font.TRUETYPE_FONT, Main.class.getResourceAsStream(KDAM_FONT_FILE));
-        } catch (FontFormatException e) {
-            throw new RuntimeException(e);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    public static final String LOGO_FILE = "src/assets/logo.png";
-    public static final String NIGHT_SNOW = "src/assets/music/NightSnow.wav";
-    public static final String VREMYA = "src/assets/music/Vremya.wav";
-    public static final String VIRTUAL_LIGHT = "src/assets/music/VirtualLight.wav";
 
     public static final String BACKGROUND_PREFIX = "src/assets/backgrounds/";
 
-
-    public static class Menu{
-        public static final String TOP_MAIN_MENU = "src/assets/menus/top_main_menu.png";
-        public static final String BOTTOM_MAIN_MENU = "src/assets/menus/bottom_main_menu.png";
-
-        public static final String TOP_SETTINGS = "src/assets/menus/top_settings.png";
-        public static final String BOTTOM_SETTINGS = "src/assets/menus/bottom_settings.png";
-
-        public static final String TOP_SOLO = "src/assets/menus/top_solo.png";
-        public static final String BOTTOM_SOLO = "src/assets/menus/bottom_solo.png";
-
-        public static final String TOP_40 = "src/assets/menus/top_40.png";
-        public static final String BOTTOM_40 = "src/assets/menus/bottom_40.png";
+    public static class Fonts {
+        public static final String KDAM_FONT_FILE = "../assets/fonts/KdamThmorPro-Regular.ttf";
+        public static final Font KDAM_FONT;
+        static {
+            try {
+                KDAM_FONT = Font.createFont(Font.TRUETYPE_FONT, Main.class.getResourceAsStream(KDAM_FONT_FILE));
+            } catch (FontFormatException e) {
+                throw new RuntimeException(e);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
     }
 
-    public static class Game{
-        public static final String TETRIS_GRID = "src/assets/game/tetris_grid.png";
-        public static final String PIECES = "src/assets/game/pieces.png";
+    public enum Music {
+        NIGHT_SNOW("src/assets/music/NightSnow.wav"),
+        VREMYA("src/assets/music/Vremya.wav"),
+        VIRTUAL_LIGHT("src/assets/music/VirtualLight.wav");
+
+        private final String file;
+
+        Music(String file) {
+            this.file = file;
+        }
+
+        public String get() {
+            return file;
+        }
     }
 
-    public static class Button{
-        public static final String EXIT_BUTTON="src/assets/button/exit_button.png";
-        public static final String SOLO_BUTTON="src/assets/button/solo_button.png";
-        public static final String BACK_BUTTON = "src/assets/button/back_button.png";
+    public enum Gui {
+        LOGO("src/assets/logo.png"),
 
-        public static final String FOURTY_LINES_BUTTON = "src/assets/button/40_lines_button.png";
+        WELCOME_SCREEN("src/assets/welcome_screen.gif"),
 
-        public static final String SETTINGS_BUTTON="src/assets/button/settings_button.png";
-        public static final String GITHUB_BUTTON = "src/assets/button/github_button.png";
+        TOP_MAIN_MENU("src/assets/menus/top_main_menu.png"),
+        BOTTOM_MAIN_MENU("src/assets/menus/bottom_main_menu.png"),
 
-        public static final String SLIDER = "src/assets/button/slider.png";
+        TOP_SETTINGS("src/assets/menus/top_settings.png"),
+        BOTTOM_SETTINGS("src/assets/menus/bottom_settings.png"),
 
-        public static final String START_40_BUTTON = "src/assets/button/start_40.gif";
+        TOP_SOLO("src/assets/menus/top_solo.png"),
+        BOTTOM_SOLO("src/assets/menus/bottom_solo.png"),
+
+        TOP_40("src/assets/menus/top_40.png"),
+        BOTTOM_40("src/assets/menus/bottom_40.png");
+
+        private final Image image;
+
+        Gui(String s) {
+            try {
+                ImageIcon imageIcon = new ImageIcon(s);
+                image = imageIcon.getImage();
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+        }
+
+        public Image get() {
+            return image;
+        }
+    }
+
+    public enum Game{
+        TETRIS_GRID ("src/assets/game/tetris_grid.png"),
+        PIECES("src/assets/game/pieces.png");
+
+        private Image image;
+
+        Game(String s) {
+            try {
+                ImageIcon imageIcon = new ImageIcon(s);
+                image = imageIcon.getImage();
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+        }
+
+        public Image get() {
+            return image;
+        }
+    }
+
+    public enum Button{
+        EXIT_BUTTON("src/assets/button/exit_button.png"),
+        SOLO_BUTTON("src/assets/button/solo_button.png"),
+        BACK_BUTTON("src/assets/button/back_button.png"),
+
+        FOURTY_LINES_BUTTON("src/assets/button/40_lines_button.png"),
+
+        SETTINGS_BUTTON("src/assets/button/settings_button.png"),
+        GITHUB_BUTTON("src/assets/button/github_button.png"),
+
+        SLIDER("src/assets/button/slider.png"),
+
+        START_40_BUTTON("src/assets/button/start_40.gif");
+
+        private Image image;
+
+        Button(String s) {
+            try {
+                ImageIcon imageIcon = new ImageIcon(s);
+                image = imageIcon.getImage();
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+        }
+
+        public Image get() {
+            return image;
+        }
+
     }
 
     public static class SFX {

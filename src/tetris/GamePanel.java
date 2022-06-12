@@ -88,7 +88,7 @@ public class GamePanel extends JPanel implements Runnable {
         musicPlayer = new MusicPlayer();
         sfxPlayer = new MusicPlayer();
 
-        musicPlayer.loadMusic(Assets.NIGHT_SNOW);
+        musicPlayer.loadMusic(Assets.Music.NIGHT_SNOW.get());
         musicPlayer.playMusic();
         musicPlayer.setLoop(true);
         musicPlayer.changeVolume(0.9);

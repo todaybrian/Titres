@@ -5,15 +5,16 @@ import tetris.gui.widget.Button;
 import tetris.util.Assets;
 
 import javax.swing.*;
+import java.awt.*;
 
 public class GuiSolo extends Gui{
 
     public GuiSolo() {
         super();
-        topBar = new ImageIcon(Assets.Menu.TOP_SOLO);
-        bottomBar = new ImageIcon(Assets.Menu.BOTTOM_SOLO);
+        topBar = Assets.Gui.TOP_SOLO.get();
+        bottomBar = Assets.Gui.BOTTOM_SOLO.get();
 
-        ImageIcon back_button = new ImageIcon(Assets.Button.BACK_BUTTON);
+        Image back_button = Assets.Button.BACK_BUTTON.get();
         buttonList.add(new Button(-170, 120, back_button, (click)->{
             instance.displayGui(new GuiMenuTransition(this, new GuiMainMenu()));
 
@@ -21,7 +22,7 @@ public class GuiSolo extends Gui{
             instance.getSFXPlayer().playMusic();
         }, AnimationType.LEFT));
 
-        ImageIcon fourty_lines_button = new ImageIcon(Assets.Button.FOURTY_LINES_BUTTON);
+        Image fourty_lines_button = Assets.Button.FOURTY_LINES_BUTTON.get();
         buttonList.add(new Button(400, 120, fourty_lines_button, (click)->{
         instance.displayGui(new GuiMenuTransition(this, new GuiFourty()));
             instance.getSFXPlayer().loadMusic(Assets.SFX.CLICK_2);

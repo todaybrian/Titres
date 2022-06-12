@@ -13,28 +13,29 @@ public class GuiMainMenu extends Gui {
 
     public GuiMainMenu() {
         super();
-        topBar = new ImageIcon(Assets.Menu.TOP_MAIN_MENU);
-        bottomBar = new ImageIcon(Assets.Menu.BOTTOM_MAIN_MENU);
+        topBar = Assets.Gui.TOP_MAIN_MENU.get();
+        bottomBar = Assets.Gui.BOTTOM_MAIN_MENU.get();
 
-        ImageIcon exit_button = new ImageIcon(Assets.Button.EXIT_BUTTON);
+        Image exit_button = Assets.Button.EXIT_BUTTON.get();
         buttonList.add(new Button(-170,880, exit_button, (click)->{
             instance.exitGame();
         }, AnimationType.LEFT));
 
-        ImageIcon solo_button = new ImageIcon(Assets.Button.SOLO_BUTTON);
+        Image solo_button = Assets.Button.SOLO_BUTTON.get();
         buttonList.add(new Button(400, 400, solo_button, (click)->{
             instance.displayGui(new GuiMenuTransition( this, new GuiSolo()));
             instance.getSFXPlayer().loadMusic(Assets.SFX.CLICK_1);
             instance.getSFXPlayer().playMusic();
         }, AnimationType.RIGHT));
-        ImageIcon settings_button = new ImageIcon(Assets.Button.SETTINGS_BUTTON);
+
+        Image settings_button = Assets.Button.SETTINGS_BUTTON.get();
         buttonList.add(new Button(400, 600, settings_button, (click)->{
             instance.displayGui(new GuiMenuTransition( this, new GuiSettings()));
             instance.getSFXPlayer().loadMusic(Assets.SFX.CLICK_1);
             instance.getSFXPlayer().playMusic();
         }, AnimationType.RIGHT));
 
-        ImageIcon github_button = new ImageIcon(Assets.Button.GITHUB_BUTTON);
+        Image github_button = Assets.Button.GITHUB_BUTTON.get();
         buttonList.add(new Button(1800, 990, github_button, (click)->{
             try {
                 Desktop.getDesktop().browse(new URL("https://github.com/todaybrian/ics4u-assignment").toURI());
@@ -43,9 +44,9 @@ public class GuiMainMenu extends Gui {
             }
         }, AnimationType.DOWN));
 
-        ImageIcon logo = new ImageIcon(Assets.LOGO_FILE);
+        Image logo = Assets.Gui.LOGO.get();
         componentList.add(new AnimatedRectangle((g, x)->{
-            g.drawImage(logo.getImage(), (int)(20+x), 100, (int)(1.25*logo.getIconWidth()), (int)(1.25*logo.getIconHeight()), null);
+            g.drawImage(logo, (int)(20+x), 100, (int)(1.25*logo.getWidth(null)), (int)(1.25*logo.getHeight(null)), null);
         }, AnimationType.LEFT));
 
     }

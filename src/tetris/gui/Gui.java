@@ -12,8 +12,8 @@ import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 
 public class Gui {
-    protected ImageIcon topBar;
-    protected ImageIcon bottomBar;
+    protected Image topBar;
+    protected Image bottomBar;
 
     protected ArrayList<AnimatedRectangle> componentList;
     protected ArrayList<Button> buttonList;
@@ -29,11 +29,11 @@ public class Gui {
         instance.getGameBackground().draw(g);
         //Top bar
         if(topBar != null) {
-            g.drawImage(topBar.getImage(), 0, 0, topBar.getIconWidth(), topBar.getIconHeight(), null);
+            g.drawImage(topBar, 0, 0, topBar.getWidth(null), topBar.getHeight(null), null);
         }
         //Bottom bar
         if(bottomBar != null) {
-            g.drawImage(bottomBar.getImage(), 0, GamePanel.INTERNAL_HEIGHT - bottomBar.getIconHeight(), bottomBar.getIconWidth(), bottomBar.getIconHeight(), null);
+            g.drawImage(bottomBar, 0, GamePanel.INTERNAL_HEIGHT - bottomBar.getHeight(null), bottomBar.getWidth(null), bottomBar.getHeight(null), null);
         }
 
         for(AnimatedRectangle component : componentList){

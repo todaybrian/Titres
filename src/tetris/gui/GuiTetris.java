@@ -21,7 +21,7 @@ public class GuiTetris extends Gui {
 
         instance.getGameBackground().setOpacity(0.5f);
 
-        ImageIcon back_button = new ImageIcon(Assets.Button.BACK_BUTTON);
+        Image back_button = Assets.Button.BACK_BUTTON.get();
         buttonList.add(new Button(-170, 120, back_button, (click)->{
             instance.displayGui(new GuiMenuTransition( this, new GuiSolo()));
 

@@ -18,8 +18,8 @@ public class GuiWelcome extends Gui {
     }
 
     public void draw(Graphics2D g){
-        ImageIcon welcomeScreen = new ImageIcon(Assets.WELCOME_SCREEN);
-        g.drawImage(welcomeScreen.getImage(), 0, 0, GamePanel.INTERNAL_WIDTH, GamePanel.INTERNAL_HEIGHT, null);
+        Image welcomeScreen = Assets.Gui.WELCOME_SCREEN.get();
+        g.drawImage(welcomeScreen, 0, 0, GamePanel.INTERNAL_WIDTH, GamePanel.INTERNAL_HEIGHT, null);
 
         if(timer.isDone()){
             //Display Main Menu
