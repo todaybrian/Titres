@@ -15,12 +15,10 @@ public class GuiMenuTransition extends Gui{
 
     private FrameTimer timer;
 
-    private Gui parentScreen;
     private final Gui nextScreen;
 
     public GuiMenuTransition(Gui parentScreen, Gui nextScreen){
         super();
-        this.parentScreen = parentScreen;
         this.nextScreen = nextScreen;
 
         //Use the top bar and the bottom bar of the next screen to be the transition screen's top bar and bottom bar
