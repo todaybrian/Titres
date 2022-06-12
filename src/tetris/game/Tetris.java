@@ -145,6 +145,9 @@ public class Tetris extends Rectangle {
     }
 
     public void rotateCW(){
+        if(current.type == PieceType.O){ //The O piece doesn't rotate or follow any wall kicks so we don't need to check
+            return;
+        }
         Piece temp = current.clone();
         temp.rotateCW();
         if(checkLegal(temp)){
