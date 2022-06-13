@@ -105,6 +105,7 @@ public class Assets {
         SLIDER("slider.png"),
 
         START_40_BUTTON("start_40.gif"),
+        START_BLITZ_BUTTON("start_blitz.gif"),
 
         RETRY_BUTTON("retry_button.png"),
 
@@ -146,6 +147,7 @@ public class Assets {
     public enum SFX {
         CLICK_1("sfx_click_lvl_1.wav"),
         CLICK_2("sfx_click_lvl_2.wav"),
+        CLICK_START("click_start.wav"),
         HOVER("sfx_hover.wav"),
 
         CLICK_BACK("sfx_click_back.wav"),
