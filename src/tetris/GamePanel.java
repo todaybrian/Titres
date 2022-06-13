@@ -3,6 +3,7 @@ package tetris;
 import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.Map;
 
 import tetris.controls.KeyboardInput;
 import tetris.controls.MouseInput;
@@ -157,17 +158,13 @@ public class GamePanel extends JPanel implements Runnable {
 
     public void paint(Graphics g){
         image = createImage(INTERNAL_WIDTH, INTERNAL_HEIGHT); //draw off screen
+        Map<?, ?> desktopHints =
+                (Map<?, ?>) Toolkit.getDefaultToolkit().getDesktopProperty("awt.font.desktophints");
+
         Graphics2D g2d = (Graphics2D) image.getGraphics();
-        g2d.setRenderingHint(RenderingHints.KEY_INTERPOLATION,
-                RenderingHints.VALUE_INTERPOLATION_BILINEAR);
-
-        //TODO: TEST: test if this is needed
-        g2d.setRenderingHint(RenderingHints.KEY_FRACTIONALMETRICS,
-                RenderingHints.VALUE_FRACTIONALMETRICS_ON);
-
-        //Enable subpixel antialiasing for better legibility on LCD Screens
-        g2d.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING,
-                RenderingHints.VALUE_TEXT_ANTIALIAS_LCD_HRGB);
+        if (desktopHints != null) {
+            g2d.setRenderingHints(desktopHints);
+        }
 
         draw(g2d);//update the positions of everything on the screen
 

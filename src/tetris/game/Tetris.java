@@ -10,6 +10,7 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Map;
 import java.util.Random;
 
 public class Tetris extends Rectangle {
@@ -26,25 +27,36 @@ public class Tetris extends Rectangle {
     public PieceType hold;
     public Piece current;
 
+    public int linesCleared;
+    private long timeStarted;
 
     public FrameTimer dropTimer = new FrameTimer(1);
     public FrameTimer lockTimer = new FrameTimer(0.5);
 
     public Tetris(){
-        TETRIS_GRID =  Assets.Game.TETRIS_GRID.get();
-        randomizer = new RandomizerSevenBag();
+        this.TETRIS_GRID =  Assets.Game.TETRIS_GRID.get();
+        this.randomizer = new RandomizerSevenBag();
 
-        grid = new PieceType[30][10];
-        for (int i = 0; i < grid.length; i++) {
-            Arrays.fill(grid[i], PieceType.NULL);
+        this.grid = new PieceType[30][10];
+        for (PieceType[] pieceTypes : grid) {
+            Arrays.fill(pieceTypes, PieceType.NULL);
         }
 
-        current = new Piece(randomizer.getNextPiece());
+        this.current = new Piece(randomizer.getNextPiece());
+
+        this.linesCleared = 0;
+        this.timeStarted = -1;
     }
 
     public Image drawImage(){
         BufferedImage image = new BufferedImage(GAME_WIDTH, GAME_HEIGHT, BufferedImage.TYPE_INT_ARGB);
-        Graphics2D g = image.createGraphics();
+        Map<?, ?> desktopHints =
+                (Map<?, ?>) Toolkit.getDefaultToolkit().getDesktopProperty("awt.font.desktophints");
+
+        Graphics2D g = (Graphics2D) image.getGraphics();
+        if (desktopHints != null) {
+            g.setRenderingHints(desktopHints);
+        }
 
         g.drawImage(TETRIS_GRID, 0, 1080/2 - TETRIS_GRID.getHeight(null)/2, TETRIS_GRID.getWidth(null), TETRIS_GRID.getHeight(null), null);
 
@@ -58,11 +70,15 @@ public class Tetris extends Rectangle {
 
         drawPiece(g, current, false);
 
+        drawSidebar(g);
         return image;
     }
 
 
     public void update(){
+        if(timeStarted == -1){
+            timeStarted = System.currentTimeMillis();
+        }
         if(dropTimer.isDone()){
             dropPiece();
             dropTimer.reset();
@@ -103,6 +119,33 @@ public class Tetris extends Rectangle {
                 drawSquare(g, type, piece.centerY - 1 + i, piece.centerX - 1 + j);
             }
         }
+    }
+
+    private void drawSidebar(Graphics2D g){
+        g.setFont(Assets.Fonts.KDAM_FONT.get().deriveFont(Font.PLAIN, 23));
+        g.setColor(Color.WHITE);
+
+        g.drawString("TIME", 120, 840);
+
+
+        g.setFont(Assets.Fonts.KDAM_FONT.get().deriveFont(Font.BOLD, 23));
+        int minutes = (int)((System.currentTimeMillis() - timeStarted)/1000/60);
+        int seconds = (int)(System.currentTimeMillis() - timeStarted) / 1000;
+        int millis = (int)(System.currentTimeMillis() - timeStarted) % 1000;
+        if(timeStarted == -1) {
+           minutes = seconds = millis = 0;
+        }
+        FontMetrics fm = g.getFontMetrics();
+
+        //Milliseconds
+        String millisString = String.format(".%03d", millis);
+        g.drawString(millisString, 123, 880);
+
+        g.setFont(Assets.Fonts.KDAM_FONT.get().deriveFont(Font.BOLD, 40));
+        String minutesSeconds = String.format("%d:%02d", minutes, seconds);
+
+        g.drawString(minutesSeconds, 80 - fm.stringWidth(minutesSeconds), 880);
+
     }
 
     public boolean moveRight(){
@@ -250,6 +293,7 @@ public class Tetris extends Rectangle {
             }
             if(full){
                 lines.add(i);
+                this.linesCleared++;
             }
         }
         grid = temp;
@@ -257,6 +301,10 @@ public class Tetris extends Rectangle {
     }
 
     public void die(){
+
+    }
+
+    public void objectiveCompleted(){
 
     }
 
