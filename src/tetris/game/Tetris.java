@@ -26,16 +26,22 @@ public class Tetris extends Rectangle {
     public Piece current;
 
     public int linesCleared;
+    public int lineGoal;
     private long timeStarted;
 
     public FrameTimer dropTimer;
     public FrameTimer lockTimer = new FrameTimer(0.5);
 
     private boolean died;
+    private boolean objectiveCompleted;
 
     private long currentUpdateFrame;
 
-    public Tetris(){
+    private GameMode gameMode;
+
+    private int level;
+
+    public Tetris(GameMode gameMode) {
         this.TETRIS_GRID =  Assets.Game.TETRIS_GRID.get();
         this.randomizer = new RandomizerSevenBag();
 
@@ -49,8 +55,13 @@ public class Tetris extends Rectangle {
         this.linesCleared = 0;
         this.timeStarted = -1;
         this.died = false;
+        this.gameMode = gameMode;
 
-        setLevel(1);
+        increaseLevel();
+
+        if(gameMode == GameMode.FOURTY_LINES){
+            lineGoal = 40;
+        }
     }
 
     public Image drawImage(){
@@ -80,7 +91,7 @@ public class Tetris extends Rectangle {
     public void update(){
         //Get current time, used for oscillating animation of piece when it is on the ground but not locked
         this.currentUpdateFrame++; //Get current time
-        if(died){
+        if(died || objectiveCompleted){
             return;
         }
         if(timeStarted == -1){
@@ -132,7 +143,12 @@ public class Tetris extends Rectangle {
         g.setFont(Assets.Fonts.KDAM_FONT.get().deriveFont(Font.PLAIN, 23));
         g.setColor(Color.WHITE);
 
-        g.drawString("TIME", 120, 840);
+        FontMetrics fm = g.getFontMetrics();
+
+        int edgeOfLeftSidebar = 170;
+
+        g.drawString("TIME", edgeOfLeftSidebar - fm.stringWidth("TIME"), 840);
+        g.drawString("LINES", edgeOfLeftSidebar - fm.stringWidth("LINES"), 760);
 
 
         g.setFont(Assets.Fonts.KDAM_FONT.get().deriveFont(Font.BOLD, 23));
@@ -142,17 +158,21 @@ public class Tetris extends Rectangle {
         if(timeStarted == -1) {
            minutes = seconds = millis = 0;
         }
-        FontMetrics fm = g.getFontMetrics();
 
         //Milliseconds
         String millisString = String.format(".%03d", millis);
         g.drawString(millisString, 123, 880);
+
+        //Line Objective
+        String objective = String.format(" / %d", lineGoal);
+        g.drawString(String.format(" / %d", lineGoal), edgeOfLeftSidebar - fm.stringWidth(objective), 800);
 
         g.setFont(Assets.Fonts.KDAM_FONT.get().deriveFont(Font.BOLD, 40));
         String minutesSeconds = String.format("%d:%02d", minutes, seconds);
 
         g.drawString(minutesSeconds, 80 - fm.stringWidth(minutesSeconds), 880);
 
+        g.drawString(String.valueOf(linesCleared), edgeOfLeftSidebar - fm.stringWidth(objective)-fm.stringWidth(String.valueOf(linesCleared))-10, 800);
     }
 
     public boolean moveRight(){
@@ -222,7 +242,8 @@ public class Tetris extends Rectangle {
         }
     }
 
-    public void setLevel(int level){
+    public void increaseLevel(){
+        this.level++;
         double secondsPerRow = 1.72 * Math.exp(-0.499* level);
         dropTimer = new FrameTimer(1.0/secondsPerRow);
     }
@@ -312,6 +333,17 @@ public class Tetris extends Rectangle {
         return lines;
     }
 
+    public void checkLineObjective(){
+        if(linesCleared >= lineGoal){
+            if(gameMode == GameMode.FOURTY_LINES){
+                objectiveCompleted();
+            } else if(gameMode == GameMode.BLITZ){
+                increaseLevel();
+                lineGoal = 2*level-1;
+            }
+        }
+    }
+
     public void die(){
         died = true;
     }
@@ -321,7 +353,11 @@ public class Tetris extends Rectangle {
     }
 
     public void objectiveCompleted(){
+        objectiveCompleted = true;
+    }
 
+    public boolean isObjectiveCompleted(){
+        return objectiveCompleted;
     }
 
     public void holdPiece(){

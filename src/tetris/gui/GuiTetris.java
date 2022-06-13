@@ -15,7 +15,7 @@ public class GuiTetris extends Gui {
     private static final double BLACK_IN_TIME = 1;
     private FrameTimer blackInTimer;
 
-    Tetris tetris = new Tetris();
+    Tetris tetris;
 
     private int xOffset = 0;
     private int yOffset = 0;
@@ -28,6 +28,8 @@ public class GuiTetris extends Gui {
     public GuiTetris(GameMode gameMode) {
         super();
         this.gameMode = gameMode;
+
+        tetris = new Tetris(gameMode);
 
         instance.getGameBackground().randomBackground();
 
