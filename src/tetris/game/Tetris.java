@@ -59,6 +59,7 @@ public class Tetris extends Rectangle {
         this.died = false;
         this.gameMode = gameMode;
         this.next = randomizer.getNextPieces(5);
+        this.canSwitchHold = true;
         increaseLevel();
 
         if(gameMode == GameMode.FOURTY_LINES){
@@ -371,7 +372,6 @@ public class Tetris extends Rectangle {
     }
 
     private void drawHold(Graphics2D g) {
-        if (!canSwitchHold) return;
         int length = 3;
         if(hold.type == PieceType.I){
             length = 4;
@@ -379,6 +379,9 @@ public class Tetris extends Rectangle {
         for (int i = 0; i < length; i++) {
             for (int j = 0; j < length; j++) {
                 PieceType type = hold.currentPieceGrid[i][j];
+                if(!canSwitchHold && type != PieceType.NULL){
+                    type = PieceType.GHOST;
+                }
                 if (hold.type == PieceType.I) {
                     drawSquare(g, type, 10.85 + i, -4.6 + j, false);
                 } else if (hold.type == PieceType.O) {
@@ -422,6 +425,7 @@ public class Tetris extends Rectangle {
             spawnPiece(hold.type);
             hold = temp.clone();
         }
+        hold.rotationIndex = 0;
         canSwitchHold = false;
     }
 

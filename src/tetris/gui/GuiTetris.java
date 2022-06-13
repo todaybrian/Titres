@@ -111,7 +111,7 @@ public class GuiTetris extends Gui {
                 g.drawImage(banner, 1920 / 2 - banner.getWidth(null) / 2, 1080 / 2 - banner.getHeight(null) / 2, null);
 
                 g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1.0f));
-            } else if(!countdownTimer.isDone()){
+            } else if(!countdownTimer.isDone() && !countdownTimer.isDisabled()){
                 long bufferTime = (long) ((1e9)*(countdownTimer.getLength() - 3.0f));
 
                 g.setColor(Color.WHITE);
