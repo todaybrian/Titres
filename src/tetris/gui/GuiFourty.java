@@ -42,7 +42,7 @@ public class GuiFourty extends Gui{
 
         Image start_40_button = Assets.Button.START_40_BUTTON.get();
         buttonList.add(new Button(1700-start_40_button.getWidth(null), 460, start_40_button, (click)->{
-            instance.displayGui(new GuiTetris());
+            instance.displayGui(new GuiMenuTransition(this, new GuiTetris(), 0.5, true));
             instance.getSFXPlayer().loadMusic(Assets.SFX.CLICK_2.get());
             instance.getSFXPlayer().playMusic();
         }, AnimationType.NONE));

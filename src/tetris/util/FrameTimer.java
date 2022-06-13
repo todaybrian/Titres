@@ -33,7 +33,7 @@ public class FrameTimer {
     }
 
     public double getProgress() {
-        return (double)(System.nanoTime() - startTime) / (double)length;
+        return Math.min((double)(System.nanoTime() - startTime) / (double)length, 1);
     }
 }
 

@@ -11,15 +11,21 @@ import java.awt.*;
 import java.util.ArrayList;
 
 public class GuiMenuTransition extends Gui{
-    private static final double ANIMATION_TRANSITION = 0.19;
+    private static final double DEFAULT_ANIMATION_LENGTH = 0.19;
 
     private FrameTimer timer;
 
     private final Gui nextScreen;
+    private boolean blackIn;
 
-    public GuiMenuTransition(Gui parentScreen, Gui nextScreen){
+    public GuiMenuTransition(Gui parentScreen, Gui nextScreen) {
+        this(parentScreen, nextScreen, DEFAULT_ANIMATION_LENGTH, false);
+    }
+
+    public GuiMenuTransition(Gui parentScreen, Gui nextScreen, double animationLength, boolean blackIn) {
         super();
         this.nextScreen = nextScreen;
+        this.blackIn = blackIn;
 
         //Use the top bar and the bottom bar of the next screen to be the transition screen's top bar and bottom bar
         topBar = nextScreen.topBar;
@@ -36,7 +42,7 @@ public class GuiMenuTransition extends Gui{
         //Animate all components from the previous screen
         for(AnimatedRectangle component : parentComponentList){
             //The component is currently on the screen, so it needs to be animated off
-            component.initAnimate(component.animationType.getTransitionXOffset(), component.animationType.getTransitionYOffset(), 0, GuiMenuTransition.ANIMATION_TRANSITION);
+            component.initAnimate(component.animationType.getTransitionXOffset(), component.animationType.getTransitionYOffset(), 0, animationLength);
             //The component is currently in transition
             component.setInTransition(true);
 
@@ -50,7 +56,7 @@ public class GuiMenuTransition extends Gui{
             component.setOffsets(component.animationType.getTransitionXOffset(), component.animationType.getTransitionYOffset(), 0);
 
             //so that it can be animated onto the screen
-            component.initAnimate(0, 0, 1, GuiMenuTransition.ANIMATION_TRANSITION);
+            component.initAnimate(0, 0, 1, animationLength);
 
             //The component is currently in transition
             component.setInTransition(true);
@@ -62,7 +68,7 @@ public class GuiMenuTransition extends Gui{
         //Animate all buttons from the previous screen
         for(Button button : parentAssetList){
             //The button is currently on the screen, so it needs to be animated off
-            button.initAnimate(button.animationType.getTransitionXOffset(), button.animationType.getTransitionYOffset(), 0, GuiMenuTransition.ANIMATION_TRANSITION);
+            button.initAnimate(button.animationType.getTransitionXOffset(), button.animationType.getTransitionYOffset(), 0, animationLength);
 
             //The button is currently in transition
             button.setInTransition(true);
@@ -77,7 +83,7 @@ public class GuiMenuTransition extends Gui{
             button.setOffsets(button.animationType.getTransitionXOffset(), button.animationType.getTransitionYOffset(), 0);
 
             //so that it can be animated onto the screen
-            button.initAnimate(0, 0, 1, GuiMenuTransition.ANIMATION_TRANSITION);
+            button.initAnimate(0, 0, 1, animationLength);
 
             //The button is currently in transition
             button.setInTransition(true);
@@ -86,7 +92,7 @@ public class GuiMenuTransition extends Gui{
             buttonList.add(button);
         }
 
-        timer = new FrameTimer(ANIMATION_TRANSITION);
+        timer = new FrameTimer(animationLength);
     }
 
     public void draw(Graphics2D g){
@@ -108,5 +114,9 @@ public class GuiMenuTransition extends Gui{
             return;
         }
         super.draw(g);
+        if(blackIn){
+            g.setColor(new Color(0, 0, 0, (int) (255 * (timer.getProgress()))));
+            g.fillRect(0, 0, instance.getWidth(), instance.getHeight());
+        }
     }
 }
