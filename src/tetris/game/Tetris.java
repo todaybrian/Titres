@@ -4,6 +4,7 @@ import tetris.game.randomizer.Randomizer;
 import tetris.game.randomizer.RandomizerSevenBag;
 import tetris.util.Assets;
 import tetris.util.FrameTimer;
+import tetris.util.Util;
 
 import javax.swing.*;
 import java.awt.*;
@@ -33,6 +34,8 @@ public class Tetris extends Rectangle {
     public FrameTimer dropTimer = new FrameTimer(1);
     public FrameTimer lockTimer = new FrameTimer(0.5);
 
+    private boolean died;
+
     public Tetris(){
         this.TETRIS_GRID =  Assets.Game.TETRIS_GRID.get();
         this.randomizer = new RandomizerSevenBag();
@@ -46,17 +49,14 @@ public class Tetris extends Rectangle {
 
         this.linesCleared = 0;
         this.timeStarted = -1;
+        this.died = false;
     }
 
     public Image drawImage(){
         BufferedImage image = new BufferedImage(GAME_WIDTH, GAME_HEIGHT, BufferedImage.TYPE_INT_ARGB);
-        Map<?, ?> desktopHints =
-                (Map<?, ?>) Toolkit.getDefaultToolkit().getDesktopProperty("awt.font.desktophints");
 
         Graphics2D g = (Graphics2D) image.getGraphics();
-        if (desktopHints != null) {
-            g.setRenderingHints(desktopHints);
-        }
+        Util.setGraphicsFlags(g);
 
         g.drawImage(TETRIS_GRID, 0, 1080/2 - TETRIS_GRID.getHeight(null)/2, TETRIS_GRID.getWidth(null), TETRIS_GRID.getHeight(null), null);
 
@@ -76,6 +76,9 @@ public class Tetris extends Rectangle {
 
 
     public void update(){
+        if(died){
+            return;
+        }
         if(timeStarted == -1){
             timeStarted = System.currentTimeMillis();
         }
@@ -130,7 +133,7 @@ public class Tetris extends Rectangle {
 
         g.setFont(Assets.Fonts.KDAM_FONT.get().deriveFont(Font.BOLD, 23));
         int minutes = (int)((System.currentTimeMillis() - timeStarted)/1000/60);
-        int seconds = (int)(System.currentTimeMillis() - timeStarted) / 1000;
+        int seconds = ((int)(System.currentTimeMillis() - timeStarted) / 1000)%60;
         int millis = (int)(System.currentTimeMillis() - timeStarted) % 1000;
         if(timeStarted == -1) {
            minutes = seconds = millis = 0;
@@ -301,7 +304,11 @@ public class Tetris extends Rectangle {
     }
 
     public void die(){
+        died = true;
+    }
 
+    public boolean isDied(){
+        return died;
     }
 
     public void objectiveCompleted(){

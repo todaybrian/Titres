@@ -14,6 +14,7 @@ import tetris.gui.GuiWelcome;
 import tetris.music.MusicPlayer;
 import tetris.settings.GameSettings;
 import tetris.util.Assets;
+import tetris.util.Util;
 
 
 public class GamePanel extends JPanel implements Runnable {
@@ -158,13 +159,9 @@ public class GamePanel extends JPanel implements Runnable {
 
     public void paint(Graphics g){
         image = createImage(INTERNAL_WIDTH, INTERNAL_HEIGHT); //draw off screen
-        Map<?, ?> desktopHints =
-                (Map<?, ?>) Toolkit.getDefaultToolkit().getDesktopProperty("awt.font.desktophints");
 
         Graphics2D g2d = (Graphics2D) image.getGraphics();
-        if (desktopHints != null) {
-            g2d.setRenderingHints(desktopHints);
-        }
+        Util.setGraphicsFlags(g2d);
 
         draw(g2d);//update the positions of everything on the screen
 

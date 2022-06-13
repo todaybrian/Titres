@@ -1,13 +1,15 @@
 package tetris.util;
 
+import java.awt.*;
+import java.util.Map;
+
 public class Util {
-    private static double renderScale;
-    public static void setRenderScale(double renderScale){
-        Util.renderScale = renderScale;
-    }
+    public static void setGraphicsFlags(Graphics2D g){
+        Map<?, ?> desktopHints =
+                (Map<?, ?>) Toolkit.getDefaultToolkit().getDesktopProperty("awt.font.desktophints");
 
-    private int scale(double val) {
-        return (int)Math.round(val * renderScale);
+        if (desktopHints != null) {
+            g.setRenderingHints(desktopHints);
+        }
     }
-
 }

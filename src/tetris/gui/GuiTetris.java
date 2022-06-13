@@ -5,9 +5,11 @@ import tetris.gui.widget.AnimationType;
 import tetris.gui.widget.Button;
 import tetris.util.Assets;
 import tetris.util.FrameTimer;
+import tetris.util.Util;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;
+import java.awt.image.BufferedImage;
 
 public class GuiTetris extends Gui {
     private static final double BLACK_IN_TIME = 1;
@@ -19,6 +21,8 @@ public class GuiTetris extends Gui {
     private int yOffset = 0;
     private int xVelocity = 0;
     private int yVelocity = 0;
+
+    private FrameTimer diedTimer;
 
     public GuiTetris() {
         super();
@@ -37,20 +41,35 @@ public class GuiTetris extends Gui {
         }, AnimationType.LEFT));
 
         blackInTimer = new FrameTimer(BLACK_IN_TIME);
+        diedTimer = new FrameTimer(2);
+        diedTimer.disable();
     }
+
 
     @Override
     public void draw(Graphics2D g) {
         super.draw(g);
+        if(tetris.isDied()){
+            if(diedTimer.isDisabled()){
+                diedTimer.reset();
+            }
 
-        g.drawImage(tetris.drawImage(), 1920/2-Tetris.GAME_WIDTH/2 + xOffset, 1080/2-Tetris.GAME_HEIGHT/2 + yOffset - (int)(1400 * (1-blackInTimer.getProgress())), Tetris.GAME_WIDTH, Tetris.GAME_HEIGHT, null);
-        g.drawString("Tetris", 100, 100);
+            BufferedImage board = (BufferedImage) tetris.drawImage();
 
-        if(!blackInTimer.isDone()) {
-            g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, (float)(1-blackInTimer.getProgress())));
-            g.setColor(Color.BLACK);
-            g.fillRect(0, 0, instance.getWidth(), instance.getHeight());
-            g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1.0f));
+            g.rotate(Math.toRadians(20)
+                    *diedTimer.getProgress());
+
+            g.drawImage(board, 1920 / 2 - Tetris.GAME_WIDTH / 2  + (int)(330 * diedTimer.getProgress()), 1080 / 2 - Tetris.GAME_HEIGHT / 2 + (int)(2200 * diedTimer.getProgress()),null);
+        } else {
+
+            g.drawImage(tetris.drawImage(), 1920 / 2 - Tetris.GAME_WIDTH / 2 + xOffset, 1080 / 2 - Tetris.GAME_HEIGHT / 2 + yOffset - (int) (1400 * (1 - blackInTimer.getProgress())), Tetris.GAME_WIDTH, Tetris.GAME_HEIGHT, null);
+
+            if (!blackInTimer.isDone()) {
+                g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, (float) (1 - blackInTimer.getProgress())));
+                g.setColor(Color.BLACK);
+                g.fillRect(0, 0, instance.getWidth(), instance.getHeight());
+                g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1.0f));
+            }
         }
     }
 
