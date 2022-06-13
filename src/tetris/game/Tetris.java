@@ -22,7 +22,7 @@ public class Tetris extends Rectangle {
 
 
     public PieceType[][] grid;
-    public PieceType hold;
+    public Piece hold;
     public Piece current;
 
     public int linesCleared;
@@ -81,8 +81,10 @@ public class Tetris extends Rectangle {
             Piece ghost = current.clone();
             ghost.centerY = findDropHeight();
             drawPiece(g, ghost, true, false);
-
             drawPiece(g, current, false, onGround());
+        }
+        if (hold != null) {
+            drawHold(g);
         }
         drawSidebar(g);
         return image;
@@ -128,7 +130,6 @@ public class Tetris extends Rectangle {
         if(current.type == PieceType.I){
             length = 4;
         }
-
         for (int i = 0; i < length; i++) {
             for (int j = 0; j < length; j++) {
                 PieceType type = piece.currentPieceGrid[i][j];
@@ -364,14 +365,33 @@ public class Tetris extends Rectangle {
         return objectiveCompleted;
     }
 
+    private void drawHold(Graphics2D g) {
+        int length = 3;
+        if(hold.type == PieceType.I){
+            length = 4;
+        }
+        for (int i = 0; i < length; i++) {
+            for (int j = 0; j < length; j++) {
+                PieceType type = hold.currentPieceGrid[i][j];
+                if (hold.type == PieceType.I) {
+                    drawSquare(g, type, 10.85 + i, -4.6 + j, false);
+                } else if (hold.type == PieceType.O) {
+                    drawSquare(g, type, 11.2 + i, -3.5 + j, false);
+                } else {
+                    drawSquare(g, type, 11.2 + i, -4 + j, false);
+                }
+            }
+        }
+    }
+
     public void holdPiece(){
         if(hold == null){
-            hold = current.type;
+            hold = current.clone();
             spawnPiece();
         } else {
-            PieceType temp = current.type;
-            spawnPiece(hold);
-            hold = temp;
+            Piece temp = current.clone();
+            spawnPiece(hold.type);
+            hold = temp.clone();
         }
     }
 
@@ -396,15 +416,15 @@ public class Tetris extends Rectangle {
         return true;
     }
 
-    private void drawSquare(Graphics2D g, PieceType piece, int row, int column, boolean onGround){
+    private void drawSquare(Graphics2D g, PieceType piece, double row, double column, boolean onGround){
         if(piece.getId() == -1){
             return;
         }
-        g.drawImage(Assets.Game.PIECES.get(), 179 + 35*(column), -160 + 35*row, 179 + 35*(column)+34,-160 + 35*row+34, 35*piece.getId(), 0, 35*piece.getId()+34, 34, null);
+        g.drawImage(Assets.Game.PIECES.get(), (int) (179 + 35*(column)), (int) (-160 + 35*row), (int) (179 + 35*(column)+34), (int) (-160 + 35*row+34), 35*piece.getId(), 0, 35*piece.getId()+34, 34, null);
         if(onGround) {
             int opacity = Math.abs(((int) (Math.sin(currentUpdateFrame/30.0)*100))+50);
             g.setColor(new Color(255, 255, 255, opacity));
-            g.fillRect(179 + 35 * (column), -160 + 35 * row, 34, 34);
+            g.fillRect((int)(179 + 35 * (column)), (int)(-160 + 35 * row), 34, 34);
         }
     }
 }
