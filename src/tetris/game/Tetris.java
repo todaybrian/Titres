@@ -173,11 +173,14 @@ public class Tetris extends Rectangle {
         g.drawString(String.format(" / %d", lineGoal), edgeOfLeftSidebar - fm.stringWidth(objective), 800);
 
         g.setFont(Assets.Fonts.KDAM_FONT.get().deriveFont(Font.BOLD, 40));
+
+        fm = g.getFontMetrics();
+
         String minutesSeconds = String.format("%d:%02d", minutes, seconds);
 
-        g.drawString(minutesSeconds, 80 - fm.stringWidth(minutesSeconds), 880);
+        g.drawString(minutesSeconds, 122 - fm.stringWidth(minutesSeconds), 880);
 
-        g.drawString(String.valueOf(linesCleared), edgeOfLeftSidebar - fm.stringWidth(objective)-fm.stringWidth(String.valueOf(linesCleared))-10, 800);
+        g.drawString(String.valueOf(linesCleared), 220 - fm.stringWidth(objective)-fm.stringWidth(String.valueOf(linesCleared))-10, 800);
     }
 
     public boolean moveRight(){
