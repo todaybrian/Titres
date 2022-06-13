@@ -19,9 +19,10 @@ public abstract class Randomizer {
         while(bag.size()<amount){
             fillBag();
         }
+        Iterator it = bag.iterator();
         ArrayList<PieceType> pieces = new ArrayList<>();
         for (int i = 0; i < amount; i++) {
-            pieces.add(getNextPiece());
+            pieces.add((PieceType) it.next());
         }
         return pieces;
     }
