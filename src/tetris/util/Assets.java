@@ -50,7 +50,10 @@ public class Assets {
         BOTTOM_SOLO("src/assets/menus/bottom_solo.png"),
 
         TOP_40("src/assets/menus/top_40.png"),
-        BOTTOM_40("src/assets/menus/bottom_40.png");
+        BOTTOM_40("src/assets/menus/bottom_40.png"),
+
+        TOP_BLITZ("src/assets/menus/top_blitz.png"),
+        BOTTOM_BLITZ("src/assets/menus/bottom_blitz.png");
 
         private final Image image;
 
@@ -94,6 +97,7 @@ public class Assets {
         BACK_BUTTON("back_button.png"),
 
         FOURTY_LINES_BUTTON("40_lines_button.png"),
+        BLITZ_BUTTON("blitz_button.png"),
 
         SETTINGS_BUTTON("settings_button.png"),
         GITHUB_BUTTON("github_button.png"),

@@ -30,6 +30,15 @@ public class GuiSolo extends Gui{
 
         }, AnimationType.RIGHT));
 
+        Image blitz_button = Assets.Button.BLITZ_BUTTON.get();
+        buttonList.add(new Button(400, 320, blitz_button, (click)->{
+            instance.displayGui(new GuiMenuTransition(this, new GuiBlitz()));
+            instance.getSFXPlayer().loadMusic(Assets.SFX.CLICK_2.get());
+            instance.getSFXPlayer().playMusic();
+
+        }, AnimationType.RIGHT));
+
+
 
     }
 }
