@@ -31,7 +31,7 @@ public class Tetris extends Rectangle {
     public int linesCleared;
     private long timeStarted;
 
-    public FrameTimer dropTimer = new FrameTimer(1);
+    public FrameTimer dropTimer;
     public FrameTimer lockTimer = new FrameTimer(0.5);
 
     private boolean died;
@@ -50,6 +50,8 @@ public class Tetris extends Rectangle {
         this.linesCleared = 0;
         this.timeStarted = -1;
         this.died = false;
+
+        setLevel(1);
     }
 
     public Image drawImage(){
@@ -64,12 +66,13 @@ public class Tetris extends Rectangle {
 
         drawGrid(g);
 
-        Piece ghost = current.clone();
-        ghost.centerY = findDropHeight();
-        drawPiece(g, ghost, true);
+        if(!this.died) {
+            Piece ghost = current.clone();
+            ghost.centerY = findDropHeight();
+            drawPiece(g, ghost, true);
 
-        drawPiece(g, current, false);
-
+            drawPiece(g, current, false);
+        }
         drawSidebar(g);
         return image;
     }
@@ -216,6 +219,11 @@ public class Tetris extends Rectangle {
         if(!checkLegal(current)){
             die();
         }
+    }
+
+    public void setLevel(int level){
+        double secondsPerRow = 1.72 * Math.exp(-0.499* level);
+        dropTimer = new FrameTimer(1.0/secondsPerRow);
     }
 
     public void hardDrop(){

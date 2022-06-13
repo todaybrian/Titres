@@ -1,5 +1,6 @@
 package tetris.gui;
 
+import tetris.game.GameMode;
 import tetris.gui.widget.AnimatedRectangle;
 import tetris.gui.widget.AnimationType;
 import tetris.gui.widget.Button;
@@ -31,7 +32,7 @@ public class GuiFourty extends Gui{
             g.drawString("40 LINES", (int) (x+320), 230);
 
             g.setFont(Assets.Fonts.KDAM_FONT.get().deriveFont(Font.PLAIN, 25));
-            g.drawString("Clear 40 lines in the shortest time possible", (int) (x+320), 270);
+            g.drawString("Clear 40 lines in the shortest time possible!", (int) (x+320), 270);
 
             g.setFont(Assets.Fonts.KDAM_FONT.get().deriveFont(Font.BOLD, 30));
             g.drawString("PERSONAL BEST: ", (int) (x+320), 340);
@@ -42,7 +43,7 @@ public class GuiFourty extends Gui{
 
         Image start_40_button = Assets.Button.START_40_BUTTON.get();
         buttonList.add(new Button(1700-start_40_button.getWidth(null), 460, start_40_button, (click)->{
-            instance.displayGui(new GuiMenuTransition(this, new GuiTetris(), 0.5, true));
+            instance.displayGui(new GuiMenuTransition(this, new GuiTetris(GameMode.FOURTY_LINES), 0.5, true));
             instance.getSFXPlayer().loadMusic(Assets.SFX.CLICK_2.get());
             instance.getSFXPlayer().playMusic();
         }, AnimationType.NONE));

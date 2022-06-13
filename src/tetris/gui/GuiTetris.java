@@ -1,11 +1,11 @@
 package tetris.gui;
 
+import tetris.game.GameMode;
 import tetris.game.Tetris;
 import tetris.gui.widget.AnimationType;
 import tetris.gui.widget.Button;
 import tetris.util.Assets;
 import tetris.util.FrameTimer;
-import tetris.util.Util;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;
@@ -23,9 +23,12 @@ public class GuiTetris extends Gui {
     private int yVelocity = 0;
 
     private FrameTimer diedTimer;
+    private GameMode gameMode;
 
-    public GuiTetris() {
+    public GuiTetris(GameMode gameMode) {
         super();
+        this.gameMode = gameMode;
+
         instance.getGameBackground().randomBackground();
 
         instance.getGameBackground().setOpacity(0.5f);
@@ -100,7 +103,7 @@ public class GuiTetris extends Gui {
         tetris.update();
 
         if (downTimer.isDone() && instance.keyboardInput.keyPressed[KeyEvent.VK_DOWN]) {
-            downTimer = new FrameTimer(0.1);
+            downTimer.reset();
             tetris.dropPiece();
         }
         if (instance.keyboardInput.keyPressed[KeyEvent.VK_SPACE] && !held_hardDrop) {
@@ -157,6 +160,14 @@ public class GuiTetris extends Gui {
         } else if(yOffset < 0){
             yVelocity = 0;
             yOffset = 0;
+        }
+
+        if(xOffset > 4) {
+            xVelocity = -1;
+            xOffset = 4;
+        } else if(xOffset < 0){
+            xVelocity = 0;
+            xOffset = 0;
         }
 
         if(!hardDropAnimationTimer.isDone() && !hardDropAnimationTimer.isDisabled()) {
