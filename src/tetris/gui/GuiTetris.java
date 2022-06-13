@@ -43,7 +43,7 @@ public class GuiTetris extends Gui {
     public void draw(Graphics2D g) {
         super.draw(g);
 
-        g.drawImage(tetris.drawImage(), 1920/2-Tetris.GAME_WIDTH/2 + xOffset, 1080/2-Tetris.GAME_HEIGHT/2 + yOffset, Tetris.GAME_WIDTH, Tetris.GAME_HEIGHT, null);
+        g.drawImage(tetris.drawImage(), 1920/2-Tetris.GAME_WIDTH/2 + xOffset, 1080/2-Tetris.GAME_HEIGHT/2 + yOffset - (int)(1400 * (1-blackInTimer.getProgress())), Tetris.GAME_WIDTH, Tetris.GAME_HEIGHT, null);
         g.drawString("Tetris", 100, 100);
 
         if(!blackInTimer.isDone()) {
@@ -73,34 +73,37 @@ public class GuiTetris extends Gui {
     @Override
     public void update(){
         super.update();
-        if(blackInTimer.isDone()) {
-            tetris.update();
+
+        if(!blackInTimer.isDone()) {
+            return;
         }
 
-        if(downTimer.isDone() && instance.keyboardInput.keyPressed[KeyEvent.VK_DOWN]) {
+        tetris.update();
+
+        if (downTimer.isDone() && instance.keyboardInput.keyPressed[KeyEvent.VK_DOWN]) {
             downTimer = new FrameTimer(0.1);
             tetris.dropPiece();
         }
-        if(instance.keyboardInput.keyPressed[KeyEvent.VK_SPACE] && !held_hardDrop) {
+        if (instance.keyboardInput.keyPressed[KeyEvent.VK_SPACE] && !held_hardDrop) {
             tetris.hardDrop();
             hardDropAnimationTimer.reset();
         }
         held_hardDrop = instance.keyboardInput.keyPressed[KeyEvent.VK_SPACE];
 
-        if(instance.keyboardInput.keyPressed[KeyEvent.VK_LEFT]){
-            if(moveLeftTimerDAS.isDisabled()){
+        if (instance.keyboardInput.keyPressed[KeyEvent.VK_LEFT]) {
+            if (moveLeftTimerDAS.isDisabled()) {
                 tetris.moveLeft();
                 moveLeftTimerDAS.reset();
                 moveLeftTimer.reset();
-            } else if(moveLeftTimerDAS.isDone() && moveLeftTimer.isDone()){
+            } else if (moveLeftTimerDAS.isDone() && moveLeftTimer.isDone()) {
                 tetris.moveLeft();
                 moveLeftTimer.reset();
             }
-        } else{
+        } else {
             moveLeftTimerDAS.disable();
         }
 
-        if(instance.keyboardInput.keyPressed[KeyEvent.VK_RIGHT]) {
+        if (instance.keyboardInput.keyPressed[KeyEvent.VK_RIGHT]) {
             if (moveRightTimerDAS.isDisabled()) {
                 tetris.moveRight();
                 moveRightTimerDAS.reset();
@@ -113,15 +116,15 @@ public class GuiTetris extends Gui {
             moveRightTimerDAS.disable();
         }
 
-        if(instance.keyboardInput.keyPressed[KeyEvent.VK_UP] && !held_rotateCW) {
+        if (instance.keyboardInput.keyPressed[KeyEvent.VK_UP] && !held_rotateCW) {
             tetris.rotateCW();
-        } else if(instance.keyboardInput.keyPressed[KeyEvent.VK_CONTROL] && !held_rotateCCW) {
+        } else if (instance.keyboardInput.keyPressed[KeyEvent.VK_CONTROL] && !held_rotateCCW) {
             tetris.rotateCCW();
         }
         held_rotateCW = instance.keyboardInput.keyPressed[KeyEvent.VK_UP];
         held_rotateCCW = instance.keyboardInput.keyPressed[KeyEvent.VK_CONTROL];
 
-        if(instance.keyboardInput.keyPressed[KeyEvent.VK_C] && !held_holdPiece) {
+        if (instance.keyboardInput.keyPressed[KeyEvent.VK_C] && !held_holdPiece) {
             tetris.holdPiece();
         }
         held_holdPiece = instance.keyboardInput.keyPressed[KeyEvent.VK_C];
