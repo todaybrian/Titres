@@ -34,6 +34,7 @@ public class Tetris extends Rectangle {
 
     private boolean died;
     private boolean objectiveCompleted;
+    private long finalScore;
 
     private long currentUpdateFrame;
 
@@ -204,13 +205,12 @@ public class Tetris extends Rectangle {
         return temp.centerY - 1;
     }
 
-    public boolean dropPiece(){
+    public void dropPiece(){
         Piece temp = current.clone();
         temp.centerY++;
         if(checkLegal(temp)){
             current.centerY++;
-            return true;
-        } else return false;
+        }
     }
 
     public void setPiece(){
@@ -305,7 +305,7 @@ public class Tetris extends Rectangle {
         return !checkLegal(temp);
     }
 
-    public ArrayList<Integer> clearLines(){
+    public void clearLines(){
         PieceType[][] temp = new PieceType[grid.length][];
         for (int i = 0; i < grid.length; i++) {
             temp[i] = new PieceType[grid[i].length];
@@ -313,7 +313,7 @@ public class Tetris extends Rectangle {
         }
         int lstFilled = grid.length-1;
 
-        ArrayList<Integer> lines = new ArrayList<>();
+        //ArrayList<Integer> lines = new ArrayList<>();
         for (int i = grid.length-1; i >=1; i--) {
             boolean full = true;
             for (int j = 0; j < grid[0].length; j++) {
@@ -325,22 +325,25 @@ public class Tetris extends Rectangle {
                 }
             }
             if(full){
-                lines.add(i);
+                //lines.add(i);
                 this.linesCleared++;
             }
         }
         grid = temp;
-        return lines;
+        //return lines;
     }
 
-    public void checkLineObjective(){
+    public void checkObjectives(){
         if(linesCleared >= lineGoal){
             if(gameMode == GameMode.FOURTY_LINES){
-                objectiveCompleted();
+                objectiveCompleted(System.currentTimeMillis()-timeStarted);
             } else if(gameMode == GameMode.BLITZ){
                 increaseLevel();
                 lineGoal = 2*level-1;
             }
+        }
+        if(System.currentTimeMillis()- timeStarted >= 120*1e9){
+            objectiveCompleted(linesCleared);
         }
     }
 
@@ -352,7 +355,8 @@ public class Tetris extends Rectangle {
         return died;
     }
 
-    public void objectiveCompleted(){
+    public void objectiveCompleted(long finalScore){
+        this.finalScore = finalScore;
         objectiveCompleted = true;
     }
 
