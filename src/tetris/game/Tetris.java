@@ -39,6 +39,8 @@ public class Tetris extends Rectangle {
 
     private long currentUpdateFrame;
 
+    private long lastSoftDrop;
+
     private GameMode gameMode;
 
     private int level;
@@ -113,6 +115,7 @@ public class Tetris extends Rectangle {
         if(onGround()){
             if(lockTimer.isDone()){
                 setPiece();
+                lastSoftDrop = System.currentTimeMillis();
                 lockTimer.disable();
             } else if(lockTimer.isDisabled()){
                 lockTimer.reset();
@@ -259,6 +262,13 @@ public class Tetris extends Rectangle {
     }
 
     public void hardDrop(){
+        //Prevent accidental hard drops
+        //If the last softdrop was 500 milliseconds ago, don't allow a hard drop
+        //This can happen if a user wants to hard drop, but the soft drop timer finishes, leading to
+        //an accidental hard drop of the next piece.
+        if(System.currentTimeMillis() - lastSoftDrop < 500){
+            return;
+        }
         current.centerY = findDropHeight();
         setPiece();
     }
