@@ -380,11 +380,11 @@ public class Tetris extends Rectangle {
             for (int j = 0; j < length; j++) {
                 PieceType type = hold.currentPieceGrid[i][j];
                 if (hold.type == PieceType.I) {
-                    drawSquare(g, type, 10.85 + i, 11.4 + j, false);
+                    drawSquare(g, type, 10.85 + i, -4.6 + j, false);
                 } else if (hold.type == PieceType.O) {
-                    drawSquare(g, type, 11.2 + i, 12.5 + j, false);
+                    drawSquare(g, type, 11.2 + i, -3.5 + j, false);
                 } else {
-                    drawSquare(g, type, 11.2 + i, 12 + j, false);
+                    drawSquare(g, type, 11.2 + i, -4 + j, false);
                 }
             }
         }
@@ -401,11 +401,11 @@ public class Tetris extends Rectangle {
                 for (int k = 0; k < length; k++) {
                     PieceType type = temp.currentPieceGrid[j][k];
                     if (temp.type == PieceType.I) {
-                        drawSquare(g, type, 10.85 + i + j, -4.6 + k, false);
+                        drawSquare(g, type, 10.85 + i*3 + j, 11.4 + k, false);
                     } else if (temp.type == PieceType.O) {
-                        drawSquare(g, type, 11.2 + i + j, -3.5 + k, false);
+                        drawSquare(g, type, 11.2 + i*length + j, 12.5 + k, false);
                     } else {
-                        drawSquare(g, type, 11.2 + i + j, -4 + k, false);
+                        drawSquare(g, type, 11.2 + i*length + j, 12 + k, false);
                     }
                 }
             }
