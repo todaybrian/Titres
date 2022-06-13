@@ -100,7 +100,11 @@ public class Assets {
 
         SLIDER("slider.png"),
 
-        START_40_BUTTON("start_40.gif");
+        START_40_BUTTON("start_40.gif"),
+
+        RETRY_BUTTON("retry_button.png"),
+
+        BACK_TO_TITLE_BUTTON("back_to_title_button.png");
 
         private final Image image;
 

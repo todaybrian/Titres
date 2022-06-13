@@ -36,6 +36,7 @@ public class GameBackground {
         this.opacity = newOpacity;
     }
 
+
     private void loadAssets(){
         try{
             for(int imageId=0;; imageId++){

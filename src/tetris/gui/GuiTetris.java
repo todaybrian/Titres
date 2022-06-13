@@ -33,7 +33,7 @@ public class GuiTetris extends Gui {
 
         instance.getGameBackground().randomBackground();
 
-        instance.getGameBackground().setOpacity(0.5f);
+        this.backgroundOpacity = 0.5f;
 
         Image back_button = Assets.Button.BACK_BUTTON.get();
         buttonList.add(new Button(-170, 120, back_button, (click)->{
@@ -46,7 +46,7 @@ public class GuiTetris extends Gui {
         }, AnimationType.LEFT));
 
         blackInTimer = new FrameTimer(BLACK_IN_TIME);
-        diedTimer = new FrameTimer(2);
+        diedTimer = new FrameTimer(1);
         diedTimer.disable();
     }
 
@@ -64,7 +64,10 @@ public class GuiTetris extends Gui {
             g.rotate(Math.toRadians(20)
                     *diedTimer.getProgress());
 
-            g.drawImage(board, 1920 / 2 - Tetris.GAME_WIDTH / 2  + (int)(330 * diedTimer.getProgress()), 1080 / 2 - Tetris.GAME_HEIGHT / 2 + (int)(2200 * diedTimer.getProgress()),null);
+            g.drawImage(board, 1920 / 2 - Tetris.GAME_WIDTH / 2  + (int)(330 * diedTimer.getProgress()), 1080 / 2 - Tetris.GAME_HEIGHT / 2 + (int)(600 * diedTimer.getProgress()),null);
+            if(diedTimer.isDone()){
+                instance.displayGui(new GuiMenuTransition(this, new GuiDied(gameMode)));
+            }
         } else {
 
             g.drawImage(tetris.drawImage(), 1920 / 2 - Tetris.GAME_WIDTH / 2 + xOffset, 1080 / 2 - Tetris.GAME_HEIGHT / 2 + yOffset - (int) (1400 * (1 - blackInTimer.getProgress())), Tetris.GAME_WIDTH, Tetris.GAME_HEIGHT, null);

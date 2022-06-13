@@ -78,8 +78,6 @@ public class GamePanel extends JPanel implements Runnable {
         this.addKeyListener(keyboardInput);
         this.setPreferredSize(new Dimension(gameWidth, gameHeight));
 
-        //Display Main Menu
-        displayGui(new GuiWelcome());
 
         this.addMouseListener(new MouseInput());
         MouseInput.setScale((double)renderHeight/1080, horizontalPadding, verticalPadding);
@@ -97,6 +95,9 @@ public class GamePanel extends JPanel implements Runnable {
 
         sfxPlayer.loadMusic(Assets.SFX.SILENCE.get());
         sfxPlayer.playMusic();
+
+        //Display Main Menu
+        displayGui(new GuiWelcome());
 
         gameThread = new Thread(this);
         gameThread.start();

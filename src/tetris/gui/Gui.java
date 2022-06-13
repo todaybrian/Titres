@@ -18,14 +18,17 @@ public class Gui {
     protected ArrayList<AnimatedRectangle> componentList;
     protected ArrayList<Button> buttonList;
     protected GamePanel instance;
+    protected float backgroundOpacity;
 
     public Gui(){
         buttonList = new ArrayList<>();
         componentList = new ArrayList<>();
         instance = GamePanel.getGamePanel();
+        this.backgroundOpacity = 0.25f;
     }
 
     public void draw(Graphics2D g){
+        instance.getGameBackground().setOpacity(backgroundOpacity);
         instance.getGameBackground().draw(g);
         //Top bar
         if(topBar != null) {
