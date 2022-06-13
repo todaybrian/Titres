@@ -1,7 +1,7 @@
 package tetris.game;
 
 public enum PieceType {
-    J(0), Z(1), S(2), L(3), T(4), O(5), I(6), GHOST, NULL;
+    J(0), Z(1), S(2), L(3), T(4), O(5), I(6), GHOST(7), NULL;
 
     private int id;
     private static PieceType[][][] pieceGrid;
@@ -16,6 +16,10 @@ public enum PieceType {
 
     PieceType() {
         this.id = -1;
+    }
+
+    public int getId() {
+        return id;
     }
 
     static{

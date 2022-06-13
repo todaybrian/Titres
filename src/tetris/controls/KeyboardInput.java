@@ -16,14 +16,18 @@ public class KeyboardInput implements KeyListener {
 
     @Override
     public void keyPressed(KeyEvent e) {
-        keyPressed[e.getKeyCode()] = true;
-        instance.getGui().keyPressed(e);
+        if(e.getKeyCode() < keyPressed.length) {
+            keyPressed[e.getKeyCode()] = true;
+            instance.getGui().keyPressed(e);
+        }
     }
 
     @Override
     public void keyReleased(KeyEvent e) {
-        keyPressed[e.getKeyCode()] = false;
-        instance.getGui().keyReleased(e);
+        if(e.getKeyCode() < keyPressed.length) {
+            keyPressed[e.getKeyCode()] = false;
+            instance.getGui().keyReleased(e);
+        }
     }
 
     // Useless

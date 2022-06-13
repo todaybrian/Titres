@@ -293,34 +293,9 @@ public class Tetris extends Rectangle {
     }
 
     private void drawSquare(Graphics2D g, PieceType piece, int row, int column){
-        switch(piece){
-            case I:
-                g.setColor(new Color(48, 213,  200));
-                break;
-            case J:
-                g.setColor(Color.BLUE);
-                break;
-            case Z:
-                g.setColor(Color.RED);
-                break;
-            case S:
-                g.setColor(Color.GREEN);
-                break;
-            case L:
-                g.setColor(Color.ORANGE);
-                break;
-            case T:
-                g.setColor(Color.PINK);
-                break;
-            case O:
-                g.setColor(Color.YELLOW);
-                break;
-            case GHOST:
-                g.setColor(Color.GRAY);
-                break;
-            default:
-                return;
+        if(piece.getId() == -1){
+            return;
         }
-        g.fillRect(179 + 35*(column), -160 + 35*row, 34, 34);
+        g.drawImage(Assets.Game.PIECES.get(), 179 + 35*(column), -160 + 35*row, 179 + 35*(column)+34,-160 + 35*row+34, 35*piece.getId(), 0, 35*piece.getId()+34, 34, null);
     }
 }
