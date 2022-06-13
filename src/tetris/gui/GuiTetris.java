@@ -6,6 +6,7 @@ import tetris.gui.widget.AnimationType;
 import tetris.gui.widget.Button;
 import tetris.util.Assets;
 import tetris.util.FrameTimer;
+import tetris.util.Util;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;
@@ -14,6 +15,10 @@ import java.awt.image.BufferedImage;
 public class GuiTetris extends Gui {
     private static final double BLACK_IN_TIME = 1;
     private FrameTimer blackInTimer;
+
+    private FrameTimer titleTimer;
+    private FrameTimer countdownTimer;
+    private FrameTimer goTimer;
 
     Tetris tetris;
 
@@ -24,6 +29,10 @@ public class GuiTetris extends Gui {
 
     private FrameTimer diedTimer;
     private GameMode gameMode;
+
+    private boolean hasPlayedCountdownThree = false;
+    private boolean hasPlayedCountdownTwo = false;
+    private boolean hasPlayedCountdownOne = false;
 
     public GuiTetris(GameMode gameMode) {
         super();
@@ -46,8 +55,18 @@ public class GuiTetris extends Gui {
         }, AnimationType.LEFT));
 
         blackInTimer = new FrameTimer(BLACK_IN_TIME);
+
+        titleTimer = new FrameTimer(5);
+        titleTimer.disable();
+
         diedTimer = new FrameTimer(1);
         diedTimer.disable();
+
+        countdownTimer = new FrameTimer(3.3);
+        countdownTimer.disable();
+
+        goTimer = new FrameTimer(1);
+        goTimer.disable();
     }
 
 
@@ -61,8 +80,7 @@ public class GuiTetris extends Gui {
 
             BufferedImage board = (BufferedImage) tetris.drawImage();
 
-            g.rotate(Math.toRadians(20)
-                    *diedTimer.getProgress());
+            g.rotate(Math.toRadians(20) *diedTimer.getProgress());
 
             g.drawImage(board, 1920 / 2 - Tetris.GAME_WIDTH / 2  + (int)(330 * diedTimer.getProgress()), 1080 / 2 - Tetris.GAME_HEIGHT / 2 + (int)(600 * diedTimer.getProgress()),null);
             if(diedTimer.isDone()){
@@ -76,6 +94,66 @@ public class GuiTetris extends Gui {
                 g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, (float) (1 - blackInTimer.getProgress())));
                 g.setColor(Color.BLACK);
                 g.fillRect(0, 0, instance.getWidth(), instance.getHeight());
+                g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1.0f));
+            } else if(!titleTimer.isDone()){
+                float opacityProgress = 0;
+                if(titleTimer.getProgress() > 0.9){
+                    //easeOutQuint
+                    opacityProgress = (float) -(1-Math.pow(1-(titleTimer.getProgress()-0.9)/0.1,5));
+                } else{
+                    //easeOutQuint
+                    opacityProgress = (float) (1-Math.pow(1-titleTimer.getProgress()/0.9,5));
+                }
+
+                g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, Util.clamp(0.5f + 0.5f * opacityProgress, 0, 1)));
+
+                Image banner = gameMode.getBanner();
+                g.drawImage(banner, 1920 / 2 - banner.getWidth(null) / 2, 1080 / 2 - banner.getHeight(null) / 2, null);
+
+                g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1.0f));
+            } else if(!countdownTimer.isDone()){
+                long bufferTime = (long) ((1e9)*(countdownTimer.getLength() - 3.0f));
+
+                g.setColor(Color.WHITE);
+
+                Image countDown = null;
+                long timeElapsedFromSecond= 0;
+
+                if(countdownTimer.timeElapsed() - bufferTime > 2e9){
+                    timeElapsedFromSecond = countdownTimer.timeElapsed() - bufferTime - (long)2e9;
+                    countDown = Assets.Game.COUNTDOWN_1.get();
+                    if(!hasPlayedCountdownOne){
+                        instance.getSFXPlayer().loadMusic(Assets.SFX.COUNTDOWN_1.get());
+                        instance.getSFXPlayer().playMusic();
+                        hasPlayedCountdownOne = true;
+                    }
+                } else if(countdownTimer.timeElapsed() - bufferTime > 1e9){
+                    timeElapsedFromSecond = countdownTimer.timeElapsed() - bufferTime - (long)1e9;
+                    countDown = Assets.Game.COUNTDOWN_2.get();
+                    if(!hasPlayedCountdownTwo){
+                        instance.getSFXPlayer().loadMusic(Assets.SFX.COUNTDOWN_2.get());
+                        instance.getSFXPlayer().playMusic();
+                        hasPlayedCountdownTwo = true;
+                    }
+                } else if (countdownTimer.timeElapsed() - bufferTime > 0){
+                    timeElapsedFromSecond = countdownTimer.timeElapsed() - bufferTime;
+                    countDown =Assets.Game.COUNTDOWN_3.get();
+                    if(!hasPlayedCountdownThree){
+                        instance.getSFXPlayer().loadMusic(Assets.SFX.COUNTDOWN_3.get());
+                        instance.getSFXPlayer().playMusic();
+                        hasPlayedCountdownThree = true;
+                    }
+                }
+                if(countDown != null){
+                    g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, Util.clamp(1 - 1 * (float)timeElapsedFromSecond / (float)1e9, 0, 1)));
+                    g.drawImage(countDown, 1920 / 2 - countDown.getWidth(null) / 2, 1080 / 2 - countDown.getHeight(null) / 2, null);
+                    g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1.0f));
+                }
+            }
+
+            if(!goTimer.isDisabled() && !goTimer.isDone()) {
+                g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, Util.clamp((float) (1 - 1 * goTimer.getProgress()), 0, 1)));
+                g.drawImage(Assets.Game.GO.get(), 1920 / 2 - Assets.Game.GO.get().getWidth(null) / 2, 1080 / 2 - Assets.Game.GO.get().getHeight(null) / 2, null);
                 g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1.0f));
             }
         }
@@ -103,6 +181,25 @@ public class GuiTetris extends Gui {
 
         if(!blackInTimer.isDone()) {
             return;
+        } else if(titleTimer.isDisabled()){
+            titleTimer.reset();
+            instance.getMusicPlayer().stopMusic();
+            instance.getSFXPlayer().loadMusic(Assets.SFX.START_SOLO_GAME.get());
+            instance.getSFXPlayer().playMusic();
+        }
+
+        if(!titleTimer.isDone()){
+            return;
+        } else if(countdownTimer.isDisabled()){
+            countdownTimer.reset();
+        }
+
+        if(!countdownTimer.isDone()){
+            return;
+        } else if(goTimer.isDisabled()){
+            goTimer.reset();
+            instance.getSFXPlayer().loadMusic(Assets.SFX.GO.get());
+            instance.getSFXPlayer().playMusic();
         }
 
         tetris.update();

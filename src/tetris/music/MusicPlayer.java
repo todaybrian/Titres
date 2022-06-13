@@ -46,6 +46,9 @@ public class MusicPlayer {
         }
     }
 
+    public void stopMusic(){
+        clip.stop();
+    }
     public int getVolume(){
         return (int)(volume*100);
     }

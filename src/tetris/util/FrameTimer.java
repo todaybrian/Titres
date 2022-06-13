@@ -15,6 +15,10 @@ public class FrameTimer {
         return !isDisabled && System.nanoTime() - startTime > length;
     }
 
+    public long timeElapsed() {
+        return System.nanoTime() - startTime;
+    }
+
     public void reset() {
         isDisabled = false;
         startTime = System.nanoTime();
@@ -22,6 +26,10 @@ public class FrameTimer {
 
     public void setLength(double length) {
         this.length = (long)(length*1e9);
+    }
+
+    public double getLength() {
+        return length/1e9;
     }
 
     public void disable() {

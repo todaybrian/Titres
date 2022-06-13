@@ -73,8 +73,13 @@ public class Assets {
 
     public enum Game{
         TETRIS_GRID ("tetris_grid.png"),
-        PIECES("pieces.png");
-
+        PIECES("pieces.png"),
+        FOURTY_BANNER("40_banner.png"),
+        BLITZ_BANNER("blitz_banner.png"),
+        COUNTDOWN_1("countdown_one.png"),
+        COUNTDOWN_2("countdown_two.png"),
+        COUNTDOWN_3("countdown_three.png"),
+        GO("countdown_go.png");
         private final Image image;
 
         Game(String s) {
@@ -151,6 +156,13 @@ public class Assets {
         HOVER("sfx_hover.wav"),
 
         CLICK_BACK("sfx_click_back.wav"),
+
+        START_SOLO_GAME("start_solo_game.wav"),
+
+        COUNTDOWN_3("sfx_countdown_3.wav"),
+        COUNTDOWN_2("sfx_countdown_2.wav"),
+        COUNTDOWN_1("sfx_countdown_1.wav"),
+        GO("sfx_go.wav"),
 
         //This is used to unlag the music/sfx player
         SILENCE("silence.wav");
