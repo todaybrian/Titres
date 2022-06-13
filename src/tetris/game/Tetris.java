@@ -6,13 +6,10 @@ import tetris.util.Assets;
 import tetris.util.FrameTimer;
 import tetris.util.Util;
 
-import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Map;
-import java.util.Random;
 
 public class Tetris extends Rectangle {
 
@@ -35,6 +32,8 @@ public class Tetris extends Rectangle {
     public FrameTimer lockTimer = new FrameTimer(0.5);
 
     private boolean died;
+
+    private long currentUpdateFrame;
 
     public Tetris(){
         this.TETRIS_GRID =  Assets.Game.TETRIS_GRID.get();
@@ -69,9 +68,9 @@ public class Tetris extends Rectangle {
         if(!this.died) {
             Piece ghost = current.clone();
             ghost.centerY = findDropHeight();
-            drawPiece(g, ghost, true);
+            drawPiece(g, ghost, true, false);
 
-            drawPiece(g, current, false);
+            drawPiece(g, current, false, onGround());
         }
         drawSidebar(g);
         return image;
@@ -79,6 +78,8 @@ public class Tetris extends Rectangle {
 
 
     public void update(){
+        //Get current time, used for oscillating animation of piece when it is on the ground but not locked
+        this.currentUpdateFrame++; //Get current time
         if(died){
             return;
         }
@@ -105,12 +106,12 @@ public class Tetris extends Rectangle {
     private void drawGrid(Graphics2D g){
         for (int row = 0; row < grid.length; row++) {
             for (int column = 0; column < grid[0].length; column++) {
-                drawSquare(g, grid[row][column], row, column);
+                drawSquare(g, grid[row][column], row, column, false);
             }
         }
     }
 
-    private void drawPiece(Graphics2D g, Piece piece, boolean isGhost){
+    private void drawPiece(Graphics2D g, Piece piece, boolean isGhost, boolean onGround){
         int length = 3;
         if(current.type == PieceType.I){
             length = 4;
@@ -122,7 +123,7 @@ public class Tetris extends Rectangle {
                 if(isGhost && type != PieceType.NULL){
                     type = PieceType.GHOST;
                 }
-                drawSquare(g, type, piece.centerY - 1 + i, piece.centerX - 1 + j);
+                drawSquare(g, type, piece.centerY - 1 + i, piece.centerX - 1 + j, onGround);
             }
         }
     }
@@ -355,10 +356,15 @@ public class Tetris extends Rectangle {
         return true;
     }
 
-    private void drawSquare(Graphics2D g, PieceType piece, int row, int column){
+    private void drawSquare(Graphics2D g, PieceType piece, int row, int column, boolean onGround){
         if(piece.getId() == -1){
             return;
         }
         g.drawImage(Assets.Game.PIECES.get(), 179 + 35*(column), -160 + 35*row, 179 + 35*(column)+34,-160 + 35*row+34, 35*piece.getId(), 0, 35*piece.getId()+34, 34, null);
+        if(onGround) {
+            int opacity = Math.abs(((int) (Math.sin(currentUpdateFrame/30.0)*100))+50);
+            g.setColor(new Color(255, 255, 255, opacity));
+            g.fillRect(179 + 35 * (column), -160 + 35 * row, 34, 34);
+        }
     }
 }
