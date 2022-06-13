@@ -23,6 +23,7 @@ public class Tetris extends Rectangle {
 
     public PieceType[][] grid;
     public Piece hold;
+    public boolean canSwitchHold;
     public Piece current;
 
     public int linesCleared;
@@ -227,7 +228,9 @@ public class Tetris extends Rectangle {
                 }
             }
         }
-
+        if (!canSwitchHold) {
+            canSwitchHold = true;
+        }
         clearLines();
         spawnPiece();
     }
@@ -366,6 +369,7 @@ public class Tetris extends Rectangle {
     }
 
     private void drawHold(Graphics2D g) {
+        if (!canSwitchHold) return;
         int length = 3;
         if(hold.type == PieceType.I){
             length = 4;
@@ -385,6 +389,7 @@ public class Tetris extends Rectangle {
     }
 
     public void holdPiece(){
+        if (!canSwitchHold) return;
         if(hold == null){
             hold = current.clone();
             spawnPiece();
@@ -393,6 +398,7 @@ public class Tetris extends Rectangle {
             spawnPiece(hold.type);
             hold = temp.clone();
         }
+        canSwitchHold = false;
     }
 
     public boolean checkLegal(Piece piece){
