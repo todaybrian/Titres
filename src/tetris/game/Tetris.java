@@ -25,7 +25,7 @@ public class Tetris extends Rectangle {
     public Piece hold;
     public boolean canSwitchHold;
     public Piece current;
-
+    public ArrayList<PieceType> next;
     public int linesCleared;
     public int lineGoal;
     private long timeStarted;
@@ -58,7 +58,7 @@ public class Tetris extends Rectangle {
         this.timeStarted = -1;
         this.died = false;
         this.gameMode = gameMode;
-
+        this.next = randomizer.getNextPieces(5);
         increaseLevel();
 
         if(gameMode == GameMode.FOURTY_LINES){
@@ -87,6 +87,7 @@ public class Tetris extends Rectangle {
         if (hold != null) {
             drawHold(g);
         }
+        drawNext(g);
         drawSidebar(g);
         return image;
     }
@@ -237,6 +238,7 @@ public class Tetris extends Rectangle {
 
     public void spawnPiece(){
         spawnPiece(randomizer.getNextPiece());
+        next = randomizer.getNextPieces(5);
     }
 
     public void spawnPiece(PieceType type){
@@ -378,11 +380,33 @@ public class Tetris extends Rectangle {
             for (int j = 0; j < length; j++) {
                 PieceType type = hold.currentPieceGrid[i][j];
                 if (hold.type == PieceType.I) {
-                    drawSquare(g, type, 10.85 + i, -4.6 + j, false);
+                    drawSquare(g, type, 10.85 + i, 11.4 + j, false);
                 } else if (hold.type == PieceType.O) {
-                    drawSquare(g, type, 11.2 + i, -3.5 + j, false);
+                    drawSquare(g, type, 11.2 + i, 12.5 + j, false);
                 } else {
-                    drawSquare(g, type, 11.2 + i, -4 + j, false);
+                    drawSquare(g, type, 11.2 + i, 12 + j, false);
+                }
+            }
+        }
+    }
+
+    public void drawNext(Graphics2D g) {
+        for (int i = 0; i < next.size(); i++) {
+            Piece temp = new Piece(next.get(i));
+            int length = 3;
+            if(next.get(i) == PieceType.I){
+                length = 4;
+            }
+            for (int j = 0; j < length; j++) {
+                for (int k = 0; k < length; k++) {
+                    PieceType type = temp.currentPieceGrid[j][k];
+                    if (temp.type == PieceType.I) {
+                        drawSquare(g, type, 10.85 + i + j, -4.6 + k, false);
+                    } else if (temp.type == PieceType.O) {
+                        drawSquare(g, type, 11.2 + i + j, -3.5 + k, false);
+                    } else {
+                        drawSquare(g, type, 11.2 + i + j, -4 + k, false);
+                    }
                 }
             }
         }
