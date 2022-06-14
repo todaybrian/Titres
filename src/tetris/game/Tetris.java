@@ -123,6 +123,7 @@ public class Tetris extends Rectangle {
                 lockTimer.reset();
             }
         }
+        checkObjectives();
     }
 
     private void drawGrid(Graphics2D g){
@@ -170,7 +171,7 @@ public class Tetris extends Rectangle {
             if (timeStarted == -1) {
                 minutes = seconds = millis = 0;
             }
-        } else {
+        } else { // makes timer for blitz count down
             minutes = 1-(int) ((System.currentTimeMillis() - timeStarted) / 1000 / 60);
             seconds = 59-((int) (System.currentTimeMillis() - timeStarted) / 1000) % 60;
             millis = 1000-(int) (System.currentTimeMillis() - timeStarted) % 1000;
