@@ -54,7 +54,7 @@ public class Tetris extends Rectangle {
             Arrays.fill(pieceTypes, PieceType.NULL);
         }
 
-        this.current = new Piece(randomizer.getNextPiece());
+        this.current = new Piece(randomizer.popNextPiece());
 
         this.linesCleared = 0;
         this.timeStarted = -1;
@@ -244,7 +244,7 @@ public class Tetris extends Rectangle {
     }
 
     public void spawnPiece(){
-        spawnPiece(randomizer.getNextPiece());
+        spawnPiece(randomizer.popNextPiece());
         next = randomizer.getNextPieces(5);
     }
 

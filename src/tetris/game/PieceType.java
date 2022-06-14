@@ -3,12 +3,12 @@ package tetris.game;
 public enum PieceType {
     J(0), Z(1), S(2), L(3), T(4), O(5), I(6), GHOST(7), NULL;
 
-    private int id;
-    private static PieceType[][][] pieceGrid;
+    private final int id;
+    private static final PieceType[][][] pieceGrid;
 
     //wall kick data
-    public static int[][][] wallKickDataJLSTZ;
-    public static int[][][] wallKickDataI;
+    public static final int[][][] wallKickDataJLSTZ;
+    public static final int[][][] wallKickDataI;
 
     PieceType(int id) {
         this.id = id;

@@ -10,7 +10,7 @@ public enum GameMode {
     public Image getBanner(){
         switch (this){
             case FOURTY_LINES:
-                return Assets.Game.FOURTY_BANNER.get();
+                return Assets.Game.FORTY_BANNER.get();
             case BLITZ:
                 return Assets.Game.BLITZ_BANNER.get();
             default:

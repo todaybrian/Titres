@@ -36,30 +36,30 @@ public class Assets {
 
 
     public enum Gui {
-        LOGO("src/assets/logo.png"),
+        LOGO("logo.png"),
 
-        WELCOME_SCREEN("src/assets/welcome_screen.gif"),
+        WELCOME_SCREEN("welcome_screen.gif"),
 
-        TOP_MAIN_MENU("src/assets/menus/top_main_menu.png"),
-        BOTTOM_MAIN_MENU("src/assets/menus/bottom_main_menu.png"),
+        TOP_MAIN_MENU("top_main_menu.png"),
+        BOTTOM_MAIN_MENU("bottom_main_menu.png"),
 
-        TOP_SETTINGS("src/assets/menus/top_settings.png"),
-        BOTTOM_SETTINGS("src/assets/menus/bottom_settings.png"),
+        TOP_SETTINGS("top_settings.png"),
+        BOTTOM_SETTINGS("bottom_settings.png"),
 
-        TOP_SOLO("src/assets/menus/top_solo.png"),
-        BOTTOM_SOLO("src/assets/menus/bottom_solo.png"),
+        TOP_SOLO("top_solo.png"),
+        BOTTOM_SOLO("bottom_solo.png"),
 
-        TOP_40("src/assets/menus/top_40.png"),
-        BOTTOM_40("src/assets/menus/bottom_40.png"),
+        TOP_40("top_40.png"),
+        BOTTOM_40("bottom_40.png"),
 
-        TOP_BLITZ("src/assets/menus/top_blitz.png"),
-        BOTTOM_BLITZ("src/assets/menus/bottom_blitz.png");
+        TOP_BLITZ("top_blitz.png"),
+        BOTTOM_BLITZ("bottom_blitz.png");
 
         private final Image image;
 
         Gui(String s) {
             try {
-                ImageIcon imageIcon = new ImageIcon(s);
+                ImageIcon imageIcon = new ImageIcon("src/assets/gui/" + s);
                 image = imageIcon.getImage();
             } catch (Exception e) {
                 throw new RuntimeException(e);
@@ -74,7 +74,7 @@ public class Assets {
     public enum Game{
         TETRIS_GRID ("tetris_grid.png"),
         PIECES("pieces.png"),
-        FOURTY_BANNER("40_banner.png"),
+        FORTY_BANNER("40_banner.png"),
         BLITZ_BANNER("blitz_banner.png"),
         COUNTDOWN_1("countdown_one.png"),
         COUNTDOWN_2("countdown_two.png"),
@@ -138,7 +138,7 @@ public class Assets {
         VREMYA("Vremya.wav"),
         VIRTUAL_LIGHT("VirtualLight.wav");
 
-        private File file;
+        private final File file;
 
         Music(String s) {
             file = new File("src/assets/music/" + s);

@@ -2,11 +2,9 @@ package tetris.music;
 
 import javax.sound.sampled.*;
 import java.io.File;
-import java.util.HashMap;
 
 public class MusicPlayer {
     public Clip clip;
-    private HashMap<String, File> cache;
     private double volume;
 
     public MusicPlayer() {
@@ -15,7 +13,6 @@ public class MusicPlayer {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        cache = new HashMap<>();
         volume = 0.8;
     }
 
