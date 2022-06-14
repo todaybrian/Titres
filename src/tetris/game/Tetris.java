@@ -431,14 +431,13 @@ public class Tetris extends Rectangle {
     public void holdPiece(){
         if (!canSwitchHold) return;
         if(hold == null){
-            hold = current.clone();
+            hold = new Piece(current.type);
             spawnPiece();
         } else {
-            Piece temp = current.clone();
+            Piece temp = new Piece(current.type);
             spawnPiece(hold.type);
             hold = temp.clone();
         }
-        hold.rotationIndex = 0;
         canSwitchHold = false;
     }
 
