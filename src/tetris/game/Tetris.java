@@ -66,6 +66,8 @@ public class Tetris extends Rectangle {
 
         if(gameMode == GameMode.FOURTY_LINES){
             lineGoal = 40;
+        } else if (gameMode == GameMode.BLITZ) {
+            lineGoal = 3;
         }
     }
 
@@ -160,12 +162,24 @@ public class Tetris extends Rectangle {
 
 
         g.setFont(Assets.Fonts.KDAM_FONT.get().deriveFont(Font.BOLD, 23));
-        int minutes = (int)((System.currentTimeMillis() - timeStarted)/1000/60);
-        int seconds = ((int)(System.currentTimeMillis() - timeStarted) / 1000)%60;
-        int millis = (int)(System.currentTimeMillis() - timeStarted) % 1000;
-        if(timeStarted == -1) {
-           minutes = seconds = millis = 0;
+        int minutes,seconds,millis;
+        if (gameMode != GameMode.BLITZ) {
+            minutes = (int) ((System.currentTimeMillis() - timeStarted) / 1000 / 60);
+            seconds = ((int) (System.currentTimeMillis() - timeStarted) / 1000) % 60;
+            millis = (int) (System.currentTimeMillis() - timeStarted) % 1000;
+            if (timeStarted == -1) {
+                minutes = seconds = millis = 0;
+            }
+        } else {
+            minutes = 1-(int) ((System.currentTimeMillis() - timeStarted) / 1000 / 60);
+            seconds = 59-((int) (System.currentTimeMillis() - timeStarted) / 1000) % 60;
+            millis = 1000-(int) (System.currentTimeMillis() - timeStarted) % 1000;
+            if (timeStarted == -1) {
+                minutes = 2;
+                seconds = millis = 0;
+            }
         }
+
 
         //Milliseconds
         String millisString = String.format(".%03d", millis);
@@ -362,7 +376,7 @@ public class Tetris extends Rectangle {
                 lineGoal = 2*level-1;
             }
         }
-        if(System.currentTimeMillis()- timeStarted >= 120*1e9){
+        if(System.currentTimeMillis()- timeStarted >= 120*1e3){
             objectiveCompleted(linesCleared);
         }
     }
