@@ -17,6 +17,7 @@ public class MusicPlayer {
     }
 
     public void play(File musicFile) {
+        stopMusic();
         try {
             if (musicFile.exists()) {
                 AudioInputStream audioInput = AudioSystem.getAudioInputStream(musicFile);
