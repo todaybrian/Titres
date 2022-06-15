@@ -28,6 +28,7 @@ public class GuiResults extends Gui {
                 g.drawString("Time: "+min+":"+sec+":"+ms, 1000, 550);
             }
         }, AnimationType.RIGHT);
+        componentList.add(results);
     }
 
 }

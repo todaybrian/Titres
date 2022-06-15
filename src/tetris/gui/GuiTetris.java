@@ -174,6 +174,9 @@ public class GuiTetris extends Gui {
     @Override
     public void update(){
         super.update();
+        if (tetris.isObjectiveCompleted()) {
+            instance.displayGui(new GuiMenuTransition(this, new GuiResults(gameMode,tetris.getFinalScore())));
+        }
 
         if(!blackInTimer.isDone()) {
             return;
@@ -196,8 +199,10 @@ public class GuiTetris extends Gui {
             instance.getSFXPlayer().play(Assets.SFX.GO.get());
             if (tetris.getGameMode() != GameMode.BLITZ) { // Change the BGM to fit the game mode. "VIRTUAL_LIGHT" is more intense
                 instance.getMusicPlayer().play(Assets.Music.VREMYA.get());
+                instance.getMusicPlayer().setLoop(true);
             }  else {
                 instance.getMusicPlayer().play(Assets.Music.VIRTUAL_LIGHT.get());
+                instance.getMusicPlayer().setLoop(true);
             }
         }
 

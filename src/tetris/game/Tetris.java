@@ -395,6 +395,10 @@ public class Tetris extends Rectangle {
         objectiveCompleted = true;
     }
 
+    public long getFinalScore() {
+        return this.finalScore;
+    }
+
     public boolean isObjectiveCompleted(){
         return objectiveCompleted;
     }
