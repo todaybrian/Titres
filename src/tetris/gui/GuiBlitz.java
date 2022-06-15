@@ -18,8 +18,7 @@ public class GuiBlitz extends Gui{
         buttonList.add(new Button(-170, 120, back_button, (click)->{
             instance.displayGui(new GuiMenuTransition( this, new GuiSolo()));
 
-            instance.getSFXPlayer().loadMusic(Assets.SFX.CLICK_BACK.get());
-            instance.getSFXPlayer().playMusic();
+            instance.getSFXPlayer().play(Assets.SFX.CLICK_BACK.get());
         }, AnimationType.LEFT));
 
         componentList.add(new AnimatedRectangle((g, x)->{
@@ -43,8 +42,7 @@ public class GuiBlitz extends Gui{
         Image start_40_button = Assets.Button.START_BLITZ_BUTTON.get();
         buttonList.add(new Button(1700-start_40_button.getWidth(null), 460, start_40_button, (click)->{
             instance.displayGui(new GuiMenuTransition(this, new GuiTetris(GameMode.BLITZ), 0.5, true));
-            instance.getSFXPlayer().loadMusic(Assets.SFX.CLICK_START.get());
-            instance.getSFXPlayer().playMusic();
+            instance.getSFXPlayer().play(Assets.SFX.CLICK_START.get());
         }, AnimationType.NONE));
     }
 

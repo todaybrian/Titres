@@ -9,7 +9,6 @@ import tetris.gui.widget.Slider;
 import tetris.util.Assets;
 import tetris.settings.GameSettings;
 
-import javax.swing.*;
 import java.awt.*;
 
 public class GuiSettings extends Gui {
@@ -30,8 +29,7 @@ public class GuiSettings extends Gui {
         buttonList.add(new Button(-170, 120, back_button, (click)->{
             instance.displayGui(new GuiMenuTransition(this, new GuiMainMenu()));
 
-            instance.getSFXPlayer().loadMusic(Assets.SFX.CLICK_BACK.get());
-            instance.getSFXPlayer().playMusic();
+            instance.getSFXPlayer().play(Assets.SFX.CLICK_BACK.get());
         }, AnimationType.LEFT));
 
         Image slider = Assets.Button.SLIDER.get();

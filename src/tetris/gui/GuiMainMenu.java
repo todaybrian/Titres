@@ -5,7 +5,6 @@ import tetris.gui.widget.AnimationType;
 import tetris.util.Assets;
 import tetris.gui.widget.Button;
 
-import javax.swing.*;
 import java.awt.*;
 import java.net.URL;
 
@@ -24,15 +23,13 @@ public class GuiMainMenu extends Gui {
         Image solo_button = Assets.Button.SOLO_BUTTON.get();
         buttonList.add(new Button(400, 400, solo_button, (click)->{
             instance.displayGui(new GuiMenuTransition( this, new GuiSolo()));
-            instance.getSFXPlayer().loadMusic(Assets.SFX.CLICK_1.get());
-            instance.getSFXPlayer().playMusic();
+            instance.getSFXPlayer().play(Assets.SFX.CLICK_1.get());
         }, AnimationType.RIGHT));
 
         Image settings_button = Assets.Button.SETTINGS_BUTTON.get();
         buttonList.add(new Button(400, 600, settings_button, (click)->{
             instance.displayGui(new GuiMenuTransition( this, new GuiSettings()));
-            instance.getSFXPlayer().loadMusic(Assets.SFX.CLICK_1.get());
-            instance.getSFXPlayer().playMusic();
+            instance.getSFXPlayer().play(Assets.SFX.CLICK_1.get());
         }, AnimationType.RIGHT));
 
         Image github_button = Assets.Button.GITHUB_BUTTON.get();

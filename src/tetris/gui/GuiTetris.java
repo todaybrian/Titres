@@ -48,8 +48,7 @@ public class GuiTetris extends Gui {
         buttonList.add(new Button(-170, 120, back_button, (click)->{
             instance.displayGui(new GuiMenuTransition( this, new GuiSolo()));
 
-            instance.getSFXPlayer().loadMusic(Assets.SFX.CLICK_BACK.get());
-            instance.getSFXPlayer().playMusic();
+            instance.getSFXPlayer().play(Assets.SFX.CLICK_BACK.get());
             instance.getGameBackground().setOpacity(0.25f);
 
         }, AnimationType.LEFT));
@@ -123,24 +122,21 @@ public class GuiTetris extends Gui {
                     timeElapsedFromSecond = countdownTimer.timeElapsed() - bufferTime - (long)2e9;
                     countDown = Assets.Game.COUNTDOWN_1.get();
                     if(!hasPlayedCountdownOne){
-                        instance.getSFXPlayer().loadMusic(Assets.SFX.COUNTDOWN_1.get());
-                        instance.getSFXPlayer().playMusic();
+                        instance.getSFXPlayer().play(Assets.SFX.COUNTDOWN_1.get());
                         hasPlayedCountdownOne = true;
                     }
                 } else if(countdownTimer.timeElapsed() - bufferTime > 1e9){
                     timeElapsedFromSecond = countdownTimer.timeElapsed() - bufferTime - (long)1e9;
                     countDown = Assets.Game.COUNTDOWN_2.get();
                     if(!hasPlayedCountdownTwo){
-                        instance.getSFXPlayer().loadMusic(Assets.SFX.COUNTDOWN_2.get());
-                        instance.getSFXPlayer().playMusic();
+                        instance.getSFXPlayer().play(Assets.SFX.COUNTDOWN_2.get());
                         hasPlayedCountdownTwo = true;
                     }
                 } else if (countdownTimer.timeElapsed() - bufferTime > 0){
                     timeElapsedFromSecond = countdownTimer.timeElapsed() - bufferTime;
                     countDown =Assets.Game.COUNTDOWN_3.get();
                     if(!hasPlayedCountdownThree){
-                        instance.getSFXPlayer().loadMusic(Assets.SFX.COUNTDOWN_3.get());
-                        instance.getSFXPlayer().playMusic();
+                        instance.getSFXPlayer().play(Assets.SFX.COUNTDOWN_3.get());
                         hasPlayedCountdownThree = true;
                     }
                 }
@@ -184,8 +180,7 @@ public class GuiTetris extends Gui {
         } else if(titleTimer.isDisabled()){
             titleTimer.reset();
             instance.getMusicPlayer().stopMusic();
-            instance.getSFXPlayer().loadMusic(Assets.SFX.START_SOLO_GAME.get());
-            instance.getSFXPlayer().playMusic();
+            instance.getSFXPlayer().play(Assets.SFX.START_SOLO_GAME.get());
         }
 
         if(!titleTimer.isDone()){
@@ -198,8 +193,12 @@ public class GuiTetris extends Gui {
             return;
         } else if(goTimer.isDisabled()){
             goTimer.reset();
-            instance.getSFXPlayer().loadMusic(Assets.SFX.GO.get());
-            instance.getSFXPlayer().playMusic();
+            instance.getSFXPlayer().play(Assets.SFX.GO.get());
+            if (tetris.getGameMode() != GameMode.BLITZ) { // Change the BGM to fit the game mode. "VIRTUAL_LIGHT" is more intense
+                instance.getMusicPlayer().play(Assets.Music.VREMYA.get());
+            }  else {
+                instance.getMusicPlayer().play(Assets.Music.VIRTUAL_LIGHT.get());
+            }
         }
 
         tetris.update();

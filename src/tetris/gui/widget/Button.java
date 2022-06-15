@@ -9,8 +9,6 @@ import java.awt.*;
 import tetris.GamePanel;
 import tetris.util.Assets;
 
-import javax.swing.*;
-
 public class Button extends AnimatedRectangle {
 	private GamePanel instance;
 
@@ -50,8 +48,7 @@ public class Button extends AnimatedRectangle {
 		checkHover();
 
 		if(!wasHovered && isMouseOver){
-			instance.getSFXPlayer().loadMusic(Assets.SFX.HOVER.get());
-			instance.getSFXPlayer().playMusic();
+			instance.getSFXPlayer().play(Assets.SFX.HOVER.get());
 		}
 		wasHovered = isMouseOver;
 

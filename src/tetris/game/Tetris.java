@@ -488,4 +488,8 @@ public class Tetris extends Rectangle {
             g.fillRect((int)(179 + 35 * (column)), (int)(-160 + 35 * row), 34, 34);
         }
     }
+
+    public GameMode getGameMode() { // Allows Gui class to access the current game mode
+        return gameMode;
+    }
 }

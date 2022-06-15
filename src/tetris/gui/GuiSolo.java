@@ -4,7 +4,6 @@ import tetris.gui.widget.AnimationType;
 import tetris.gui.widget.Button;
 import tetris.util.Assets;
 
-import javax.swing.*;
 import java.awt.*;
 
 public class GuiSolo extends Gui{
@@ -18,23 +17,20 @@ public class GuiSolo extends Gui{
         buttonList.add(new Button(-170, 120, back_button, (click)->{
             instance.displayGui(new GuiMenuTransition(this, new GuiMainMenu()));
 
-            instance.getSFXPlayer().loadMusic(Assets.SFX.CLICK_BACK.get());
-            instance.getSFXPlayer().playMusic();
+            instance.getSFXPlayer().play(Assets.SFX.CLICK_BACK.get());
         }, AnimationType.LEFT));
 
         Image fourty_lines_button = Assets.Button.FOURTY_LINES_BUTTON.get();
         buttonList.add(new Button(400, 120, fourty_lines_button, (click)->{
         instance.displayGui(new GuiMenuTransition(this, new GuiFourty()));
-            instance.getSFXPlayer().loadMusic(Assets.SFX.CLICK_2.get());
-            instance.getSFXPlayer().playMusic();
+            instance.getSFXPlayer().play(Assets.SFX.CLICK_2.get());
 
         }, AnimationType.RIGHT));
 
         Image blitz_button = Assets.Button.BLITZ_BUTTON.get();
         buttonList.add(new Button(400, 320, blitz_button, (click)->{
             instance.displayGui(new GuiMenuTransition(this, new GuiBlitz()));
-            instance.getSFXPlayer().loadMusic(Assets.SFX.CLICK_2.get());
-            instance.getSFXPlayer().playMusic();
+            instance.getSFXPlayer().play(Assets.SFX.CLICK_2.get());
 
         }, AnimationType.RIGHT));
 

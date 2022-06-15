@@ -16,7 +16,7 @@ public class MusicPlayer {
         volume = 0.8;
     }
 
-    public void loadMusic(File musicFile) {
+    public void play(File musicFile) {
         try {
             if (musicFile.exists()) {
                 AudioInputStream audioInput = AudioSystem.getAudioInputStream(musicFile);
@@ -29,9 +29,6 @@ public class MusicPlayer {
         }catch (Exception e) {
             e.printStackTrace();
         }
-    }
-
-    public void playMusic(){
         clip.start();
     }
 

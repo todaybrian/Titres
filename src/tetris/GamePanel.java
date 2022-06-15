@@ -2,12 +2,9 @@ package tetris;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.ArrayList;
-import java.util.Map;
 
 import tetris.controls.KeyboardInput;
 import tetris.controls.MouseInput;
-import tetris.game.Tetris;
 import tetris.gui.GameBackground;
 import tetris.gui.Gui;
 import tetris.gui.GuiWelcome;
@@ -88,13 +85,11 @@ public class GamePanel extends JPanel implements Runnable {
         musicPlayer = new MusicPlayer();
         sfxPlayer = new MusicPlayer();
 
-        musicPlayer.loadMusic(Assets.Music.NIGHT_SNOW.get());
-        musicPlayer.playMusic();
+        musicPlayer.play(Assets.Music.NIGHT_SNOW.get());
         musicPlayer.setLoop(true);
         musicPlayer.changeVolume(0.9);
 
-        sfxPlayer.loadMusic(Assets.SFX.SILENCE.get());
-        sfxPlayer.playMusic();
+        sfxPlayer.play(Assets.SFX.SILENCE.get());
 
         //Display Main Menu
         displayGui(new GuiWelcome());
