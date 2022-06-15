@@ -26,7 +26,7 @@ public class GuiResults extends Gui {
                 int min = (int) (finalScore / 1000 / 60);
                 int sec = (int) (finalScore/1000 % 60);
                 int ms = (int) (finalScore%1000);
-                g.drawString("Time: "+min+":"+sec+":"+ms, 1000, 550);
+                g.drawString("Time: "+min+":"+sec+"."+ms, 1000, 550);
             }
         }, AnimationType.RIGHT);
         componentList.add(results);
