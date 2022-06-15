@@ -23,7 +23,7 @@ public class GuiResults extends Gui {
                 g.drawString("Lines Cleared: " + finalScore, 1000, 550);
             } else if (gameMode == GameMode.FOURTY_LINES) {
                 int min = (int) (finalScore / 1000 / 60);
-                int sec = (int) (finalScore/1000 % 60);gfjf
+                int sec = (int) (finalScore/1000 % 60);
                 int ms = (int) (finalScore%1000);
                 g.drawString("Time: "+min+":"+sec+":"+ms, 1000, 550);
             }
