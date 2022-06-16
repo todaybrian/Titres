@@ -1,5 +1,7 @@
 package tetris;
 
+import tetris.util.Assets;
+
 import javax.swing.*;
 import java.awt.*;
 
@@ -57,5 +59,7 @@ public class GameFrame extends JFrame {
         this.setExtendedState(JFrame.MAXIMIZED_BOTH); //maximize window
 
         this.setVisible(true); //makes window visible to user
+
+        this.setIconImage(Assets.Gui.LOGO.get()); //set icon for frame
     }
 }
