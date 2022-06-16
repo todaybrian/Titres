@@ -272,7 +272,7 @@ public class Tetris extends Rectangle {
 
     public void increaseLevel(){
         this.level++;
-        double secondsPerRow = 1.72 * Math.exp(-0.499* level);
+        double secondsPerRow = 1.72 * Math.exp(-0.4* level);
         dropTimer = new FrameTimer(secondsPerRow);
     }
 
