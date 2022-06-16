@@ -33,12 +33,12 @@ public class GuiSettings extends Gui {
         }, AnimationType.LEFT));
 
         Image slider = Assets.Button.SLIDER.get();
-        musicSlider = new Slider(200,500, 700, slider,  (onChange)->{
+        musicSlider = new Slider(320,500, 670, slider,  (onChange)->{
             instance.getMusicPlayer().changeVolume((onChange.getValue()/100.0));
         },0, 100, (instance.getMusicPlayer().getVolume()));
         buttonList.add(musicSlider);
 
-        sfxSlider = new Slider(200,200, 700, slider, (onChange)->{
+        sfxSlider = new Slider(320,200, 670, slider, (onChange)->{
             instance.getSFXPlayer().changeVolume((onChange.getValue()/100.0));
         },0, 100, (instance.getSFXPlayer().getVolume()));
 
@@ -53,9 +53,9 @@ public class GuiSettings extends Gui {
             g.fillRect((int) (300 + x), 200, 1700, 800);
             g.setFont(Assets.Fonts.KDAM_FONT.get().deriveFont(Font.BOLD, 50));
             g.setColor(Color.WHITE);
-            g.drawString("Music: " + (int)(musicSlider.getValue()),1000, 550);
-            g.drawString("SFX: " + (int)(sfxSlider.getValue()),1000,250);
-            g.drawString("FPS: " + (int)(Math.round(fpsSlider.getValue())),1000,850);
+            g.drawString("Music: " + (int)(musicSlider.getValue()),1050, 570);
+            g.drawString("SFX: " + (int)(sfxSlider.getValue()),1050,270);
+            g.drawString("FPS: " + (int)(Math.round(fpsSlider.getValue())),1050,870);
             updateSettings();
         }, AnimationType.RIGHT);
 
