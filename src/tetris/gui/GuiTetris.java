@@ -19,6 +19,7 @@ public class GuiTetris extends Gui {
     private FrameTimer titleTimer;
     private FrameTimer countdownTimer;
     private FrameTimer goTimer;
+    private FrameTimer resignTimer;
 
     Tetris tetris;
 
@@ -44,15 +45,6 @@ public class GuiTetris extends Gui {
 
         this.backgroundOpacity = 0.5f;
 
-        Image back_button = Assets.Button.BACK_BUTTON.get();
-        buttonList.add(new Button(-170, 120, back_button, (click)->{
-            instance.displayGui(new GuiMenuTransition( this, new GuiSolo()));
-
-            instance.getSFXPlayer().play(Assets.SFX.CLICK_BACK.get());
-            instance.getGameBackground().setOpacity(0.25f);
-
-        }, AnimationType.LEFT));
-
         blackInTimer = new FrameTimer(BLACK_IN_TIME);
 
         titleTimer = new FrameTimer(5);
@@ -66,6 +58,9 @@ public class GuiTetris extends Gui {
 
         goTimer = new FrameTimer(1);
         goTimer.disable();
+
+        resignTimer = new FrameTimer(2.5);
+        resignTimer.disable();
     }
 
 
@@ -86,6 +81,11 @@ public class GuiTetris extends Gui {
                 instance.displayGui(new GuiMenuTransition(this, new GuiDied(gameMode)));
             }
         } else {
+            if (!resignTimer.isDisabled()) {
+                g.setFont(Assets.Fonts.KDAM_FONT.get().deriveFont(Font.BOLD, 50));
+                g.setColor(Color.WHITE);
+                g.drawString("Keep holding ESC to resign", 750, 1000);
+            }
 
             g.drawImage(tetris.drawImage(), 1920 / 2 - Tetris.GAME_WIDTH / 2 + xOffset, 1080 / 2 - Tetris.GAME_HEIGHT / 2 + yOffset - (int) (1400 * (1 - blackInTimer.getProgress())), Tetris.GAME_WIDTH, Tetris.GAME_HEIGHT, null);
 
@@ -207,6 +207,13 @@ public class GuiTetris extends Gui {
         }
 
         tetris.update();
+        if (instance.keyboardInput.keyPressed[KeyEvent.VK_ESCAPE] && resignTimer.isDisabled()) {
+            resignTimer.reset();
+        } else if (!instance.keyboardInput.keyPressed[KeyEvent.VK_ESCAPE]) {
+            resignTimer.disable();
+        } else if (resignTimer.isDone()) {
+            tetris.die();
+        }
 
         if (downTimer.isDone() && instance.keyboardInput.keyPressed[KeyEvent.VK_DOWN]) {
             downTimer.reset();
