@@ -85,10 +85,10 @@ public class GuiTetris extends Gui {
                 g.setFont(Assets.Fonts.KDAM_FONT.get().deriveFont(Font.BOLD, 50));
                 g.setColor(Color.WHITE);
                 g.drawString("Keep holding ESC to resign", 750, 1000);
+                g.drawImage(tetris.drawImage(), 1920 / 2 - Tetris.GAME_WIDTH / 2 + xOffset, 1080 / 2 - Tetris.GAME_HEIGHT / 2 + yOffset - (int) (1400 * (1 - blackInTimer.getProgress())), (int) (Tetris.GAME_WIDTH*(1-resignTimer.getProgress())), (int) (Tetris.GAME_HEIGHT*(1-resignTimer.getProgress())), null);
+            } else {
+                g.drawImage(tetris.drawImage(), 1920 / 2 - Tetris.GAME_WIDTH / 2 + xOffset, 1080 / 2 - Tetris.GAME_HEIGHT / 2 + yOffset - (int) (1400 * (1 - blackInTimer.getProgress())), Tetris.GAME_WIDTH, Tetris.GAME_HEIGHT, null);
             }
-
-            g.drawImage(tetris.drawImage(), 1920 / 2 - Tetris.GAME_WIDTH / 2 + xOffset, 1080 / 2 - Tetris.GAME_HEIGHT / 2 + yOffset - (int) (1400 * (1 - blackInTimer.getProgress())), Tetris.GAME_WIDTH, Tetris.GAME_HEIGHT, null);
-
             if (!blackInTimer.isDone()) {
                 g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, (float) (1 - blackInTimer.getProgress())));
                 g.setColor(Color.BLACK);
@@ -212,7 +212,7 @@ public class GuiTetris extends Gui {
         } else if (!instance.keyboardInput.keyPressed[KeyEvent.VK_ESCAPE]) {
             resignTimer.disable();
         } else if (resignTimer.isDone()) {
-            tetris.die();
+            instance.displayGui(new GuiMenuTransition(this, new GuiMainMenu()));
         }
 
         if (downTimer.isDone() && instance.keyboardInput.keyPressed[KeyEvent.VK_DOWN]) {
