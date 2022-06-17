@@ -13,7 +13,6 @@ import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
 
 public class GuiTetris extends Gui {
-    private static final double BLACK_IN_TIME = 1;
     private FrameTimer blackInTimer;
 
     private FrameTimer titleTimer;
@@ -34,18 +33,34 @@ public class GuiTetris extends Gui {
     private boolean hasPlayedCountdownThree = false;
     private boolean hasPlayedCountdownTwo = false;
     private boolean hasPlayedCountdownOne = false;
+    private FrameTimer downTimer = new FrameTimer(0.1);
+
+
+    private boolean held_hardDrop = false;
+    private boolean held_rotateCW = false;
+    private boolean held_rotateCCW = false;
+    private boolean held_holdPiece = false;
+
+    private FrameTimer moveLeftTimerDAS = new FrameTimer(0.167);
+    private FrameTimer moveLeftTimer = new FrameTimer(0.033);
+
+    private FrameTimer hardDropAnimationTimer = new FrameTimer(0.1);
+
+    private FrameTimer moveRightTimerDAS = new FrameTimer(0.167);
+    private FrameTimer moveRightTimer = new FrameTimer(0.033);
 
     public GuiTetris(GameMode gameMode) {
         super();
         this.gameMode = gameMode;
 
+        // this object handles all game logic; only tetris.drawImage() and tetris.update() will cause objects inside game board to change.
         tetris = new Tetris(gameMode);
 
         instance.getGameBackground().randomBackground();
 
         this.backgroundOpacity = 0.5f;
 
-        blackInTimer = new FrameTimer(BLACK_IN_TIME);
+        blackInTimer = new FrameTimer(1);
 
         titleTimer = new FrameTimer(5);
         titleTimer.disable();
@@ -62,12 +77,11 @@ public class GuiTetris extends Gui {
         resignTimer = new FrameTimer(2.5);
         resignTimer.disable();
     }
-
-
     @Override
     public void draw(Graphics2D g) {
         super.draw(g);
-        if(tetris.isDied()){
+        if(tetris.isDied()){ // This takes precedence over anything else since we need to transition to another screen if player is dead
+            // diedTimer is used to hold things in place while dying animation plays
             if(diedTimer.isDisabled()){
                 diedTimer.reset();
             }
@@ -77,7 +91,7 @@ public class GuiTetris extends Gui {
             g.rotate(Math.toRadians(20) *diedTimer.getProgress());
 
             g.drawImage(board, 1920 / 2 - Tetris.GAME_WIDTH / 2  + (int)(330 * diedTimer.getProgress()), 1080 / 2 - Tetris.GAME_HEIGHT / 2 + (int)(600 * diedTimer.getProgress()),null);
-            if(diedTimer.isDone()){
+            if(diedTimer.isDone()){ // when diedTimer is done, transition to death screen
                 instance.displayGui(new GuiMenuTransition(this, new GuiDied(gameMode)));
             }
         } else {
@@ -87,6 +101,7 @@ public class GuiTetris extends Gui {
                 g.drawString("Keep holding ESC to resign", 750, 1000);
                 g.drawImage(tetris.drawImage(), 1920 / 2 - Tetris.GAME_WIDTH / 2 + xOffset, 1080 / 2 - Tetris.GAME_HEIGHT / 2 + yOffset - (int) (1400 * (1 - blackInTimer.getProgress())), (int) (Tetris.GAME_WIDTH*(1-resignTimer.getProgress())), (int) (Tetris.GAME_HEIGHT*(1-resignTimer.getProgress())), null);
             } else {
+                // Only draw the tetris board normally if player is not dead and is not resigning
                 g.drawImage(tetris.drawImage(), 1920 / 2 - Tetris.GAME_WIDTH / 2 + xOffset, 1080 / 2 - Tetris.GAME_HEIGHT / 2 + yOffset - (int) (1400 * (1 - blackInTimer.getProgress())), Tetris.GAME_WIDTH, Tetris.GAME_HEIGHT, null);
             }
             if (!blackInTimer.isDone()) {
@@ -95,7 +110,7 @@ public class GuiTetris extends Gui {
                 g.fillRect(0, 0, instance.getWidth(), instance.getHeight());
                 g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1.0f));
             } else if(!titleTimer.isDone()){
-                float opacityProgress = 0;
+                float opacityProgress;
                 if(titleTimer.getProgress() > 0.9){
                     //easeOutQuint
                     opacityProgress = (float) -(1-Math.pow(1-(titleTimer.getProgress()-0.9)/0.1,5));
@@ -155,32 +170,20 @@ public class GuiTetris extends Gui {
         }
     }
 
-    private FrameTimer downTimer = new FrameTimer(0.1);
-
-
-    private boolean held_hardDrop = false;
-    private boolean held_rotateCW = false;
-    private boolean held_rotateCCW = false;
-    private boolean held_holdPiece = false;
-
-    private FrameTimer moveLeftTimerDAS = new FrameTimer(0.167);
-    private FrameTimer moveLeftTimer = new FrameTimer(0.033);
-
-    private FrameTimer hardDropAnimationTimer = new FrameTimer(0.1);
-
-    private FrameTimer moveRightTimerDAS = new FrameTimer(0.167);
-    private FrameTimer moveRightTimer = new FrameTimer(0.033);
-
     @Override
-    public void update(){
+    public void update(){ // This is called every time game physics needs to update
         super.update();
-        if (tetris.isObjectiveCompleted()) {
+        if (tetris.isObjectiveCompleted()) { // If game completion requirements are fulfilled, immediately move to results.
             instance.displayGui(new GuiMenuTransition(this, new GuiResults(gameMode,tetris.getFinalScore())));
         }
-
+/*        The following if/else structures work as follows:
+            When a timer is not yet done, prevent anything below from updating.
+            When that timer is done, start the next one.
+            Only when all timers are done will the game physics update at tetris.update().
+            At this point, all timers will be done and not disabled, preventing the pre-game timers from resetting.*/
         if(!blackInTimer.isDone()) {
             return;
-        } else if(titleTimer.isDisabled()){
+        } else if(titleTimer.isDisabled()){ // Timer for game banner.
             titleTimer.reset();
             instance.getMusicPlayer().stopMusic();
             instance.getSFXPlayer().play(Assets.SFX.START_SOLO_GAME.get());
@@ -188,16 +191,16 @@ public class GuiTetris extends Gui {
 
         if(!titleTimer.isDone()){
             return;
-        } else if(countdownTimer.isDisabled()){
+        } else if(countdownTimer.isDisabled()){ // Timer for 3-2-1 countdown before game begins
             countdownTimer.reset();
         }
 
         if(!countdownTimer.isDone()){
             return;
-        } else if(goTimer.isDisabled()){
+        } else if(goTimer.isDisabled()){ // Grace period to account for the "1" animation to finish
             goTimer.reset();
             instance.getSFXPlayer().play(Assets.SFX.GO.get());
-            if (tetris.getGameMode() != GameMode.BLITZ) { // Change the BGM to fit the game mode. "VIRTUAL_LIGHT" is more intense
+            if (tetris.getGameMode() != GameMode.BLITZ) { // Change the BGM to fit the game mode. "VIRTUAL_LIGHT" fits the stress of Blitz mode
                 instance.getMusicPlayer().play(Assets.Music.VREMYA.get());
                 instance.getMusicPlayer().setLoop(true);
             }  else {
@@ -206,25 +209,32 @@ public class GuiTetris extends Gui {
             }
         }
 
-        tetris.update();
+        tetris.update(); // This updates the tetris game physics.
+
+        // This timer only stores how long escape was pressed, resetting when it is pressed and disabling when it is released.
+        // The game will only accept the resignation if it is pressed continuously for some time.
+        // This ensures that an errant press of the escape key does not cause an accidental resign.
         if (instance.keyboardInput.keyPressed[KeyEvent.VK_ESCAPE] && resignTimer.isDisabled()) {
             resignTimer.reset();
         } else if (!instance.keyboardInput.keyPressed[KeyEvent.VK_ESCAPE]) {
             resignTimer.disable();
-        } else if (resignTimer.isDone()) {
+        } else if (resignTimer.isDone()) { // Resignation takes the player back to the main menu.
             instance.displayGui(new GuiMenuTransition(this, new GuiMainMenu()));
         }
 
+        // "soft dropping" is rate limited to prevent a short press from bringing the piece all the way down
         if (downTimer.isDone() && instance.keyboardInput.keyPressed[KeyEvent.VK_DOWN]) {
             downTimer.reset();
             tetris.dropPiece();
         }
+        // "hard dropping" is disabled if the space bar is held to prevent multiple pieces from being hard dropped
         if (instance.keyboardInput.keyPressed[KeyEvent.VK_SPACE] && !held_hardDrop) {
             tetris.hardDrop();
             hardDropAnimationTimer.reset();
         }
         held_hardDrop = instance.keyboardInput.keyPressed[KeyEvent.VK_SPACE];
 
+        // moving left and right is rate limited to prevent certain exploits
         if (instance.keyboardInput.keyPressed[KeyEvent.VK_LEFT]) {
             if (moveLeftTimerDAS.isDisabled()) {
                 tetris.moveLeft();
@@ -251,6 +261,7 @@ public class GuiTetris extends Gui {
             moveRightTimerDAS.disable();
         }
 
+        // same logic as hard drop disabling on hold
         if (instance.keyboardInput.keyPressed[KeyEvent.VK_UP] && !held_rotateCW) {
             tetris.rotateCW();
         } else if (instance.keyboardInput.keyPressed[KeyEvent.VK_CONTROL] && !held_rotateCCW) {
@@ -263,6 +274,8 @@ public class GuiTetris extends Gui {
             tetris.holdPiece();
         }
         held_holdPiece = instance.keyboardInput.keyPressed[KeyEvent.VK_C];
+
+        // makes game board animate based on current velocity, prevent it from going too far
 
         xOffset += xVelocity;
         yOffset += yVelocity;
@@ -283,6 +296,7 @@ public class GuiTetris extends Gui {
             xOffset = 0;
         }
 
+        // prevent animation from happening too often
         if(!hardDropAnimationTimer.isDone() && !hardDropAnimationTimer.isDisabled()) {
             yVelocity = 1;
         } else{
