@@ -1,9 +1,13 @@
 package tetris.gui;
 
+/* GuiTetris
+Authors: Brian, Aaron
+Date: 17 June 2022
+Description: Handles displaying the tetris game board and connecting Tetris and GamePanel (i.e. controls).
+ */
+
 import tetris.game.GameMode;
 import tetris.game.Tetris;
-import tetris.gui.widget.AnimationType;
-import tetris.gui.widget.Button;
 import tetris.util.Assets;
 import tetris.util.FrameTimer;
 import tetris.util.Util;
