@@ -1,7 +1,9 @@
-/** Brian Yan, Aaron Zhang
-*
-* Wrapper class for Buttons
-*/
+/**
+ * Author: Brian Yan, Aaron Zhang
+ * Date: June 18, 2022
+ *
+ * Class for buttons.
+ */
 package tetris.gui.widget;
 
 import java.awt.*;
@@ -12,16 +14,19 @@ import tetris.util.Assets;
 public class Button extends AnimatedRectangle {
 	private GamePanel instance;
 
-	// Length of animation in nanoseconds
+	// Length of animations in nanoseconds, self-explanatory
 	private final double ANIMATION_LENGTH_HOVER = 0.12;
 	private final double ANIMATION_LENGTH_CLICK = 0.04;
 
 	//Image of the button
 	protected Image image;
 
+	//Variable for if the button was hovered over in the previous frame
 	private boolean wasHovered;
 
+	//Interface for the button to call when it is clicked
 	protected Button.IPressable onPress;
+
 	public Button (int xPos, int yPos, Image image, Button.IPressable onPress, AnimationType animationType) {
 		super(xPos, yPos, image.getWidth(null), image.getHeight(null), animationType);
 
@@ -39,6 +44,7 @@ public class Button extends AnimatedRectangle {
 
 	}
 
+  	//Constructor for buttons that are not animated
 	public Button(int xPos, int yPos, Image image, Button.IPressable onPress){
 		this(xPos, yPos, image, onPress, AnimationType.NONE);
 	}
@@ -80,20 +86,14 @@ public class Button extends AnimatedRectangle {
 		g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1.0f));
 	}
 
-
+	//Called if the button was clicked
 	public void clicked(){
-		//Stop buttons from being clicked when they are in the middle of a menu switch animation
-		//Otherwise call the interface function to handle the button press
-		if(!inTransition)
-			onPress.onPress(this);
+		if(!inTransition) //Stop buttons from being clicked when they are in the middle of a menu switch animation
+			onPress.onPress(this); //call the interface function to handle the button press
 	}
 
 	public interface IPressable {
 		void onPress(Button p_onPress_1_);
-	}
-
-	public double getValue() {
-		return -1; // This is b/c I need to declare functions in parent so that child class can use them
 	}
 
 }

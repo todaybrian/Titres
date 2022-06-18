@@ -60,4 +60,5 @@ public class Slider extends Button{
         void onChange(Slider onSlide);
     }
 
+
 }

@@ -1,3 +1,8 @@
+/**
+ * Author: Brian Yan, Aaron Zhang
+ *
+ * This is the abstract GUI class that all other GUIs inherit from.
+ */
 package tetris.gui;
 
 import tetris.GamePanel;
@@ -104,8 +109,5 @@ public abstract class Gui {
 
     // update method that is called every physics tick, used to update physics of the game
     // Meant to be overridden by subclasses
-    public void update() {
-
-    }
-
+    public void update() {}
 }

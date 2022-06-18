@@ -4,7 +4,6 @@ import tetris.GamePanel;
 import tetris.gui.widget.AnimatedRectangle;
 import tetris.gui.widget.AnimationType;
 import tetris.gui.widget.Button;
-//import tetris.gui.widget.Slider;
 import tetris.gui.widget.Slider;
 import tetris.util.Assets;
 import tetris.settings.GameSettings;

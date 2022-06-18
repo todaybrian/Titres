@@ -1,3 +1,8 @@
+/**
+ * Author: Brian Yan, Aaron Zhang
+ *
+ * This is a FrameTimer class that is used to keep track of the time passed.
+ */
 package tetris.util;
 
 public class FrameTimer {
@@ -40,7 +45,9 @@ public class FrameTimer {
         return isDisabled;
     }
 
+    //Return the progress of the timer as a percentage
     public double getProgress() {
+        //If the percentage is over 100%, return 100% (happens when the timer is done and this method is called)
         return Math.min((double)(System.nanoTime() - startTime) / (double)length, 1);
     }
 }

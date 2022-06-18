@@ -54,10 +54,6 @@ public class AnimatedRectangle extends Rectangle {
         lastSystemTime = System.nanoTime();
     }
 
-    public AnimatedRectangle(int x, int y, int width, int height, IDrawable drawable) {
-        this(x, y, width, height, drawable, AnimationType.NONE);
-    }
-
     public AnimatedRectangle(int x, int y, int width, int height, AnimationType animationType) {
         this(x, y, width, height, (click, X)->{}, animationType);
     }
