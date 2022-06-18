@@ -1,4 +1,7 @@
 /**
+ * Author: Brian Yan, Aaron Zhang
+ * Date: June 18, 2022
+ *
  * This is an abstract class for a Tetris bag randomizer.
  * A bag randomizer is a randomizer that randomly generates a bag of pieces.
  *

@@ -85,13 +85,4 @@ public class Gui {
 
     }
 
-    public void keyPressed(KeyEvent e){
-
-    }
-
-    public void keyReleased(KeyEvent e){
-
-    }
-
-
 }
