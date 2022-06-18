@@ -64,6 +64,10 @@ public enum PieceType {
         pieceGrid[6][0] = pieceGrid[6][2] = pieceGrid[6][3] = new PieceType[]{PieceType.NULL, PieceType.NULL, PieceType.NULL, PieceType.NULL};
         pieceGrid[6][1] = new PieceType[]{PieceType.I, PieceType.I, PieceType.I, PieceType.I};
 
+        //Wall kick data from Tetris SRS
+        //https://harddrop.com/wiki/SRS
+
+        //J, L, S, T, Z pieces
         wallKickDataJLSTZ = new int[][][]{
                 {{0, 0}, {-1, 0}, {-1, 1}, {0, -2}, {-1, -2}},
                 {{0, 0}, {1, 0}, {1, -1}, {0, 2}, {1, 2}},
@@ -71,6 +75,7 @@ public enum PieceType {
                 {{0, 0}, {-1, 0}, {-1, -1}, {0, 2}, {-1, 2}}
         };
 
+        //I pieces
         wallKickDataI = new int[][][]{
                 {{0, 0}, {-2, 0}, {1, 0}, {-2, 1}, {1, 2}},
                 {{0, 0}, {-1, 0}, {2, 0}, {-1, 2}, {2, -1}},

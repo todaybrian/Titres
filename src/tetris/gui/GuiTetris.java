@@ -6,6 +6,7 @@ Date: 17 June 2022
 Description: Handles displaying the tetris game board and connecting Tetris and GamePanel (i.e. controls).
  */
 
+import tetris.controls.KeyboardInput;
 import tetris.game.GameMode;
 import tetris.game.Tetris;
 import tetris.util.Assets;
@@ -52,9 +53,13 @@ public class GuiTetris extends Gui {
 
     private FrameTimer moveRightTimerDAS = new FrameTimer(0.167);
     private FrameTimer moveRightTimer = new FrameTimer(0.033);
-
+    
+    private KeyboardInput keyboardInput;
+    
     public GuiTetris(GameMode gameMode) {
         super();
+        this.keyboardInput = instance.keyboardInput;
+        
         this.gameMode = gameMode;
 
         // this object handles all game logic; only tetris.drawImage() and tetris.update() will cause objects inside game board to change.
@@ -218,28 +223,28 @@ public class GuiTetris extends Gui {
         // This timer only stores how long escape was pressed, resetting when it is pressed and disabling when it is released.
         // The game will only accept the resignation if it is pressed continuously for some time.
         // This ensures that an errant press of the escape key does not cause an accidental resign.
-        if (instance.keyboardInput.keyPressed[KeyEvent.VK_ESCAPE] && resignTimer.isDisabled()) {
+        if (keyboardInput.isKeyPressed(KeyEvent.VK_ESCAPE) && resignTimer.isDisabled()) {
             resignTimer.reset();
-        } else if (!instance.keyboardInput.keyPressed[KeyEvent.VK_ESCAPE]) {
+        } else if (!keyboardInput.isKeyPressed(KeyEvent.VK_ESCAPE)) {
             resignTimer.disable();
         } else if (resignTimer.isDone()) { // Resignation takes the player back to the main menu.
             instance.displayGui(new GuiMenuTransition(this, new GuiMainMenu()));
         }
 
         // "soft dropping" is rate limited to prevent a short press from bringing the piece all the way down
-        if (downTimer.isDone() && instance.keyboardInput.keyPressed[KeyEvent.VK_DOWN]) {
+        if (downTimer.isDone() && keyboardInput.isKeyPressed(KeyEvent.VK_DOWN)) {
             downTimer.reset();
             tetris.dropPiece();
         }
         // "hard dropping" is disabled if the space bar is held to prevent multiple pieces from being hard dropped
-        if (instance.keyboardInput.keyPressed[KeyEvent.VK_SPACE] && !held_hardDrop) {
+        if (keyboardInput.isKeyPressed(KeyEvent.VK_SPACE) && !held_hardDrop) {
             tetris.hardDrop();
             hardDropAnimationTimer.reset();
         }
-        held_hardDrop = instance.keyboardInput.keyPressed[KeyEvent.VK_SPACE];
+        held_hardDrop = keyboardInput.isKeyPressed(KeyEvent.VK_SPACE);
 
         // moving left and right is rate limited to prevent certain exploits
-        if (instance.keyboardInput.keyPressed[KeyEvent.VK_LEFT]) {
+        if (keyboardInput.isKeyPressed(KeyEvent.VK_LEFT)) {
             if (moveLeftTimerDAS.isDisabled()) {
                 tetris.moveLeft();
                 moveLeftTimerDAS.reset();
@@ -252,7 +257,7 @@ public class GuiTetris extends Gui {
             moveLeftTimerDAS.disable();
         }
 
-        if (instance.keyboardInput.keyPressed[KeyEvent.VK_RIGHT]) {
+        if (keyboardInput.isKeyPressed(KeyEvent.VK_RIGHT)) {
             if (moveRightTimerDAS.isDisabled()) {
                 tetris.moveRight();
                 moveRightTimerDAS.reset();
@@ -266,18 +271,18 @@ public class GuiTetris extends Gui {
         }
 
         // same logic as hard drop disabling on hold
-        if (instance.keyboardInput.keyPressed[KeyEvent.VK_UP] && !held_rotateCW) {
+        if (keyboardInput.isKeyPressed(KeyEvent.VK_UP) && !held_rotateCW) {
             tetris.rotateCW();
-        } else if (instance.keyboardInput.keyPressed[KeyEvent.VK_CONTROL] && !held_rotateCCW) {
+        } else if (keyboardInput.isKeyPressed(KeyEvent.VK_CONTROL) && !held_rotateCCW) {
             tetris.rotateCCW();
         }
-        held_rotateCW = instance.keyboardInput.keyPressed[KeyEvent.VK_UP];
-        held_rotateCCW = instance.keyboardInput.keyPressed[KeyEvent.VK_CONTROL];
+        held_rotateCW = keyboardInput.isKeyPressed(KeyEvent.VK_UP);
+        held_rotateCCW = keyboardInput.isKeyPressed(KeyEvent.VK_CONTROL);
 
-        if (instance.keyboardInput.keyPressed[KeyEvent.VK_C] && !held_holdPiece) {
+        if (keyboardInput.isKeyPressed(KeyEvent.VK_C) && !held_holdPiece) {
             tetris.holdPiece();
         }
-        held_holdPiece = instance.keyboardInput.keyPressed[KeyEvent.VK_C];
+        held_holdPiece = keyboardInput.isKeyPressed(KeyEvent.VK_C);
 
         // makes game board animate based on current velocity, prevent it from going too far
 

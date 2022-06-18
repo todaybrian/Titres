@@ -1,3 +1,9 @@
+/**
+ * Author: Brian Yan, Aaron Zhang
+ * Date: June 18, 2022
+ *
+ * GamePanel class which holds the game's logic
+ */
 package tetris;
 
 import javax.swing.*;
@@ -49,18 +55,24 @@ public class GamePanel extends JPanel implements Runnable {
 
     private GameSettings gameSettings;
 
+    //Handles the gamebackgrounds in the Gui
     private GameBackground gameBackground;
 
+    //The music player
     private MusicPlayer musicPlayer;
+    //The sound/sfx player
     private MusicPlayer sfxPlayer;
 
+    // The setting render FPS
+    // This is called maximum because if the computer is too slow, the render FPS will be lower than the user setting
     private int maxRenderFPS;
 
+    // Actual calculated FPS used for metrics
     private int realPhysicsFPS;
     private int realRenderFPS;
 
     public GamePanel(int width, int height, int renderHeight, int horizontalPadding, int verticalPadding) {
-        GamePanel.instance = this;
+        GamePanel.instance = this; //Set the GamePanel instance
 
         gameWidth = width;
         gameHeight = height;
@@ -75,15 +87,14 @@ public class GamePanel extends JPanel implements Runnable {
         this.addKeyListener(keyboardInput);
         this.setPreferredSize(new Dimension(gameWidth, gameHeight));
 
-
         this.addMouseListener(new MouseInput());
         MouseInput.setScale((double)renderHeight/1080, horizontalPadding, verticalPadding);
 
         gameBackground = new GameBackground();
         gameSettings = new GameSettings();
 
-        musicPlayer = new MusicPlayer();
-        sfxPlayer = new MusicPlayer();
+        musicPlayer = new MusicPlayer(); //Music player
+        sfxPlayer = new MusicPlayer(); //Sound Effect/sfx player
 
         musicPlayer.play(Assets.Music.NIGHT_SNOW.get());
         musicPlayer.setLoop(true);
@@ -98,7 +109,9 @@ public class GamePanel extends JPanel implements Runnable {
         gameThread.start();
 
     }
-
+    //run() method is what makes the game continue running without end. It calls other methods to run physics and update the screen
+    //Unlike the template run method, this one separates the physics and render updates
+    @Override
     public void run() {
         //the CPU runs our game code too quickly - we need to slow it down! The following lines of code "force" the computer to get stuck in a loop for short intervals between calling other methods to update the screen.
         long lastTime = System.nanoTime();
@@ -116,26 +129,25 @@ public class GamePanel extends JPanel implements Runnable {
             deltaPhysics = deltaPhysics + (now - lastTime) / physicsNS;
             lastTime = now;
 
-            //only move objects around  if enough time has passed
+            //only move objects around if enough time has passed
             if (deltaPhysics >= 1) {
-            	
                 update();
-                countUpdate++;
+                countUpdate++; //increment the number of physics FPS for metrics
                 deltaPhysics--;
             }
             //only update the screen if enough time has passed
             if(deltaRender >= 1) {
                 repaint();
-                countRender++;
+                countRender++; //increment the number of render FPS for metrics
                 deltaRender--;
             }
 
-            if(System.nanoTime() - previousFPSTime >= 1000000000) {
-                previousFPSTime = System.nanoTime();
-                this.realRenderFPS = countRender;
-                this.realPhysicsFPS = countUpdate;
-                countUpdate = 0;
-                countRender = 0;
+            if(System.nanoTime() - previousFPSTime >= 1000000000) { //Calculate the actual FPS every second
+                previousFPSTime = System.nanoTime(); //Reset the previous FPS time
+                this.realRenderFPS = countRender; //Get the actual render FPS
+                this.realPhysicsFPS = countUpdate; //Get the actual physics FPS
+                countUpdate = 0; //Reset the count of physics FPS for the next calculation
+                countRender = 0; //Reset the count of render FPS for the next calculation
             }
         }
     }

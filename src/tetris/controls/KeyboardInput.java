@@ -14,7 +14,7 @@ import java.awt.event.KeyListener;
 
 public class KeyboardInput implements KeyListener {
     //Boolean array to store the state of each key
-    public boolean[] keyPressed;
+    private boolean[] keyPressed;
 
     //Constructor to initialize the keyPressed array
     //Called in the GamePanel constructor
@@ -36,6 +36,10 @@ public class KeyboardInput implements KeyListener {
         if(e.getKeyCode() < keyPressed.length) { // If the key is within the bounds of the array. We don't need to process all keys.
             keyPressed[e.getKeyCode()] = false;
         }
+    }
+
+    public boolean isKeyPressed(int keyCode){
+        return keyPressed[keyCode];
     }
 
     //left empty because we don't need it; must be here because it is required to be overridden by the KeyListener interface
