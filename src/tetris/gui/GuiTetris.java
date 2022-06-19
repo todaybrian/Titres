@@ -24,6 +24,7 @@ public class GuiTetris extends Gui {
     private FrameTimer countdownTimer;
     private FrameTimer goTimer;
     private FrameTimer resignTimer;
+    private FrameTimer restartTimer;
 
     Tetris tetris;
 
@@ -83,8 +84,11 @@ public class GuiTetris extends Gui {
         goTimer = new FrameTimer(1);
         goTimer.disable();
 
-        resignTimer = new FrameTimer(2.5);
+        resignTimer = new FrameTimer(0.8);
         resignTimer.disable();
+
+        restartTimer = new FrameTimer(0.8);
+        restartTimer.disable();
     }
     @Override
     public void draw(Graphics2D g) {
@@ -104,15 +108,9 @@ public class GuiTetris extends Gui {
                 instance.displayGui(new GuiMenuTransition(this, new GuiDied(gameMode)));
             }
         } else {
-            if (!resignTimer.isDisabled()) {
-                g.setFont(Assets.Fonts.KDAM_FONT.get().deriveFont(Font.BOLD, 50));
-                g.setColor(Color.WHITE);
-                g.drawString("Keep holding ESC to resign", 750, 1000);
-                g.drawImage(tetris.drawImage(), 1920 / 2 - Tetris.GAME_WIDTH / 2 + xOffset, 1080 / 2 - Tetris.GAME_HEIGHT / 2 + yOffset - (int) (1400 * (1 - blackInTimer.getProgress())), (int) (Tetris.GAME_WIDTH*(1-resignTimer.getProgress())), (int) (Tetris.GAME_HEIGHT*(1-resignTimer.getProgress())), null);
-            } else {
-                // Only draw the tetris board normally if player is not dead and is not resigning
-                g.drawImage(tetris.drawImage(), 1920 / 2 - Tetris.GAME_WIDTH / 2 + xOffset, 1080 / 2 - Tetris.GAME_HEIGHT / 2 + yOffset - (int) (1400 * (1 - blackInTimer.getProgress())), Tetris.GAME_WIDTH, Tetris.GAME_HEIGHT, null);
-            }
+            g.drawImage(tetris.drawImage(), 1920 / 2 - Tetris.GAME_WIDTH / 2 + xOffset, 1080 / 2 - Tetris.GAME_HEIGHT / 2 + yOffset - (int) (1400 * (1 - blackInTimer.getProgress())), Tetris.GAME_WIDTH, Tetris.GAME_HEIGHT, null);
+
+
             if (!blackInTimer.isDone()) {
                 g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, (float) (1 - blackInTimer.getProgress())));
                 g.setColor(Color.BLACK);
@@ -177,6 +175,30 @@ public class GuiTetris extends Gui {
                 g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1.0f));
             }
         }
+        if (!resignTimer.isDisabled()) {
+            g.setFont(Assets.Fonts.KDAM_FONT.get().deriveFont(Font.BOLD, 50));
+            g.setColor(Color.RED);
+            g.fillRect(0, (int)(1080-150*resignTimer.getProgress() -50), 1920, 300);
+            g.setColor(Color.WHITE);
+
+            FontMetrics fm = g.getFontMetrics();
+            String text = "KEEP HOLDING ESC TO FORFEIT";
+
+            g.drawString(text, 1920/2 - fm.stringWidth(text)/2, (int)(1080 - 150*resignTimer.getProgress()/2 -25+ fm.getHeight()/2));
+
+        }
+
+        if(!restartTimer.isDisabled()){
+            g.setFont(Assets.Fonts.KDAM_FONT.get().deriveFont(Font.BOLD, 50));
+            g.setColor(Color.ORANGE);
+            g.fillRect(0, (int)(1080-150*restartTimer.getProgress() -50), 1920, 300);
+            g.setColor(Color.WHITE);
+
+            FontMetrics fm = g.getFontMetrics();
+            String text = "KEEP HOLDING R TO RESTART";
+
+            g.drawString(text, 1920/2 - fm.stringWidth(text)/2, (int)(1080 - 150*restartTimer.getProgress()/2 -25+ fm.getHeight()/2));
+        }
     }
 
     @Override
@@ -184,6 +206,25 @@ public class GuiTetris extends Gui {
         super.update();
         if (tetris.isObjectiveCompleted()) { // If game completion requirements are fulfilled, immediately move to results.
             instance.displayGui(new GuiMenuTransition(this, new GuiResults(gameMode,tetris.getFinalScore())));
+        }
+
+        // This timer only stores how long escape was pressed, resetting when it is pressed and disabling when it is released.
+        // The game will only accept the resignation if it is pressed continuously for some time.
+        // This ensures that an errant press of the escape key does not cause an accidental resign.
+        if (keyboardInput.isKeyPressed(KeyEvent.VK_ESCAPE) && resignTimer.isDisabled()) {
+            resignTimer.reset();
+        } else if (!keyboardInput.isKeyPressed(KeyEvent.VK_ESCAPE)) {
+            resignTimer.disable();
+        } else if (resignTimer.isDone()) { // Resignation takes the player back to the main menu.
+            instance.displayGui(new GuiMenuTransition(this, new GuiMainMenu()));
+        }
+
+        if(keyboardInput.isKeyPressed(KeyEvent.VK_R) && restartTimer.isDisabled()){
+            restartTimer.reset();
+        } else if(!keyboardInput.isKeyPressed(KeyEvent.VK_R)){
+            restartTimer.disable();
+        } else if(restartTimer.isDone()){
+            instance.displayGui(new GuiTetris(gameMode));
         }
 /*        The following if/else structures work as follows:
             When a timer is not yet done, prevent anything below from updating.
@@ -220,16 +261,9 @@ public class GuiTetris extends Gui {
 
         tetris.update(); // This updates the tetris game physics.
 
-        // This timer only stores how long escape was pressed, resetting when it is pressed and disabling when it is released.
-        // The game will only accept the resignation if it is pressed continuously for some time.
-        // This ensures that an errant press of the escape key does not cause an accidental resign.
-        if (keyboardInput.isKeyPressed(KeyEvent.VK_ESCAPE) && resignTimer.isDisabled()) {
-            resignTimer.reset();
-        } else if (!keyboardInput.isKeyPressed(KeyEvent.VK_ESCAPE)) {
-            resignTimer.disable();
-        } else if (resignTimer.isDone()) { // Resignation takes the player back to the main menu.
-            instance.displayGui(new GuiMenuTransition(this, new GuiMainMenu()));
-        }
+        //Set restart and resign timers to be longer if the game is in progress
+        restartTimer.setLength(2.5);
+        resignTimer.setLength(2.5);
 
         // "soft dropping" is rate limited to prevent a short press from bringing the piece all the way down
         if (downTimer.isDone() && keyboardInput.isKeyPressed(KeyEvent.VK_DOWN)) {
