@@ -38,14 +38,17 @@ public class FrameTimer {
         this.length = (long)(length*1e9);
     }
 
+    //Return the length of the timer in seconds
     public double getLength() {
         return length/1e9;
     }
 
+    //Set the timer to be disabled
     public void disable() {
         isDisabled = true;
     }
 
+    //Return whether the timer is disabled
     public boolean isDisabled() {
         return isDisabled;
     }

@@ -55,7 +55,7 @@ public class GamePanel extends JPanel implements Runnable {
 
     private GameSettings gameSettings;
 
-    //Handles the gamebackgrounds in the Gui
+    //Handles the game backgrounds in the Gui
     private GameBackground gameBackground;
 
     //The music player
@@ -79,6 +79,7 @@ public class GamePanel extends JPanel implements Runnable {
 
         this.renderHeight = renderHeight;
 
+        //Store the horizontal and vertical padding
         this.horizontalPadding = horizontalPadding;
         this.verticalPadding = verticalPadding;
 
@@ -156,13 +157,17 @@ public class GamePanel extends JPanel implements Runnable {
         this.gui.update();
     }
 
+    //Method to set the physics framerate
+    //Calculates the number of nanoseconds between each physics update
     public void setPhysicsFPS(int fps){
-        physicsNS = 1e9 / fps;
+        physicsNS = 1e9 / fps; //1e9 nanoseconds per fps frames
     }
 
+    //Method to set the render framerate
+    //Calculates the number of nanoseconds between each render update
     public void setRenderFPS(int fps){
-        this.maxRenderFPS = fps;
-        renderNS = 1e9 / fps;
+        this.maxRenderFPS = fps; //Set the maximum render FPS
+        renderNS = 1e9 / fps;  //1e9 nanoseconds per fps frames
     }
 
     public void paint(Graphics g){
@@ -176,14 +181,17 @@ public class GamePanel extends JPanel implements Runnable {
         g.drawImage(image, horizontalPadding, verticalPadding, gameWidth-horizontalPadding, gameHeight-verticalPadding, 0, 0, 1920, 1080, this);
     }
 
+    //Draw the current Gui object on the screen
     public void draw(Graphics2D g){
         this.gui.draw(g);
     }
 
+    //Method to display a new Gui object on the screen
     public void displayGui(Gui menu){
         this.gui = menu;
     }
 
+    //Method to get the current Gui object
     public Gui getGui(){
     	return this.gui;
     }
@@ -214,10 +222,12 @@ public class GamePanel extends JPanel implements Runnable {
         return maxRenderFPS;
     }
 
+    //Getter for the music player
     public MusicPlayer getMusicPlayer(){
     	return musicPlayer;
     }
 
+    // Getter for the sound/sfx player
     public MusicPlayer getSFXPlayer(){
     	return sfxPlayer;
     }
