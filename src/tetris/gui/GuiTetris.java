@@ -39,7 +39,7 @@ public class GuiTetris extends Gui {
     private boolean hasPlayedCountdownThree = false;
     private boolean hasPlayedCountdownTwo = false;
     private boolean hasPlayedCountdownOne = false;
-    private FrameTimer downTimer = new FrameTimer(0.1);
+    private FrameTimer downTimer = new FrameTimer(0.06);
 
 
     private boolean held_hardDrop = false;
@@ -307,11 +307,11 @@ public class GuiTetris extends Gui {
         // same logic as hard drop disabling on hold
         if (keyboardInput.isKeyPressed(KeyEvent.VK_UP) && !held_rotateCW) {
             tetris.rotateCW();
-        } else if (keyboardInput.isKeyPressed(KeyEvent.VK_CONTROL) && !held_rotateCCW) {
+        } else if (keyboardInput.isKeyPressed(KeyEvent.VK_Z) && !held_rotateCCW) {
             tetris.rotateCCW();
         }
         held_rotateCW = keyboardInput.isKeyPressed(KeyEvent.VK_UP);
-        held_rotateCCW = keyboardInput.isKeyPressed(KeyEvent.VK_CONTROL);
+        held_rotateCCW = keyboardInput.isKeyPressed(KeyEvent.VK_Z);
 
         if (keyboardInput.isKeyPressed(KeyEvent.VK_C) && !held_holdPiece) {
             tetris.holdPiece();
