@@ -15,6 +15,8 @@ public class Slider extends Button{
     protected Image icon;
     protected IPressable onChange;
 
+    private double value;
+
     public Slider(int xPos, int yPos, int width, Image image, IPressable onChange, int minValue, int maxValue, int initValue) {
         super(xPos, yPos, image, (click)->{});
 
@@ -23,6 +25,7 @@ public class Slider extends Button{
         this.icon = image;
         this.minValue = minValue;
         this.maxValue = maxValue;
+        this.value = initValue;
         this.xSlider = (((initValue-minValue+0.0)/(maxValue-minValue))*(width-image.getWidth(null)))+xPos;
         this.onChange = onChange;
     }
@@ -43,6 +46,7 @@ public class Slider extends Button{
             } else {
                 xSlider = (int) MouseInput.getLocation().getX() - icon.getWidth(null)/2;
             }
+            this.value = this.getRealValue();
             this.onChange.onChange(this);
         }
         g.setColor(new Color(0, 0, 0, 200));
@@ -53,7 +57,11 @@ public class Slider extends Button{
 
     }
 
-    public double getValue() {
+    public double getValue(){
+        return value;
+    }
+
+    private double getRealValue() {
         return ((xSlider-xPos) / (width-icon.getWidth(null))) * (maxValue-minValue) + minValue;
     }
     public interface IPressable {
