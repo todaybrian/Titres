@@ -1,8 +1,13 @@
 /**
- * Hack to make the transition between menus look smooth.
+ * Author: Brian Yan, Aaron Zhang
+ * Date: June 18, 2022
+ *
+ * Class to transition between menus. Incorporates a sliding animation of the buttons and components.
+ * Has settings to fade to black and to set the animation length.
  */
 package tetris.gui;
 
+import tetris.GamePanel;
 import tetris.gui.widget.AnimatedRectangle;
 import tetris.gui.widget.Button;
 import tetris.util.FrameTimer;
@@ -10,18 +15,37 @@ import tetris.util.FrameTimer;
 import java.awt.*;
 import java.util.ArrayList;
 
-public class GuiMenuTransition extends Gui{
+public class GuiMenuTransition extends Gui {
+    //Default animation length in seconds
     private static final double DEFAULT_ANIMATION_LENGTH = 0.19;
 
-    private FrameTimer timer;
+    // Timer for the animation
+    private FrameTimer transitionTimer;
 
+    //Store the screen that is being transitioned to
     private final Gui nextScreen;
+
+    //Store if the transition should also fade to black
     private boolean blackIn;
 
+    /**
+     * Creates a new GuiMenuTransition. Transitions from the previous screen to the next screen using default animation length and settings.
+     *
+     * @param parentScreen The screen that is being transitioned from
+     * @param nextScreen   The screen that is being transitioned to
+     */
     public GuiMenuTransition(Gui parentScreen, Gui nextScreen) {
         this(parentScreen, nextScreen, DEFAULT_ANIMATION_LENGTH, false);
     }
 
+    /**
+     * Creates a new GuiMenuTransition. Transitions from the previous screen to the next screen using default animation length and settings.
+     *
+     * @param parentScreen    The screen that is being transitioned from
+     * @param nextScreen      The screen that is being transitioned to
+     * @param animationLength The length of the transition
+     * @param blackIn         Whether the transition should darken the screen
+     */
     public GuiMenuTransition(Gui parentScreen, Gui nextScreen, double animationLength, boolean blackIn) {
         super();
         this.nextScreen = nextScreen;
@@ -40,7 +64,7 @@ public class GuiMenuTransition extends Gui{
         ArrayList<Button> nextAssetList = nextScreen.getButtonList();
 
         //Animate all components from the previous screen
-        for(AnimatedRectangle component : parentComponentList){
+        for (AnimatedRectangle component : parentComponentList) {
             //The component is currently on the screen, so it needs to be animated off
             component.initAnimate(component.animationType.getTransitionXOffset(), component.animationType.getTransitionYOffset(), 0, animationLength);
             //The component is currently in transition
@@ -51,7 +75,7 @@ public class GuiMenuTransition extends Gui{
         }
 
         //Animate components from the next screen
-        for(AnimatedRectangle component : nextComponentList){
+        for (AnimatedRectangle component : nextComponentList) {
             //The component should be set off the screen
             component.setOffsets(component.animationType.getTransitionXOffset(), component.animationType.getTransitionYOffset(), 0);
 
@@ -66,7 +90,7 @@ public class GuiMenuTransition extends Gui{
         }
 
         //Animate all buttons from the previous screen
-        for(Button button : parentAssetList){
+        for (Button button : parentAssetList) {
             //The button is currently on the screen, so it needs to be animated off
             button.initAnimate(button.animationType.getTransitionXOffset(), button.animationType.getTransitionYOffset(), 0, animationLength);
 
@@ -78,7 +102,7 @@ public class GuiMenuTransition extends Gui{
         }
 
         //Animate buttons from the next screen
-        for(Button button : nextAssetList){
+        for (Button button : nextAssetList) {
             //The button should be set off the screen
             button.setOffsets(button.animationType.getTransitionXOffset(), button.animationType.getTransitionYOffset(), 0);
 
@@ -92,17 +116,17 @@ public class GuiMenuTransition extends Gui{
             buttonList.add(button);
         }
 
-        timer = new FrameTimer(animationLength);
+        transitionTimer = new FrameTimer(animationLength);
     }
 
-    public void draw(Graphics2D g){
+    public void draw(Graphics2D g) {
         //If the animation time has elapsed, switch to the next screen
-        if(timer.isDone()) {
+        if (transitionTimer.isDone()) {
             //Reset all buttons and components to original positions and opacity
-            for(Button button : buttonList){
+            for (Button button : buttonList) {
                 button.reset();
             }
-            for(AnimatedRectangle component : componentList){
+            for (AnimatedRectangle component : componentList) {
                 component.reset();
             }
 
@@ -113,10 +137,14 @@ public class GuiMenuTransition extends Gui{
             nextScreen.draw(g);
             return;
         }
-        super.draw(g);
-        if(blackIn){
-            g.setColor(new Color(0, 0, 0, (int) (255 * (timer.getProgress()))));
-            g.fillRect(0, 0, instance.getWidth(), instance.getHeight());
+        super.draw(g); //Display transition
+
+        if (blackIn) {//If the transition should darken the screen
+            //Set the current color to black with the opacity set based on the animation time
+            g.setColor(new Color(0, 0, 0, (int) (255 * (transitionTimer.getProgress()))));
+
+            //Fill the screen with the current color
+            g.fillRect(0, 0, GamePanel.INTERNAL_WIDTH, GamePanel.INTERNAL_HEIGHT);
         }
     }
 }

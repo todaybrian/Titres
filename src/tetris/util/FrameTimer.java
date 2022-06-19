@@ -6,8 +6,13 @@
 package tetris.util;
 
 public class FrameTimer {
+    //Intended length of the timer in seconds
     private long length;
+
+    //The time that the timer started in nanoseconds
     private long startTime;
+
+    //Is the timer disabled?
     private boolean isDisabled;
 
     public FrameTimer(double length) {

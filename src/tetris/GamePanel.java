@@ -169,7 +169,7 @@ public class GamePanel extends JPanel implements Runnable {
         image = createImage(INTERNAL_WIDTH, INTERNAL_HEIGHT); //draw off screen
 
         Graphics2D g2d = (Graphics2D) image.getGraphics();
-        Util.setGraphicsFlags(g2d);
+        Util.setGraphicsFlags(g2d); //set the graphics flags which make the game look better on different monitors
 
         draw(g2d);//update the positions of everything on the screen
 

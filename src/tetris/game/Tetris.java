@@ -75,7 +75,7 @@ public class Tetris extends Rectangle {
         BufferedImage image = new BufferedImage(GAME_WIDTH, GAME_HEIGHT, BufferedImage.TYPE_INT_ARGB);
 
         Graphics2D g = (Graphics2D) image.getGraphics();
-        Util.setGraphicsFlags(g);
+        Util.setGraphicsFlags(g); //set the graphics flags which make the game look better on different monitors
 
         g.drawImage(TETRIS_GRID, 0, 1080/2 - TETRIS_GRID.getHeight(null)/2, TETRIS_GRID.getWidth(null), TETRIS_GRID.getHeight(null), null);
 
