@@ -64,7 +64,7 @@ public class AnimatedRectangle extends Rectangle {
 
     public void draw(Graphics2D g){
         g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, opacity));
-        drawable.draw(g, this.x);
+        drawable.draw(g, (int)this.x);
         animate();
         g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1));
     }
@@ -156,7 +156,7 @@ public class AnimatedRectangle extends Rectangle {
     }
 
     public interface IDrawable {
-        void draw(Graphics2D g, double x);
+        void draw(Graphics2D g, int x);
     }
 
 }
