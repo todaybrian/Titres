@@ -1,3 +1,11 @@
+/**
+ * Author: Brian Yan, Aaron Zhang
+ * Date: June 18, 2022
+ *
+ * Class to handle tetris game logic. Includes game board graphic, game board grid data,
+ * and timers.
+ */
+
 package tetris.game;
 
 import tetris.game.randomizer.Randomizer;
