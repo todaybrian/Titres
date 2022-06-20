@@ -6,13 +6,10 @@ import tetris.gui.widget.AnimationType;
 import tetris.gui.widget.Button;
 import tetris.gui.widget.Slider;
 import tetris.util.Assets;
-import tetris.settings.GameSettings;
 
 import java.awt.*;
 
 public class GuiSettings extends Gui {
-    protected GameSettings gameSettings;
-
     private Slider musicSlider;
     private Slider sfxSlider;
     private Slider fpsSlider;
@@ -21,8 +18,6 @@ public class GuiSettings extends Gui {
         super();
         topBar = Assets.Gui.TOP_SETTINGS.get();
         bottomBar = Assets.Gui.BOTTOM_SETTINGS.get();
-
-        gameSettings = GamePanel.getGamePanel().getSettings();
 
         Image back_button = Assets.Button.BACK_BUTTON.get();
         buttonList.add(new Button(-170, 120, back_button, (click)->{
@@ -56,14 +51,9 @@ public class GuiSettings extends Gui {
             g.drawString("Music: " + (int)Math.round(musicSlider.getValue()),1050, 570);
             g.drawString("SFX: " + (int)Math.round(sfxSlider.getValue()),1050,270);
             g.drawString("FPS: " + (int)Math.round(fpsSlider.getValue()),1050,870);
-            updateSettings();
         }, AnimationType.RIGHT);
 
         componentList.add(settings);
     }
 
-    public void updateSettings() {
-//        instance.getSettings().musicVolume = (volumeSlider.getValue());
-//        instance.getSettings().updateGameToSettings();
-    }
 }

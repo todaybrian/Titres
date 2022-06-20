@@ -15,7 +15,6 @@ import tetris.gui.GameBackground;
 import tetris.gui.Gui;
 import tetris.gui.GuiWelcome;
 import tetris.music.MusicPlayer;
-import tetris.settings.GameSettings;
 import tetris.util.Assets;
 import tetris.util.Util;
 
@@ -52,8 +51,6 @@ public class GamePanel extends JPanel implements Runnable {
 
     //Keyboard Input class
     public KeyboardInput keyboardInput;
-
-    private GameSettings gameSettings;
 
     //Handles the game backgrounds in the Gui
     private GameBackground gameBackground;
@@ -92,7 +89,6 @@ public class GamePanel extends JPanel implements Runnable {
         MouseInput.setScale((double)renderHeight/1080, horizontalPadding, verticalPadding);
 
         gameBackground = new GameBackground();
-        gameSettings = new GameSettings();
 
         musicPlayer = new MusicPlayer(); //Music player
         sfxPlayer = new MusicPlayer(); //Sound Effect/sfx player
@@ -204,11 +200,6 @@ public class GamePanel extends JPanel implements Runnable {
     public static GamePanel getGamePanel(){
         return GamePanel.instance;
     }
-
-    public GameSettings getSettings(){
-        return gameSettings;
-    }
-
 
     public int getRealPhysicsFPS(){
         return realPhysicsFPS;
