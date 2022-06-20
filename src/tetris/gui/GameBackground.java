@@ -24,7 +24,7 @@ public class GameBackground {
     private float opacity;
 
     public GameBackground(){
-        images = new ArrayList<>();
+        images = new ArrayList<>(); //initialize the arraylist that holds the images
         this.opacity = 0.25f; //Default opacity
         loadAssets(); //Load all images
         randomBackground(); //Set a random background
@@ -32,13 +32,16 @@ public class GameBackground {
 
     //Draw the background
     public void draw(Graphics2D g){
-        //Set the game backdrop to be black
+        //Set the game backdrop to be black, which will apply the appropriate dark effect when opacity is low
         g.setColor(Color.BLACK);
         g.fillRect(0, 0, GamePanel.INTERNAL_WIDTH, GamePanel.INTERNAL_HEIGHT);
 
         //Draw the current background with the opacity
         g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, opacity)); //Set the opacity
-        g.drawImage(currentBackground.getImage(), 0, 0, currentBackground.getIconWidth(), currentBackground.getIconHeight(), null); //Draw the background
+        //Draw the background by drawing the entire image.
+        //Images should be 1920 x 1080 but drawing the entire image allows us to avoid weird streching effects
+        g.drawImage(currentBackground.getImage(), 0, 0, currentBackground.getIconWidth(), currentBackground.getIconHeight(), null);
+
         g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1f)); //Reset the opacity
     }
 
@@ -57,13 +60,17 @@ public class GameBackground {
     //Loads all the background images from the assets folder
     //All background images are named in the form of #.jpg, where # is the index of the image
     private void loadAssets(){
+        ImageIcon imageBackground;
         try{
             for(int imageId=0;; imageId++){ //Loops up the image IDs
-                ImageIcon image = new ImageIcon(Assets.BACKGROUND_PREFIX + imageId + ".jpg"); //Loads the image
+                imageBackground = new ImageIcon(Assets.BACKGROUND_PREFIX + imageId + ".jpg"); //Loads the image
 
-                if(image.getIconWidth() == -1) break; //If the image is not found, break
+                //If the image is not found, the width will be -1, thus break.
+                if(imageBackground.getIconWidth() == -1)
+                    break;
 
-                images.add(image); //Adds the image to the list of images
+
+                images.add(imageBackground); //Adds the image to the list of images
             }
         } catch(Exception e){ //Used to avoid any errors that may happen when loading the images
             e.printStackTrace();
