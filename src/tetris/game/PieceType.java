@@ -1,14 +1,21 @@
+/**
+ * Author: Brian Yan, Aaron Zhang
+ * Date: June 18, 2022
+ *
+ * Handles the logic differentiation between each piece type.
+ */
+
 package tetris.game;
 
 public enum PieceType {
-    J(0), Z(1), S(2), L(3), T(4), O(5), I(6), GHOST(7), NULL;
+    J(0), Z(1), S(2), L(3), T(4), O(5), I(6), GHOST(7), NULL; // Ghost = drop marker, null = blank
 
-    private final int id;
-    private static final PieceType[][][] pieceGrid;
+    private final int id; // Easy way to call the piece types
+    private static final PieceType[][][] pieceGrid; // Holds all the piece grids (called by first index for specific piece type)
 
     //wall kick data
     public static final int[][][] wallKickDataJLSTZ;
-    public static final int[][][] wallKickDataI;
+    public static final int[][][] wallKickDataI; // The "I" piece handles wall kicks in a unique way
 
     PieceType(int id) {
         this.id = id;
@@ -22,6 +29,7 @@ public enum PieceType {
         return id;
     }
 
+    // Handles wall kicks and default pieceGrids
     static{
         pieceGrid = new PieceType[7][][];
 
@@ -88,16 +96,19 @@ public enum PieceType {
         return pieceGrid[pieceType.id];
     }
 
+    // Returns a new pieceGrid when piece is rotated
     public static PieceType[][] getPieceGridFromRot(PieceType pieceType, int rotIdx){
-        PieceType[][] ret = getPieceGrid(pieceType);
+
+        PieceType[][] ret = getPieceGrid(pieceType), temp; //
+
         for (int i = 1; i <= rotIdx; i++) {
-            PieceType[][] rot = new PieceType[ret.length][ret.length];
+            temp = new PieceType[ret.length][ret.length];
             for (int j = ret.length-1; j >= 0;j--) {
                 for (int k = 0; k < ret.length;k++) {
-                    rot[k][j] = ret[ret.length-j-1][k];
+                    temp[k][j] = ret[ret.length-j-1][k];
                 }
             }
-            ret = rot;
+            ret = temp;
         }
         return ret;
     }

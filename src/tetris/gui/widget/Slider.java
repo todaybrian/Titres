@@ -17,15 +17,15 @@ import java.awt.*;
 
 public class Slider extends Button{
 
-    protected int xPos;
+    protected int xPos; // Left of the slider
 
-    protected double xSlider;
+    protected double xSlider; // Position of the button
 
     // Minimum and maximum value of the slider
     protected int minValue, maxValue;
 
-    protected Image icon;
-    protected IPressable onChange;
+    protected Image icon; // Appearance of the slider
+    protected IPressable onChange; // Communicates the change of slider value
 
     //The value held by the slider
     //This is to avoid rounding errors
@@ -54,12 +54,12 @@ public class Slider extends Button{
 
         checkHover();
         if (isClicked()) {
-            if (MouseInput.getLocation().getX()+icon.getWidth(null)/2 >= width+xPos) {
-                xSlider = width+xPos -icon.getWidth(null);
-            } else if (MouseInput.getLocation().getX()-icon.getWidth(null)/2 <= xPos ) {
-                xSlider = xPos;
-            } else {
-                xSlider = (int) MouseInput.getLocation().getX() - icon.getWidth(null)/2;
+            if (MouseInput.getLocation().getX()+icon.getWidth(null)/2 >= width+xPos) { // if mouse goes to the right of the allowed slider space
+                xSlider = width+xPos -icon.getWidth(null); // set slider position to the farthest right
+            } else if (MouseInput.getLocation().getX()-icon.getWidth(null)/2 <= xPos ) { // if cursor goes to the left of the allowed slider space
+                xSlider = xPos; // set slider to the furthest left
+            } else { // else: when the cursor is in the allowed slider space
+                xSlider = (int) MouseInput.getLocation().getX() - icon.getWidth(null)/2; // keep center of slider at cursor position
             }
             //Change the value held by the slider to the value dictated by the position of the button on the slider
             this.value = this.getRealValue();
@@ -84,6 +84,7 @@ public class Slider extends Button{
         return ((xSlider-xPos) / (width-icon.getWidth(null))) * (maxValue-minValue) + minValue;
     }
 
+    // Interface to handle changing other values based on slider value
     public interface IPressable {
         void onChange(Slider onSlide);
     }

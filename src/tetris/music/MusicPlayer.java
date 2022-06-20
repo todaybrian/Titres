@@ -5,7 +5,6 @@
  * This is a MusicPlayer class that handles the playing of music/sfx.
  * In the GamePanel class, two instances of this class are created. One for music and one for sfx.
  *
- * TODO: Further explain volume scaling
  */
 package tetris.music;
 
@@ -68,6 +67,8 @@ public class MusicPlayer {
         FloatControl gainControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN); //Get the gain control, which is used to change the volume
 
         // The volume system is based on a logarithmic scale, so the volume is converted to ensure a linear volume increase
+        // At volume = 0, gainControl is -59dB (barely audible). At volume = 0.5, gainControl is -5dB. At volume = 1, gainControl is +1dB.
+        // A 10dB increase means double in volume, but human ears are less sensitive to very minute changes in soft sounds, so the scale is weighted towards the loud end.
         gainControl.setValue(20f * (float) Math.log10(volume + 0.001) + 1);
     }
 }

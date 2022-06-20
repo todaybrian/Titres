@@ -1,3 +1,10 @@
+/**
+ * Author: Brian Yan, Aaron Zhang
+ * Date: June 18, 2022
+ *
+ * Superclass for buttons and text-displaying rectangles. Can be made to animate on hover, click, etc.
+ */
+
 package tetris.gui.widget;
 
 import tetris.controls.MouseInput;
@@ -18,11 +25,14 @@ public class AnimatedRectangle extends Rectangle {
     //Is the cursor over the button?
     protected boolean isMouseOver;
 
+    //How will the button change when it is animated?
     private int xOffsetGoal;
     private int yOffsetGoal;
     private float opacityGoal;
     private double xOffsetCurrent;
     private double yOffsetCurrent;
+
+    //How much will the animation move per tick?
     private double xOffsetStep;
     private double yOffsetStep;
     private double opacityStep;
@@ -31,10 +41,10 @@ public class AnimatedRectangle extends Rectangle {
 
     private long lastSystemTime;
 
-    private IDrawable drawable;
-    public AnimationType animationType;
+    private IDrawable drawable; // Icons, etc.
+    public AnimationType animationType; // Which direction does the object need to animate in?
 
-    protected boolean inTransition;
+    protected boolean inTransition; // Is the object currently in a transition?
 
     public AnimatedRectangle(int x, int y, int width, int height, IDrawable drawable, AnimationType animationType) {
         super(x, y, width, height);
