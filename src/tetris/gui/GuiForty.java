@@ -62,7 +62,9 @@ public class GuiForty extends Gui {
         }, AnimationType.NONE));
 
         Image controls = Assets.Gui.CONTROLS.get();
-        componentList.add(new AnimatedRectangle((g, xOffset) -> g.drawImage(controls, 300, 585, controls.getWidth(null),  controls.getHeight(null), null), AnimationType.LEFT));
+        componentList.add(new AnimatedRectangle((g, xOffset) -> {
+            g.drawImage(controls, 300 + xOffset, 585, controls.getWidth(null),  controls.getHeight(null), null);
+        }, AnimationType.RIGHT));
     }
 
 }

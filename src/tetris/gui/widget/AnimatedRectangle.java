@@ -74,11 +74,15 @@ public class AnimatedRectangle extends Rectangle {
 
     public void draw(Graphics2D g){
         g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, opacity));
-        drawable.draw(g, (int)this.x);
+        drawable.draw(g, (int)this.x); // Draw the object with x (represents the horizontal animation offset)
         animate();
         g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1));
     }
 
+    /**
+     * Updates the mouseover state of the button.
+     *
+     */
     protected void checkHover() {
         isMouseOver = (MouseInput.getLocation().getX() > x && MouseInput.getLocation().getX() < x +width) && (MouseInput.getLocation().getY() > y && MouseInput.getLocation().getY() < y +height);
     }

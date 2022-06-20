@@ -16,8 +16,7 @@ public class GuiResults extends Gui {
         bottomBar = Assets.Gui.BOTTOM_RESULTS.get();
 
         // Back button to go back to the main menu (top left)
-        Image back_button = Assets.Button.BACK_BUTTON.get();
-        buttonList.add(new Button(-170, 120, back_button, (click) -> {
+        buttonList.add(new Button(-170, 120, Assets.Button.BACK_BUTTON.get(), (click) -> {
 
             instance.displayGui(new GuiMenuTransition(this, new GuiMainMenu())); //Display the main menu
             instance.getSFXPlayer().play(Assets.SFX.CLICK_BACK.get()); //Play the click back sound
