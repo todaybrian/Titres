@@ -44,6 +44,9 @@ public class GuiBlitz extends Gui{
             instance.displayGui(new GuiMenuTransition(this, new GuiTetris(GameMode.BLITZ), 0.5, true));
             instance.getSFXPlayer().play(Assets.SFX.CLICK_START.get());
         }, AnimationType.NONE));
+
+        Image controls = Assets.Gui.CONTROLS.get();
+        componentList.add(new AnimatedRectangle((g, xOffset) -> g.drawImage(controls, 300, 585, controls.getWidth(null),  controls.getHeight(null), null), AnimationType.LEFT));
     }
 
 }

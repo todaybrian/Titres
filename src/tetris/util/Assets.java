@@ -68,7 +68,9 @@ public class Assets {
         BOTTOM_BLITZ("bottom_blitz.png"),
 
         TOP_RESULTS("top_results.png"),
-        BOTTOM_RESULTS("bottom_results.png");
+        BOTTOM_RESULTS("bottom_results.png"),
+
+        CONTROLS("controls.png");
 
 
         private final Image image; //Store the image object

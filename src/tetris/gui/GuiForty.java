@@ -60,6 +60,9 @@ public class GuiForty extends Gui {
             instance.getSFXPlayer().play(Assets.SFX.CLICK_START.get()); //Play click start sound
 
         }, AnimationType.NONE));
+
+        Image controls = Assets.Gui.CONTROLS.get();
+        componentList.add(new AnimatedRectangle((g, xOffset) -> g.drawImage(controls, 300, 585, controls.getWidth(null),  controls.getHeight(null), null), AnimationType.LEFT));
     }
 
 }
