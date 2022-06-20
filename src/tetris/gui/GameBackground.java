@@ -60,7 +60,8 @@ public class GameBackground {
     //Loads all the background images from the assets folder
     //All background images are named in the form of #.jpg, where # is the index of the image
     private void loadAssets(){
-        ImageIcon imageBackground;
+        ImageIcon imageBackground; //Store the image background being loaded
+
         try{
             for(int imageId=0;; imageId++){ //Loops up the image IDs
                 imageBackground = new ImageIcon(Assets.BACKGROUND_PREFIX + imageId + ".jpg"); //Loads the image

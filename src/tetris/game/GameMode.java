@@ -12,12 +12,12 @@ import tetris.util.Assets;
 import java.awt.*;
 
 public enum GameMode {
-    FOURTY_LINES, BLITZ; //The game modes
+    FORTY_LINES, BLITZ; //The game modes
 
     //Returns the banner that is displayed when the game starts in the given game mode
     public Image getBanner(){
         switch (this){
-            case FOURTY_LINES:
+            case FORTY_LINES:
                 return Assets.Game.FORTY_BANNER.get();
             case BLITZ:
                 return Assets.Game.BLITZ_BANNER.get();

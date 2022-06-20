@@ -25,14 +25,14 @@ public class GuiResults extends Gui {
 
         AnimatedRectangle results = new AnimatedRectangle((g, offsetX)->{
             g.setColor(new Color(32, 30, 54));
-            g.fillRect((int) (offsetX + 300), 160, 1400, 280);
+            g.fillRect(offsetX + 300, 160, 1400, 280);
 
             g.setFont(Assets.Fonts.KDAM_FONT.get().deriveFont(Font.BOLD, 50));
             g.setColor(new Color(115, 101, 151));
-            g.drawString("RESULTS", (int) (offsetX + 320), 230);
+            g.drawString("RESULTS", offsetX + 320, 230);
 
             g.setColor(new Color(28, 26, 47));
-            g.fillRect((int) (offsetX+330), 240, 1340, 180);
+            g.fillRect(offsetX+330, 240, 1340, 180);
 
             g.setFont(Assets.Fonts.KDAM_FONT.get().deriveFont(Font.BOLD, 60));
             g.setColor(Color.WHITE);
@@ -44,7 +44,7 @@ public class GuiResults extends Gui {
                 case BLITZ:
                     score = String.valueOf(finalScore);
                     break;
-                case FOURTY_LINES:
+                case FORTY_LINES:
                     int min = (int) (finalScore / 1000 / 60);
                     int sec = (int) (finalScore/1000 % 60);
                     int ms = (int) (finalScore%1000);

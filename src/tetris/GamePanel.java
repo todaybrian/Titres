@@ -93,8 +93,6 @@ public class GamePanel extends JPanel implements Runnable {
         musicPlayer.setLoop(true);
         musicPlayer.changeVolume(0.9);
 
-        sfxPlayer.play(Assets.SFX.SILENCE.get());
-
         //Display Main Menu
         displayGui(new GuiWelcome());
 
@@ -112,9 +110,6 @@ public class GamePanel extends JPanel implements Runnable {
         double deltaRender = 0;
         double deltaPhysics = 0;
         long now;
-
-        long previousFPSTime = System.nanoTime();
-        int countUpdate = 0, countRender = 0;
 
         while (true) { //this is the infinite game loop
             now = System.nanoTime();
@@ -156,14 +151,11 @@ public class GamePanel extends JPanel implements Runnable {
         image = createImage(INTERNAL_WIDTH, INTERNAL_HEIGHT); //draw off screen
 
         Graphics2D g2d = (Graphics2D) image.getGraphics();
-        Util.setGraphicsFlags(g2d); //set the graphics flags which make the game look better on different monitors
+        Util.setGraphicsFlags(g2d); //Make the game look better on different monitors
 
         draw(g2d);//update the positions of everything on the screen
 
-        //Using information calculated previously, we draw the game (1920 width and 1080 height) on the screen with
-        // "horizontalPadding" widths on the left and right
-        // "verticalPadding" height on the top and bottom
-        //
+        //Using information calculated previously, we draw the game (1920 width and 1080 height) on the screen with horizontal and vertical padding
         g.drawImage(image, horizontalPadding, verticalPadding, gameWidth-horizontalPadding, gameHeight-verticalPadding, 0, 0, 1920, 1080, this);
     }
 

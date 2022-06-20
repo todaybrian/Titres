@@ -16,8 +16,8 @@ public class AnimatedRectangle extends Rectangle {
     public double x;
     public double y;
 
-    private final int originalX;
-    private final int originalY;
+    private int originalX;
+    private int originalY;
 
     //Was the left button of mouse pressed (but not released) on this button?
     protected boolean isClicked;

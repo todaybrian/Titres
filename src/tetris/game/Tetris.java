@@ -64,7 +64,7 @@ public class Tetris extends Rectangle {
         this.canSwitchHold = true;
         increaseLevel();
 
-        if(gameMode == GameMode.FOURTY_LINES){
+        if(gameMode == GameMode.FORTY_LINES){
             lineGoal = 40;
         } else if (gameMode == GameMode.BLITZ) {
             lineGoal = 3;
@@ -75,7 +75,7 @@ public class Tetris extends Rectangle {
         BufferedImage image = new BufferedImage(GAME_WIDTH, GAME_HEIGHT, BufferedImage.TYPE_INT_ARGB);
 
         Graphics2D g = (Graphics2D) image.getGraphics();
-        Util.setGraphicsFlags(g); //set the graphics flags which make the game look better on different monitors
+        Util.setGraphicsFlags(g); //Make the game look better on different monitors
 
         g.drawImage(TETRIS_GRID, 0, 1080/2 - TETRIS_GRID.getHeight(null)/2, TETRIS_GRID.getWidth(null), TETRIS_GRID.getHeight(null), null);
 
@@ -390,7 +390,7 @@ public class Tetris extends Rectangle {
 
     public void checkObjectives(){
         if(linesCleared >= lineGoal){
-            if(gameMode == GameMode.FOURTY_LINES){
+            if(gameMode == GameMode.FORTY_LINES){
                 objectiveCompleted(System.currentTimeMillis()-timeStarted);
             } else if(gameMode == GameMode.BLITZ){
                 increaseLevel();

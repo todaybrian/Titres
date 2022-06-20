@@ -14,7 +14,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
 public class MouseInput implements MouseListener {
-    //Instace of the current GamePanel class
+    //Instance of the current GamePanel class
     private GamePanel instance;
 
     //Store variables used to translate the mouse coordinates to the scaled coordinates

@@ -182,20 +182,17 @@ public class Assets {
     public enum SFX {
         CLICK_1("sfx_click_lvl_1.wav"),
         CLICK_2("sfx_click_lvl_2.wav"),
-        CLICK_START("click_start.wav"),
+        CLICK_START("sfx_click_start.wav"),
         HOVER("sfx_hover.wav"),
 
         CLICK_BACK("sfx_click_back.wav"),
 
-        START_SOLO_GAME("start_solo_game.wav"),
+        START_SOLO_GAME("sfx_start_solo_game.wav"),
 
         COUNTDOWN_3("sfx_countdown_3.wav"),
         COUNTDOWN_2("sfx_countdown_2.wav"),
         COUNTDOWN_1("sfx_countdown_1.wav"),
-        GO("sfx_go.wav"),
-
-        //This is used to unlag the music/sfx player
-        SILENCE("silence.wav");
+        GO("sfx_go.wav");
 
         private final File file; //Store the file object
 

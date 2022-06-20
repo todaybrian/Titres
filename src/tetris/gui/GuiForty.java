@@ -33,22 +33,22 @@ public class GuiForty extends Gui {
         }, AnimationType.LEFT));
 
         // Component to display the game mode
-        componentList.add(new AnimatedRectangle((g, x) -> {
+        componentList.add(new AnimatedRectangle((g, offsetX) -> {
             g.setColor(new Color(82, 61, 45));
-            g.fillRect((int) (x + 300), 160, 1400, 280);
+            g.fillRect(offsetX + 300, 160, 1400, 280);
 
             g.setFont(Assets.Fonts.KDAM_FONT.get().deriveFont(Font.BOLD, 50));
             g.setColor(new Color(233, 181, 142));
-            g.drawString("40 LINES", (int) (x + 320), 230);
+            g.drawString("40 LINES", offsetX + 320, 230);
 
             g.setFont(Assets.Fonts.KDAM_FONT.get().deriveFont(Font.PLAIN, 25));
-            g.drawString("Clear 40 lines in the shortest time possible!", (int) (x + 320), 270);
+            g.drawString("Clear 40 lines in the shortest time possible!", offsetX + 320, 270);
 
             g.setFont(Assets.Fonts.KDAM_FONT.get().deriveFont(Font.BOLD, 30));
-            g.drawString("PERSONAL BEST: ", (int) (x + 320), 340);
+            g.drawString("PERSONAL BEST: ", offsetX + 320, 340);
 
             g.setColor(new Color(82, 61, 45));
-            g.fillRect((int) (x + 300), 460, 1400, 105);
+            g.fillRect(offsetX + 300, 460, 1400, 105);
         }, AnimationType.RIGHT));
 
         // Start button to start the game
@@ -56,7 +56,7 @@ public class GuiForty extends Gui {
         buttonList.add(new Button(1700 - start_40_button.getWidth(null), 460, start_40_button, (click) -> {
             //Transitions into the game
             //Animates with half a second length and blacks in
-            instance.displayGui(new GuiMenuTransition(this, new GuiTetris(GameMode.FOURTY_LINES), 0.5, true));
+            instance.displayGui(new GuiMenuTransition(this, new GuiTetris(GameMode.FORTY_LINES), 0.5, true));
             instance.getSFXPlayer().play(Assets.SFX.CLICK_START.get()); //Play click start sound
 
         }, AnimationType.NONE));

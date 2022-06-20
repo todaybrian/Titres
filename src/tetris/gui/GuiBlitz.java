@@ -21,22 +21,22 @@ public class GuiBlitz extends Gui{
             instance.getSFXPlayer().play(Assets.SFX.CLICK_BACK.get());
         }, AnimationType.LEFT));
 
-        componentList.add(new AnimatedRectangle((g, x)->{
+        componentList.add(new AnimatedRectangle((g, offsetX)->{
             g.setColor(new Color(62, 36, 36));
-            g.fillRect((int) (x+300), 160, 1400, 280);
+            g.fillRect(offsetX+300, 160, 1400, 280);
 
             g.setFont(Assets.Fonts.KDAM_FONT.get().deriveFont(Font.BOLD, 50));
             g.setColor(new Color(219, 161, 161));
-            g.drawString("BLITZ", (int) (x+320), 230);
+            g.drawString("BLITZ", offsetX+320, 230);
 
             g.setFont(Assets.Fonts.KDAM_FONT.get().deriveFont(Font.PLAIN, 25));
-            g.drawString("Clear as much lines as possible in 120 seconds!", (int) (x+320), 270);
+            g.drawString("Clear as much lines as possible in 120 seconds!", offsetX+320, 270);
 
             g.setFont(Assets.Fonts.KDAM_FONT.get().deriveFont(Font.BOLD, 30));
-            g.drawString("PERSONAL BEST: ", (int) (x+320), 340);
+            g.drawString("PERSONAL BEST: ", offsetX+320, 340);
 
             g.setColor(new Color(62, 36, 36));
-            g.fillRect((int) (x+300), 460, 1400, 105);
+            g.fillRect(offsetX+300, 460, 1400, 105);
         }, AnimationType.RIGHT));
 
         Image start_40_button = Assets.Button.START_BLITZ_BUTTON.get();
