@@ -54,9 +54,9 @@ public class Slider extends Button{
 
         checkHover();
         if (isClicked()) {
-            if (MouseInput.getLocation().getX()+icon.getWidth(null) > width+xPos) {
+            if (MouseInput.getLocation().getX()+icon.getWidth(null)/2 >= width+xPos) {
                 xSlider = width+xPos -icon.getWidth(null);
-            } else if (MouseInput.getLocation().getX() < xPos ) {
+            } else if (MouseInput.getLocation().getX()-icon.getWidth(null)/2 <= xPos ) {
                 xSlider = xPos;
             } else {
                 xSlider = (int) MouseInput.getLocation().getX() - icon.getWidth(null)/2;
