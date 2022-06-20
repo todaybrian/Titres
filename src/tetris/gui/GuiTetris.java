@@ -84,10 +84,10 @@ public class GuiTetris extends Gui {
         goTimer = new FrameTimer(1);
         goTimer.disable();
 
-        resignTimer = new FrameTimer(0.8);
+        resignTimer = new FrameTimer(1.5);
         resignTimer.disable();
 
-        restartTimer = new FrameTimer(0.8);
+        restartTimer = new FrameTimer(1.5);
         restartTimer.disable();
     }
     @Override
@@ -208,24 +208,7 @@ public class GuiTetris extends Gui {
             instance.displayGui(new GuiMenuTransition(this, new GuiResults(gameMode,tetris.getFinalScore())));
         }
 
-        // This timer only stores how long escape was pressed, resetting when it is pressed and disabling when it is released.
-        // The game will only accept the resignation if it is pressed continuously for some time.
-        // This ensures that an errant press of the escape key does not cause an accidental resign.
-        if (keyboardInput.isKeyPressed(KeyEvent.VK_ESCAPE) && resignTimer.isDisabled()) {
-            resignTimer.reset();
-        } else if (!keyboardInput.isKeyPressed(KeyEvent.VK_ESCAPE)) {
-            resignTimer.disable();
-        } else if (resignTimer.isDone()) { // Resignation takes the player back to the main menu.
-            instance.displayGui(new GuiMenuTransition(this, new GuiMainMenu()));
-        }
 
-        if(keyboardInput.isKeyPressed(KeyEvent.VK_R) && restartTimer.isDisabled()){
-            restartTimer.reset();
-        } else if(!keyboardInput.isKeyPressed(KeyEvent.VK_R)){
-            restartTimer.disable();
-        } else if(restartTimer.isDone()){
-            instance.displayGui(new GuiTetris(gameMode));
-        }
 /*        The following if/else structures work as follows:
             When a timer is not yet done, prevent anything below from updating.
             When that timer is done, start the next one.
@@ -261,9 +244,24 @@ public class GuiTetris extends Gui {
 
         tetris.update(); // This updates the tetris game physics.
 
-        //Set restart and resign timers to be longer if the game is in progress
-        restartTimer.setLength(2.5);
-        resignTimer.setLength(2.5);
+        // This timer only stores how long escape was pressed, resetting when it is pressed and disabling when it is released.
+        // The game will only accept the resignation if it is pressed continuously for some time.
+        // This ensures that an errant press of the escape key does not cause an accidental resign.
+        if (keyboardInput.isKeyPressed(KeyEvent.VK_ESCAPE) && resignTimer.isDisabled()) {
+            resignTimer.reset();
+        } else if (!keyboardInput.isKeyPressed(KeyEvent.VK_ESCAPE)) {
+            resignTimer.disable();
+        } else if (resignTimer.isDone()) { // Resignation takes the player back to the main menu.
+            instance.displayGui(new GuiMenuTransition(this, new GuiMainMenu()));
+        }
+
+        if(keyboardInput.isKeyPressed(KeyEvent.VK_R) && restartTimer.isDisabled()){
+            restartTimer.reset();
+        } else if(!keyboardInput.isKeyPressed(KeyEvent.VK_R)){
+            restartTimer.disable();
+        } else if(restartTimer.isDone()){
+            instance.displayGui(new GuiTetris(gameMode));
+        }
 
         // "soft dropping" is rate limited to prevent a short press from bringing the piece all the way down
         if (downTimer.isDone() && keyboardInput.isKeyPressed(KeyEvent.VK_DOWN)) {

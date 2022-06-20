@@ -23,11 +23,19 @@ public class GuiForty extends Gui {
         topBar = Assets.Gui.TOP_40.get();
         bottomBar = Assets.Gui.BOTTOM_40.get();
 
-        // Back button to go back to the main menu (top left)
+        // Back button to go back to the solo menu (top left)
         Image back_button = Assets.Button.BACK_BUTTON.get();
         buttonList.add(new Button(-170, 120, back_button, (click) -> {
 
             instance.displayGui(new GuiMenuTransition(this, new GuiSolo())); //Display the main menu
+            instance.getSFXPlayer().play(Assets.SFX.CLICK_BACK.get()); //Play the click back sound
+
+        }, AnimationType.LEFT));
+
+        // Back button to go back to the solo menu (top left)
+        buttonList.add(new Button(-170, 190, back_button, (click) -> {
+
+            instance.displayGui(new GuiMenuTransition(this, new GuiResults(GameMode.FOURTY_LINES, 2))); //Display the main menu
             instance.getSFXPlayer().play(Assets.SFX.CLICK_BACK.get()); //Play the click back sound
 
         }, AnimationType.LEFT));

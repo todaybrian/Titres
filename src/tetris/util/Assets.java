@@ -65,7 +65,11 @@ public class Assets {
         BOTTOM_40("bottom_40.png"),
 
         TOP_BLITZ("top_blitz.png"),
-        BOTTOM_BLITZ("bottom_blitz.png");
+        BOTTOM_BLITZ("bottom_blitz.png"),
+
+        TOP_RESULTS("top_results.png"),
+        BOTTOM_RESULTS("bottom_results.png");
+
 
         private final Image image; //Store the image object
 

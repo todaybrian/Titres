@@ -156,7 +156,7 @@ public class Tetris extends Rectangle {
 
         FontMetrics fm = g.getFontMetrics();
 
-        int edgeOfLeftSidebar = 170;
+        int edgeOfLeftSidebar = 168;
 
         g.drawString("TIME", edgeOfLeftSidebar - fm.stringWidth("TIME"), 840);
         g.drawString("LINES", edgeOfLeftSidebar - fm.stringWidth("LINES"), 760);
