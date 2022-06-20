@@ -32,14 +32,6 @@ public class GuiForty extends Gui {
 
         }, AnimationType.LEFT));
 
-        // Back button to go back to the solo menu (top left)
-        buttonList.add(new Button(-170, 190, back_button, (click) -> {
-
-            instance.displayGui(new GuiMenuTransition(this, new GuiResults(GameMode.FOURTY_LINES, 2))); //Display the main menu
-            instance.getSFXPlayer().play(Assets.SFX.CLICK_BACK.get()); //Play the click back sound
-
-        }, AnimationType.LEFT));
-
         // Component to display the game mode
         componentList.add(new AnimatedRectangle((g, x) -> {
             g.setColor(new Color(82, 61, 45));
