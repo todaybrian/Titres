@@ -201,45 +201,80 @@ public class Tetris extends Rectangle {
         g.drawString(String.valueOf(linesCleared), 220 - fm.stringWidth(objective)-fm.stringWidth(String.valueOf(linesCleared))-10, 800);
     }
 
-    public boolean moveRight(){
-        Piece temp = current.clone();
-        temp.centerX++;
-        if(checkLegal(temp)){
+
+    //The following two methods were separated for expandability reasons (more animations were wanted)
+
+    /**
+     * Attempt to move the current Tetris piece to the right.
+     * This function is called when the user clicks the key to move the piece to the right
+     */
+    public void moveRight(){
+        Piece temp = current.clone(); //Create a temporary clone of the tetris object
+        temp.centerX++; //Move it to the right
+        if(checkLegal(temp)){ //Check if movement is legal before moving real piece
             current.centerX++;
-            return true;
         }
-        return false;
     }
 
-    public boolean moveLeft(){
-        Piece temp = current.clone();
-        temp.centerX--;
-        if(checkLegal(temp)){
+    /**
+     * Attempt to move the current Tetris piece to the left.
+     * This function is called when the user clicks the key to move the piece to the left
+     */
+    public void moveLeft(){
+        Piece temp = current.clone(); //Create a temporary clone of the tetris object
+        temp.centerX--; //Move it to the left
+        if(checkLegal(temp)){ //Check if movement is legal before moving real piece
             current.centerX--;
-            return true;
         }
-        return false;
     }
 
-    public int findDropHeight(){
-        Piece temp = current.clone();
-        temp.centerY++;
-        while(checkLegal(temp)){
-            temp.centerY++;
-        }
-        return temp.centerY - 1;
-    }
 
+    /**
+     * Drop the piece by 1 block.
+     * Called during soft drop, or gravity.
+     */
     public void dropPiece(){
-        Piece temp = current.clone();
-        temp.centerY++;
-        if(checkLegal(temp)){
+        Piece temp = current.clone(); //Create a temporary clone of the tetris object
+        temp.centerY++; //Move it down by 1
+        if(checkLegal(temp)){  //Check if movement is legal before moving real piece
             current.centerY++;
         }
     }
 
+    /**
+     * Find the lowest height the block can go if it were to continue dropping downwards
+     */
+    public int findDropHeight(){
+        Piece temp = current.clone();
+        temp.centerY++;
+        while(checkLegal(temp)){ //While it is legal, continue dropping the temporary block.
+            temp.centerY++;
+        }
+        return temp.centerY - 1; // We are 1 block beyond the legal drop height, so subtract 1 to compensate.
+    }
+
+    /**
+     * Hard drop the piece downwards.
+     */
+    public void hardDrop(){
+        //Prevent accidental hard drops
+        //If the last soft drop was 500 milliseconds ago, don't allow a hard drop
+        //This can happen if a user wants to hard drop, but the soft drop timer finishes, leading to
+        //an accidental hard drop of the next piece.
+        if(System.currentTimeMillis() - lastSoftDrop < 500){
+            return;
+        }
+        current.centerY = findDropHeight(); //Set the block to the lowest height possible by gravity
+        setPiece();
+    }
+
+    /**
+     * Sets the piece into the grid
+     */
     public void setPiece(){
-        if(!checkLegal(current)) return;
+        if(!checkLegal(current)) return; //Not legal, so piece setting not possible
+
+        //Grid of the tetris array is 3x3 except for the I piece which is 4x4.
         int length = 3;
         if(current.type == PieceType.I){
             length = 4;
@@ -274,18 +309,6 @@ public class Tetris extends Rectangle {
         this.level++;
         double secondsPerRow = 1.72 * Math.exp(-0.4* level);
         dropTimer = new FrameTimer(secondsPerRow);
-    }
-
-    public void hardDrop(){
-        //Prevent accidental hard drops
-        //If the last softdrop was 500 milliseconds ago, don't allow a hard drop
-        //This can happen if a user wants to hard drop, but the soft drop timer finishes, leading to
-        //an accidental hard drop of the next piece.
-        if(System.currentTimeMillis() - lastSoftDrop < 500){
-            return;
-        }
-        current.centerY = findDropHeight();
-        setPiece();
     }
 
     public void rotateCW(){
@@ -348,7 +371,6 @@ public class Tetris extends Rectangle {
         }
         int lstFilled = grid.length-1;
 
-        //ArrayList<Integer> lines = new ArrayList<>();
         for (int i = grid.length-1; i >=1; i--) {
             boolean full = true;
             for (int j = 0; j < grid[0].length; j++) {
@@ -360,12 +382,10 @@ public class Tetris extends Rectangle {
                 }
             }
             if(full){
-                //lines.add(i);
                 this.linesCleared++;
             }
         }
         grid = temp;
-        //return lines;
     }
 
     public void checkObjectives(){
