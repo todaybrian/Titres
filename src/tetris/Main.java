@@ -1,6 +1,10 @@
-/* Main class starts the game
-It first disables UI scaling, then runs the constructor in the GameFrame class.
-*/
+/**
+ * Author: Brian Yan, Aaron Zhang
+ * Date: June 20, 22022
+ *
+ * Main class starts the game.
+ * It first disables UI scaling, then runs the constructor in the GameFrame class.
+ */
 package tetris;
 
 public class Main {

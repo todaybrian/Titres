@@ -15,6 +15,9 @@ public class GameFrame extends JFrame {
     private int renderWidth, renderHeight;
     private int horizontalPadding, verticalPadding;
 
+    //The aspect ratio of the game will be 16/9.
+    private static final double aspectRatio = 16.0 / 9.0;
+
     public GameFrame(){
         //The game was designed on to run on a 1920 by 1080 screen, so we need to scale it to the current screen
         //The following code is used to collect information about the monitor which will be used to figure out the game's resolution
@@ -25,25 +28,39 @@ public class GameFrame extends JFrame {
 
         displayMode = graphicsDevice.getDisplayMode();
 
-        //Get the current screen width and height
+        //Get the current display screen width and height
         displayWidth = displayMode.getWidth();
         displayHeight = displayMode.getHeight();
 
-        //The aspect ratio of the game will be 16/9.
-        double scale = 16.0 / 9.0;
-        if (displayHeight * scale > displayWidth) {
+        //If the screen is a thin screen
+        if (displayHeight * aspectRatio > displayWidth) {
+            //We set the monitor width to be the width of our rendered game.
             renderWidth = displayWidth;
-            renderHeight = (int)Math.round(displayWidth / scale);
+
+            //If renderWidth is the width of the game, we use the ratio to find the rendered height to ensure 16:9 ratio
+            renderHeight = (int)Math.round(displayWidth / aspectRatio);
+
+            //No horizontal padding as the monitor width is the width of our rendered game
             horizontalPadding = 0;
+
+            //The vertical padding on one side is the difference of the monitor height and the game's rendered height divided by two to account for the top and the bottom
             verticalPadding = (displayHeight - renderHeight)/2;
-        } else {
-            renderWidth = (int)Math.round(displayHeight * scale);
+        } else { //If the screen is a wide screen
+            //We set the monitor's height to be the height of our rendered game
             renderHeight = displayHeight;
-            horizontalPadding = (displayWidth - renderWidth)/2;
+
+            //If the renderHeight is the height of the game, we use ratios to find the rendered width to ensure a 16:9 ratio
+            renderWidth = (int)Math.round(displayHeight * aspectRatio);
+
+            //No vertical padding as the monitor height is the height of our rendered game
             verticalPadding = 0;
+
+            //The horizontal padding on one side is the difference of the monitor width and the game's rendered width divided by two to account for the left and right sides
+            horizontalPadding = (displayWidth - renderWidth)/2;
         }
 
-        panel = new GamePanel(displayWidth, displayHeight, renderHeight, horizontalPadding, verticalPadding); //Run GamePanel constructor
+        //Run a GamePanel constructor with the required arguments needed to scale the game
+        panel = new GamePanel(displayWidth, displayHeight, renderHeight, horizontalPadding, verticalPadding);
 
         this.add(panel);
         panel.setPhysicsFPS(144); //Set physics update rate to 144 FPS

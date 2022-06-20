@@ -25,7 +25,7 @@ public class GamePanel extends JPanel implements Runnable {
     private static GamePanel instance;
 
     //internal height and width used for rendering
-    //We pretend to draw stuff on a 1920 by 1080 screen. This gets scaled by GraphicsWrapper
+    //We pretend to draw stuff on a 1920 by 1080 screen. This then gets scaled.
     public static final int INTERNAL_WIDTH = 1920;
     public static final int INTERNAL_HEIGHT = 1080;
 
@@ -46,7 +46,7 @@ public class GamePanel extends JPanel implements Runnable {
     private double renderNS;
     private double physicsNS;
 
-    //Displayed menu
+    //Displayed gui on the screen. This technique allows us to easily separate menus/guis.
     private Gui gui;
 
     //Keyboard Input class
@@ -63,10 +63,6 @@ public class GamePanel extends JPanel implements Runnable {
     // The setting render FPS
     // This is called maximum because if the computer is too slow, the render FPS will be lower than the user setting
     private int maxRenderFPS;
-
-    // Actual calculated FPS used for metrics
-    private int realPhysicsFPS;
-    private int realRenderFPS;
 
     public GamePanel(int width, int height, int renderHeight, int horizontalPadding, int verticalPadding) {
         GamePanel.instance = this; //Set the GamePanel instance
@@ -129,22 +125,12 @@ public class GamePanel extends JPanel implements Runnable {
             //only move objects around if enough time has passed
             if (deltaPhysics >= 1) {
                 update();
-                countUpdate++; //increment the number of physics FPS for metrics
                 deltaPhysics--;
             }
             //only update the screen if enough time has passed
             if(deltaRender >= 1) {
                 repaint();
-                countRender++; //increment the number of render FPS for metrics
                 deltaRender--;
-            }
-
-            if(System.nanoTime() - previousFPSTime >= 1000000000) { //Calculate the actual FPS every second
-                previousFPSTime = System.nanoTime(); //Reset the previous FPS time
-                this.realRenderFPS = countRender; //Get the actual render FPS
-                this.realPhysicsFPS = countUpdate; //Get the actual physics FPS
-                countUpdate = 0; //Reset the count of physics FPS for the next calculation
-                countRender = 0; //Reset the count of render FPS for the next calculation
             }
         }
     }
@@ -174,6 +160,10 @@ public class GamePanel extends JPanel implements Runnable {
 
         draw(g2d);//update the positions of everything on the screen
 
+        //Using information calculated previously, we draw the game (1920 width and 1080 height) on the screen with
+        // "horizontalPadding" widths on the left and right
+        // "verticalPadding" height on the top and bottom
+        //
         g.drawImage(image, horizontalPadding, verticalPadding, gameWidth-horizontalPadding, gameHeight-verticalPadding, 0, 0, 1920, 1080, this);
     }
 
@@ -192,6 +182,7 @@ public class GamePanel extends JPanel implements Runnable {
     	return this.gui;
     }
 
+    //Getter for the GameBackground class. This will keep the game background in between menus.
     public GameBackground getGameBackground(){
         return this.gameBackground;
     }
@@ -201,14 +192,7 @@ public class GamePanel extends JPanel implements Runnable {
         return GamePanel.instance;
     }
 
-    public int getRealPhysicsFPS(){
-        return realPhysicsFPS;
-    }
-
-    public int getRealRenderFPS(){
-        return realRenderFPS;
-    }
-
+    //Get the FPS that the game is set to be capped at
     public int getMaxRenderFPS(){
         return maxRenderFPS;
     }

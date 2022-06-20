@@ -40,20 +40,35 @@ public class GuiSettings extends Gui {
 
         }, AnimationType.LEFT));
 
+        //This is the image of the slider button on the slider
         Image sliderImage = Assets.Button.SLIDER.get();
-        musicSlider = new Slider(320,500, 670, sliderImage,  (onChange)->{
-            instance.getMusicPlayer().changeVolume((Math.round(onChange.getValue())/100.0));
-        },0, 100, (instance.getMusicPlayer().getVolume()));
-        buttonList.add(musicSlider);
 
+        //Music slider
+        musicSlider = new Slider(320,500, 670, sliderImage,  (onChange)->{
+            //The value shown by the screen represents the percentage of the volume.
+            //We need to divide by 100 to convert it to a percent
+            instance.getMusicPlayer().changeVolume((Math.round(onChange.getValue())/100.0));
+
+        },0, 100, (instance.getMusicPlayer().getVolume()));
+
+        //Sfx slider
         sfxSlider = new Slider(320,200, 670, sliderImage, (onChange)->{
+            //The value shown by the screen represents the percentage of the volume.
+            //We need to divide by 100 to convert it to a percent
             instance.getSFXPlayer().changeVolume((Math.round(onChange.getValue())/100.0));
+
         },0, 100, (instance.getSFXPlayer().getVolume()));
 
-        buttonList.add(sfxSlider);
+        //Music slider
         fpsSlider = new Slider(320,800, 670, sliderImage,  (onChange)->{
+
             instance.setRenderFPS((int)Math.round(onChange.getValue()));
+
         },10, 260, instance.getMaxRenderFPS());
+
+        //Add the above sliders into the list of buttons to be rendered
+        buttonList.add(musicSlider);
+        buttonList.add(sfxSlider);
         buttonList.add(fpsSlider);
 
         //Settings component
