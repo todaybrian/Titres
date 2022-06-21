@@ -60,6 +60,9 @@ public class GuiMainMenu extends Gui {
 
         // Logo component (Displays logo on top left below the top bar)
         componentList.add(new AnimatedRectangle((g, xOffset) -> {
+            //offsetX is the horizontal offset variable which is used to create a transition effect for animation
+            //It must be added to the x coordinate of relevant components
+
             //Draws the logo at 1.25x scale
             g.drawImage(Assets.Gui.LOGO.get(), 20 + xOffset, 100, (int) (1.25 * logo.getWidth(null)), (int) (1.25 * logo.getHeight(null)), null);
 

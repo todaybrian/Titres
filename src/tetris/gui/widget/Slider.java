@@ -34,6 +34,7 @@ public class Slider extends Button{
     public Slider(int xPos, int yPos, int width, Image image, IPressable onChange, int minValue, int maxValue, int initValue) {
         super(xPos, yPos, image, (click)->{});
 
+        //Store arguments
         this.xPos = xPos;
         this.width = width;
         this.icon = image;
@@ -52,7 +53,7 @@ public class Slider extends Button{
     public void draw(Graphics2D g) {
         g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, opacity));
 
-        checkHover();
+        checkHover(); //Update state of mouse hover
         if (isClicked()) {
             if (MouseInput.getLocation().getX()+icon.getWidth(null)/2 >= width+xPos) { // if mouse goes to the right of the allowed slider space
                 xSlider = width+xPos -icon.getWidth(null); // set slider position to the farthest right

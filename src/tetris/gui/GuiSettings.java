@@ -72,12 +72,14 @@ public class GuiSettings extends Gui {
         buttonList.add(fpsSlider);
 
         //Settings component
-        AnimatedRectangle settings = new AnimatedRectangle((g, offsetX)->{ //offsetX is the horizontal offset variable which is used to create a transition effect for animation
+        AnimatedRectangle settings = new AnimatedRectangle((g, offsetX)->{
+            //offsetX is the horizontal offset variable which is used to create a transition effect for animation
+            //It must be added to the x coordinate of relevant components
+
             //Set the color of the background of the results rectangle
             g.setColor(new Color(133, 64, 160));
 
             //Draw the background of the results rectangle
-            //offsetX is added so that the rectangle can be transitioned to
             g.fillRect(300 + offsetX, 200, 1700, 800);
 
             //Set font size and color which will draw the value of the settings
@@ -85,7 +87,6 @@ public class GuiSettings extends Gui {
             g.setColor(Color.WHITE);
 
             //Draw the values that are represented by the slider
-            //offsetX is added to the x arguments so that they can be transitioned
             g.drawString("Music: " + (int)Math.round(musicSlider.getValue()),1050+offsetX, 570);
 
             g.drawString("SFX: " + (int)Math.round(sfxSlider.getValue()),1050+offsetX,270);

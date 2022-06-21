@@ -19,11 +19,12 @@ public class GuiGameMode extends Gui {
     public GuiGameMode(GameMode gameMode) {
         super(); //Call the super constructor
 
-        Image startButton = null;
         //Init button images
+        Image startButton = null;
         Image back_button = Assets.Button.BACK_BUTTON.get();
         Image controls = Assets.Gui.CONTROLS.get();
 
+        //Different assets for different game modes
         switch (gameMode) {
             case FORTY_LINES:
                 topBar = Assets.Gui.TOP_40.get(); //Set the top bar
@@ -48,17 +49,23 @@ public class GuiGameMode extends Gui {
 
         // Component to display the game mode
         componentList.add(new AnimatedRectangle((g, offsetX) -> {
-            g.setColor(gameMode.getBackgroundColor());
+            //offsetX is the horizontal offset variable which is used to create a transition effect for animation
+            //It must be added to the x coordinate of relevant components
 
+            //Draw the top rectangle
+            g.setColor(gameMode.getBackgroundColor());
             g.fillRect(offsetX + 300, 160, 1400, 280);
 
+            //Draw the Game Mode name
             g.setFont(Assets.Fonts.KDAM_FONT.get().deriveFont(Font.BOLD, 50));
             g.setColor(gameMode.getTextColor());
             g.drawString(gameMode.getName(), offsetX + 320, 230);
 
+            //Draw the game mode description
             g.setFont(Assets.Fonts.KDAM_FONT.get().deriveFont(Font.PLAIN, 25));
             g.drawString(gameMode.getDescription(), offsetX + 320, 270);
 
+            //Draw a second rectangle below the first rectangle to store the start button
             g.setColor(gameMode.getBackgroundColor());
             g.fillRect(offsetX + 300, 460, 1400, 105);
         }, AnimationType.RIGHT));
@@ -74,7 +81,10 @@ public class GuiGameMode extends Gui {
 
         // Controls list
         componentList.add(new AnimatedRectangle((g, xOffset) -> {
+            //offsetX is the horizontal offset variable which is used to create a transition effect for animation
+            //It must be added to the x coordinate of relevant components
 
+            //Draw the controls list
             g.drawImage(controls, 300 + xOffset, 585, controls.getWidth(null),  controls.getHeight(null), null);
 
         }, AnimationType.RIGHT));

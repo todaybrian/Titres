@@ -287,7 +287,9 @@ public class AnimatedRectangle extends Rectangle {
      */
     public interface IDrawable {
         /**
-         * Draws objects inside the rectangle. Meant to be defined by the user
+         * Draws objects inside the rectangle. Meant to be defined by the user.
+         *
+         *
          * @param g The graphics object to draw with.
          * @param offsetX The current horizontal offset of the rectangle, which must be handled by the objects
          *                inside this function for it to animate.

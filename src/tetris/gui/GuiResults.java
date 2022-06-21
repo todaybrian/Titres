@@ -24,6 +24,9 @@ public class GuiResults extends Gui {
         }, AnimationType.LEFT));
 
         AnimatedRectangle results = new AnimatedRectangle((g, offsetX)->{
+            //offsetX is the horizontal offset variable which is used to create a transition effect for animation
+            //It must be added to the x coordinate of relevant components
+
             FontMetrics fm; //Font metrics for font
             String scoreText = ""; //Text to be displayed in score box
 
