@@ -74,14 +74,14 @@ public class Button extends AnimatedRectangle {
 		super.animate();
 
 		g.drawImage(image, (int)x, (int)y, image.getWidth(null), image.getHeight(null), null);
-		if(isClicked) {
-			
-		} else if (isMouseOver) {
-			g.setColor(new Color(0, 0, 0, 35));
-			g.fillRect((int)x, (int)y, width, height);
-		} else{
-			g.setColor(new Color(0, 0, 0, 50));
-			g.fillRect((int)x, (int)y, width, height);
+		if(!isClicked) {
+			if (isMouseOver) {
+				g.setColor(new Color(0, 0, 0, 35));
+				g.fillRect((int)x, (int)y, width, height);
+			} else{
+				g.setColor(new Color(0, 0, 0, 50));
+				g.fillRect((int)x, (int)y, width, height);
+			}
 		}
 		g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1.0f));
 	}
