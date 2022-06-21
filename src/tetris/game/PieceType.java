@@ -8,7 +8,7 @@
 package tetris.game;
 
 public enum PieceType {
-    J(0), Z(1), S(2), L(3), T(4), O(5), I(6), GHOST(7), NULL; // Ghost = drop marker, null = blank
+    J(0), Z(1), S(2), L(3), T(4), O(5), I(6), GHOST(7), NULL(-1); // Ghost = drop marker, null = blank
 
     private final int id; // Easy way to call the piece types
     private static final PieceType[][][] pieceGrid; // Holds all the piece grids (called by first index for specific piece type)
@@ -17,60 +17,52 @@ public enum PieceType {
     public static final int[][][] wallKickDataJLSTZ;
     public static final int[][][] wallKickDataI; // The "I" piece handles wall kicks in a unique way
 
+    //Constructor to initialize the id of each piece type
     PieceType(int id) {
         this.id = id;
     }
 
-    PieceType() {
-        this.id = -1;
-    }
-
+    // Returns the id of the piece type
     public int getId() {
         return id;
     }
 
-    // Handles wall kicks and default pieceGrids
-    static{
+    // Initializes wall kicks and default pieceGrids
+    static {
         pieceGrid = new PieceType[7][][];
 
         //J
-        pieceGrid[0] = new PieceType[3][];
-        pieceGrid[0][0] = new PieceType[]{PieceType.J, PieceType.NULL, PieceType.NULL};
-        pieceGrid[0][1] = new PieceType[]{PieceType.J, PieceType.J, PieceType.J};
-        pieceGrid[0][2] = new PieceType[]{PieceType.NULL, PieceType.NULL, PieceType.NULL};
-
+        pieceGrid[0] = new PieceType[][]{{J, NULL, NULL},
+                {J, J, J},
+                {NULL, NULL, NULL}};
         //Z
-        pieceGrid[1] = new PieceType[3][];
-        pieceGrid[1][0] = new PieceType[]{PieceType.Z, PieceType.Z, PieceType.NULL};
-        pieceGrid[1][1] = new PieceType[]{PieceType.NULL, PieceType.Z, PieceType.Z};
-        pieceGrid[1][2] = new PieceType[]{PieceType.NULL, PieceType.NULL, PieceType.NULL};
+        pieceGrid[1] = new PieceType[][]{{Z, Z, NULL},
+                {NULL, Z, Z},
+                {NULL, NULL, NULL}};
         //S
-        pieceGrid[2] = new PieceType[3][];
-        pieceGrid[2][0] = new PieceType[]{PieceType.NULL, PieceType.S, PieceType.S};
-        pieceGrid[2][1] = new PieceType[]{PieceType.S, PieceType.S, PieceType.NULL};
-        pieceGrid[2][2] = new PieceType[]{PieceType.NULL, PieceType.NULL, PieceType.NULL};
+        pieceGrid[2] = new PieceType[][]{{NULL, S, S},
+                {S, S, NULL},
+                {NULL, NULL, NULL}};
 
         //L
-        pieceGrid[3] = new PieceType[3][];
-        pieceGrid[3][0] = new PieceType[]{PieceType.NULL, PieceType.NULL, PieceType.L};
-        pieceGrid[3][1] = new PieceType[]{PieceType.L, PieceType.L, PieceType.L};
-        pieceGrid[3][2] = new PieceType[]{PieceType.NULL, PieceType.NULL, PieceType.NULL};
-
+        pieceGrid[3] = new PieceType[][]{{NULL, NULL, L},
+                {L, L, L},
+                {NULL, NULL, NULL}};
         //T
-        pieceGrid[4] = new PieceType[3][];
-        pieceGrid[4][0] = new PieceType[]{PieceType.NULL, PieceType.T, PieceType.NULL};
-        pieceGrid[4][1] = new PieceType[]{PieceType.T, PieceType.T, PieceType.T};
-        pieceGrid[4][2] = new PieceType[]{PieceType.NULL, PieceType.NULL, PieceType.NULL};
+        pieceGrid[4] = new PieceType[][]{{NULL, T, NULL},
+                {T, T, T},
+                {NULL, NULL, NULL}};
 
         //O
-        pieceGrid[5] = new PieceType[3][];
-        pieceGrid[5][0] = pieceGrid[5][1] = new PieceType[]{PieceType.O, PieceType.O, PieceType.NULL};
-        pieceGrid[5][2] = new PieceType[]{PieceType.NULL, PieceType.NULL, PieceType.NULL};
+        pieceGrid[5] = new PieceType[][]{{O, O, NULL},
+                {O, O, NULL},
+                {NULL, NULL, NULL}};
 
         //I
-        pieceGrid[6] = new PieceType[4][];
-        pieceGrid[6][0] = pieceGrid[6][2] = pieceGrid[6][3] = new PieceType[]{PieceType.NULL, PieceType.NULL, PieceType.NULL, PieceType.NULL};
-        pieceGrid[6][1] = new PieceType[]{PieceType.I, PieceType.I, PieceType.I, PieceType.I};
+        pieceGrid[6] = new PieceType[][]{{NULL, NULL, NULL, NULL},
+                {I, I, I, I},
+                {NULL, NULL, NULL, NULL},
+                {NULL, NULL, NULL, NULL}};
 
         //Wall kick data from Tetris SRS
         //https://harddrop.com/wiki/SRS
@@ -92,20 +84,37 @@ public enum PieceType {
         };
     }
 
-    public static PieceType[][] getPieceGrid(PieceType pieceType){
+    /**
+     * Returns the piece grid for the given piece type.
+     *
+     * @param pieceType The piece type to get the grid for.
+     * @return The piece grid for the given piece type.
+     */
+    public static PieceType[][] getPieceGrid(PieceType pieceType) {
         return pieceGrid[pieceType.id];
     }
 
-    // Returns a new pieceGrid when piece is rotated
-    public static PieceType[][] getPieceGridFromRot(PieceType pieceType, int rotIdx){
+    /**
+     * Returns the piece grid for the given rotation.
+     *
+     * Rotation index (clockwise): 0 = 0 degrees, 1 = 90 degrees, 2 = 180 degrees, 3 = 270 degrees.
+     *
+     *
+     * @param pieceType The piece type to get the grid for.
+     * @param rotIdx The rotation index to get the grid for.
+     * @return The piece grid for the given rotation.
+     */
+    public static PieceType[][] getPieceGridFromRot(PieceType pieceType, int rotIdx) {
 
-        PieceType[][] ret = getPieceGrid(pieceType), temp; //
+        PieceType[][] ret = getPieceGrid(pieceType); // Rotated piece grid
+        PieceType[][] temp;  // Temporary piece grid to hold rotated piece grid
 
-        for (int i = 1; i <= rotIdx; i++) {
+        for (int i = 1; i <= rotIdx; i++) { // Rotate the piece grid 90 degrees until the rotation index is reached
             temp = new PieceType[ret.length][ret.length];
-            for (int j = ret.length-1; j >= 0;j--) {
-                for (int k = 0; k < ret.length;k++) {
-                    temp[k][j] = ret[ret.length-j-1][k];
+
+            for (int j = ret.length - 1; j >= 0; j--) {
+                for (int k = 0; k < ret.length; k++) {
+                    temp[k][j] = ret[ret.length - j - 1][k];
                 }
             }
             ret = temp;

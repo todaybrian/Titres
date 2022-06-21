@@ -162,7 +162,7 @@ public class Tetris extends Rectangle {
         g.setFont(Assets.Fonts.KDAM_FONT.get().deriveFont(Font.PLAIN, 23));
         g.setColor(Color.WHITE);
 
-        FontMetrics fm = g.getFontMetrics();
+        FontMetrics fm = g.getFontMetrics(); //Get font metrics for the font
 
         int edgeOfLeftSidebar = 168;
 
@@ -200,13 +200,13 @@ public class Tetris extends Rectangle {
 
         g.setFont(Assets.Fonts.KDAM_FONT.get().deriveFont(Font.BOLD, 40));
 
-        fm = g.getFontMetrics();
+        fm = g.getFontMetrics(); // Font changed, get new metrics
 
         String minutesSeconds = String.format("%d:%02d", minutes, seconds);
 
         g.drawString(minutesSeconds, 122 - fm.stringWidth(minutesSeconds), 880);
 
-        g.drawString(String.valueOf(linesCleared), 220 - fm.stringWidth(objective)-fm.stringWidth(String.valueOf(linesCleared))-10, 800);
+        g.drawString(String.valueOf(linesCleared), 205 - fm.stringWidth(objective)-fm.stringWidth(String.valueOf(linesCleared)), 800);
     }
 
 
