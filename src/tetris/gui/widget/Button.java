@@ -92,6 +92,7 @@ public class Button extends AnimatedRectangle {
 			onPress.onPress(this); //call the interface function to handle the button press
 	}
 
+	// Interface to allow code to be run when button is clicked
 	public interface IPressable {
 		void onPress(Button p_onPress_1_);
 	}

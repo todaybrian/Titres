@@ -103,6 +103,7 @@ public class AnimatedRectangle extends Rectangle {
         return isClicked;
     }
 
+    // Allows the click state of the button to be changed (i.e. by the mouse input)
     public void setClicked(boolean isClicked) {
         this.isClicked = isClicked;
     }

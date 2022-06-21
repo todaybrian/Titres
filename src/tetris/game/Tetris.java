@@ -34,28 +34,55 @@ public class Tetris extends Rectangle {
     //Store the randomizer that will be used to generate the next piece
     private Randomizer randomizer;
 
+    // The grid of all pieces
     public PieceType[][] grid;
+
+    // The currently held piece
     public Piece hold;
+
+    // Can the user switch their held piece?
     public boolean canSwitchHold;
+
+    // Currently actively dropping piece
     public Piece current;
+
+    // The next few pieces to be spawned (for display/strategy purposes)
     public ArrayList<PieceType> next;
+
+    // Number of lines cleared since last line goal was met (or since game started if none met)
     public int linesCleared;
+
+    // Amount of lines required to be cleared before something happens
     public int lineGoal;
+
+    // Start time of the game, used for game timer
     private long timeStarted;
 
+    // Time between each drop
     public FrameTimer dropTimer;
+
+    // Time after piece lands before it is locked and set in place
     public FrameTimer lockTimer = new FrameTimer(0.5);
 
+    // Has the game been lost?
     private boolean died;
+
+    // Has the game been won?
     private boolean objectiveCompleted;
+
+    // Stores the score at the end of the game, to be displayed on results screen
     private long finalScore;
 
+    // The current frame
     private long currentUpdateFrame;
 
+    // The latest time that a soft drop command was received
     private long lastSoftDrop;
 
+    // The current game mode
     private GameMode gameMode;
 
+    // Current level; how fast pieces are currently dropping
     private int level;
 
     public Tetris(GameMode gameMode) {
@@ -195,7 +222,7 @@ public class Tetris extends Rectangle {
             minutes = 1-(int) ((System.currentTimeMillis() - timeStarted) / 1000 / 60);
             seconds = 59-((int) (System.currentTimeMillis() - timeStarted) / 1000) % 60;
             millis = 1000-(int) (System.currentTimeMillis() - timeStarted) % 1000;
-            if (timeStarted == -1) {
+            if (timeStarted == -1) { // Holds timer at 2 minutes before game starts
                 minutes = 2;
                 seconds = millis = 0;
             }

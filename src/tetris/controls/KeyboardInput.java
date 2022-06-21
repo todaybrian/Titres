@@ -38,6 +38,7 @@ public class KeyboardInput implements KeyListener {
         }
     }
 
+    // Checks if a certain key is being pressed right now
     public boolean isKeyPressed(int keyCode){
         return keyPressed[keyCode];
     }
