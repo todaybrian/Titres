@@ -606,6 +606,11 @@ public class Tetris extends Rectangle {
         }
     }
 
+    /**
+     * Draw the next 5 pieces in the queue.
+     *
+     * @param g The graphics object to draw to
+     */
     public void drawNext(Graphics2D g) {
         ArrayList<PieceType> nextPieces = randomizer.getNextPieces(5); //Get the next 5 pieces to display
         Piece temp; //Holds the piece to be drawn

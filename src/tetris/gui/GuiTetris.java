@@ -64,16 +64,23 @@ public class GuiTetris extends Gui {
 
     private FrameTimer downTimer;
 
+    // The initial long delay when moving left
     private FrameTimer moveLeftTimerDAS;
+    // The shorter delay when moving left after init DAS delay has passed
     private FrameTimer moveLeftTimer;
+
+    // The initial long delay when moving right
+    private FrameTimer moveRightTimerDAS;
+    // The shorter delay when moving right after init DAS delay has passed
+    private FrameTimer moveRightTimer;
+
 
     private FrameTimer hardDropAnimationTimer;
 
-    private FrameTimer moveRightTimerDAS;
-    private FrameTimer moveRightTimer;
-    
+
     private KeyboardInput keyboardInput;
 
+    // All keybinds
     public int moveRightKey = KeyEvent.VK_RIGHT;
     public int moveLeftKey = KeyEvent.VK_LEFT;
     public int hardDropKey = KeyEvent.VK_SPACE;
@@ -98,17 +105,18 @@ public class GuiTetris extends Gui {
         // this object handles all game logic; only tetris.drawImage() and tetris.update() will cause objects inside game board to change.
         tetris = new Tetris(gameMode);
 
+        //Change background and set opacity to be .5
         instance.getGameBackground().randomBackground();
-
         this.backgroundOpacity = 0.5f;
+
+        //Initialize the timers
+        //The below timers are used before the game starts
+        //If timers are disabled, it means that they will be enabled later and haven't started yet
 
         blackfadeOutTimer = new FrameTimer(1);
 
         bannerTimer = new FrameTimer(5);
         bannerTimer.disable();
-
-        diedTimer = new FrameTimer(1);
-        diedTimer.disable();
 
         countdownTimer = new FrameTimer(3.3);
         countdownTimer.disable();
@@ -116,9 +124,17 @@ public class GuiTetris extends Gui {
         goTimer = new FrameTimer(1);
         goTimer.disable();
 
+        //=========================================================
+
+        //Timer for after the player has died (so the game falls down)
+        diedTimer = new FrameTimer(1);
+        diedTimer.disable();
+
+        //Timer for when the player wants to resign
         resignTimer = new FrameTimer(1.5);
         resignTimer.disable();
 
+        //Timer for when the player wants to restart
         restartTimer = new FrameTimer(1.5);
         restartTimer.disable();
 
@@ -127,6 +143,7 @@ public class GuiTetris extends Gui {
         hasPlayedCountdown = new boolean[countdownLength];
         countDownImages = new Image[]{Assets.Game.COUNTDOWN_1.get(), Assets.Game.COUNTDOWN_2.get(), Assets.Game.COUNTDOWN_3.get()};
         countDownSounds = new File[]{Assets.SFX.COUNTDOWN_1.get(), Assets.SFX.COUNTDOWN_2.get(), Assets.SFX.COUNTDOWN_3.get()};
+
 
         downTimer = new FrameTimer(0.06);
         moveLeftTimerDAS = new FrameTimer(0.167);
@@ -155,9 +172,10 @@ public class GuiTetris extends Gui {
                 instance.displayGui(new GuiMenuTransition(this, new GuiDied(gameMode)));
             }
         } else {
+            //Draw tetris board
             g.drawImage(tetris.drawImage(), GamePanel.INTERNAL_WIDTH / 2 - Tetris.BOARD_WIDTH / 2, GamePanel.INTERNAL_HEIGHT / 2 - Tetris.BOARD_HEIGHT / 2 + yOffset - (int) (1400 * (1 - blackfadeOutTimer.getProgress())), Tetris.BOARD_WIDTH, Tetris.BOARD_HEIGHT, null);
 
-
+            //The following below are the intro animations in order.
             if (!blackfadeOutTimer.isDone()) {
                 g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, (float) (1 - blackfadeOutTimer.getProgress())));
                 g.setColor(Color.BLACK);
@@ -165,18 +183,18 @@ public class GuiTetris extends Gui {
                 g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1.0f));
             } else if(!bannerTimer.isDone()){
                 float opacityProgress;
+                //easeOutQuint https://easings.net/#easeOutQuint to make the banner fade in and out
                 if(bannerTimer.getProgress() > 0.9){
-                    //easeOutQuint
                     opacityProgress = (float) -(1-Math.pow(1-(bannerTimer.getProgress()-0.9)/0.1,5));
                 } else{
-                    //easeOutQuint
                     opacityProgress = (float) (1-Math.pow(1- bannerTimer.getProgress()/0.9,5));
                 }
-
+                //Set the opacity of the banner
                 g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, Util.clamp(0.5f + 0.5f * opacityProgress, 0, 1)));
 
                 g.drawImage(gameBanner, 1920 / 2 - gameBanner.getWidth(null) / 2, 1080 / 2 - gameBanner.getHeight(null) / 2, null);
 
+                // reset the opacity
                 g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1.0f));
             } else if(!countdownTimer.isDone() && !countdownTimer.isDisabled()){
                 long bufferTime = (long) ((1e9)*(countdownTimer.getLength() - 3.0f));
@@ -210,29 +228,27 @@ public class GuiTetris extends Gui {
                 g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1.0f));
             }
         }
-        if (!resignTimer.isDisabled()) {
+
+        if (!resignTimer.isDisabled() || !restartTimer.isDisabled()) {
+            String text = "";
+            double progress = 0;
             g.setFont(Assets.Fonts.KDAM_FONT.get().deriveFont(Font.BOLD, 50));
-            g.setColor(Color.RED);
-            g.fillRect(0, (int)(1080-150*resignTimer.getProgress() -50), 1920, 300);
+            if(!resignTimer.isDisabled()) {
+                g.setColor(Color.RED);
+                text = "KEEP HOLDING ESC TO FORFEIT";
+                progress = resignTimer.getProgress();
+            } else{
+                g.setColor(Color.ORANGE);
+                text = "KEEP HOLDING R TO RESTART";
+                progress = restartTimer.getProgress();
+            }
+
+            g.fillRect(0, (int)(GamePanel.INTERNAL_HEIGHT-150*progress -50), 1920, 300);
             g.setColor(Color.WHITE);
 
             fm = g.getFontMetrics();
-            String text = "KEEP HOLDING ESC TO FORFEIT";
 
-            g.drawString(text, 1920/2 - fm.stringWidth(text)/2, (int)(1080 - 150*resignTimer.getProgress()/2 -25+ fm.getHeight()/2));
-
-        }
-
-        if(!restartTimer.isDisabled()){
-            g.setFont(Assets.Fonts.KDAM_FONT.get().deriveFont(Font.BOLD, 50));
-            g.setColor(Color.ORANGE);
-            g.fillRect(0, (int)(1080-150*restartTimer.getProgress() -50), 1920, 300);
-            g.setColor(Color.WHITE);
-
-            fm = g.getFontMetrics();
-            String text = "KEEP HOLDING R TO RESTART";
-
-            g.drawString(text, 1920/2 - fm.stringWidth(text)/2, (int)(1080 - 150*restartTimer.getProgress()/2 -25+ fm.getHeight()/2));
+            g.drawString(text, GamePanel.INTERNAL_WIDTH/2 - fm.stringWidth(text)/2, (int)(GamePanel.INTERNAL_HEIGHT - 150*progress/2 -25+ fm.getHeight()/2));
         }
     }
 
@@ -304,49 +320,56 @@ public class GuiTetris extends Gui {
             tetris.dropPiece();
         }
         // "hard dropping" is disabled if the space bar is held to prevent multiple pieces from being hard dropped
+        //An animation will be played if the piece is hard dropped.
         if (keyboardInput.isKeyPressed(hardDropKey) && !held_hardDrop) {
             tetris.hardDrop();
             hardDropAnimationTimer.reset();
         }
 
         // moving left and right is controlled by https://tetris.fandom.com/wiki/DAS to avoid operating system quirks
+        // In the website, you can see that the initial delay is longer than the subsequent delays.
         if (keyboardInput.isKeyPressed(moveLeftKey)) {
-            if (moveLeftTimerDAS.isDisabled()) {
+            if (moveLeftTimerDAS.isDisabled()) { //Longer initial timer
                 tetris.moveLeft();
                 moveLeftTimerDAS.reset();
                 moveLeftTimer.reset();
-            } else if (moveLeftTimerDAS.isDone() && moveLeftTimer.isDone()) {
+            } else if (moveLeftTimerDAS.isDone() && moveLeftTimer.isDone()) { //Shorter DAS timer
                 tetris.moveLeft();
                 moveLeftTimer.reset();
             }
         } else {
+            // The key isn't held anymore, so the initial long delay applies again next time the key is pressed
             moveLeftTimerDAS.disable();
         }
 
         if (keyboardInput.isKeyPressed(moveRightKey)) {
-            if (moveRightTimerDAS.isDisabled()) {
+            if (moveRightTimerDAS.isDisabled()) { //Longer initial timer
                 tetris.moveRight();
                 moveRightTimerDAS.reset();
                 moveRightTimer.reset();
-            } else if (moveRightTimerDAS.isDone() && moveRightTimer.isDone()) {
+            } else if (moveRightTimerDAS.isDone() && moveRightTimer.isDone()) { //Shorter DAS timer
                 tetris.moveRight();
                 moveRightTimer.reset();
             }
         } else {
+            // The key isn't held anymore, so the initial long delay applies again next time the key is pressed
             moveRightTimerDAS.disable();
         }
 
-        // same logic as hard drop disabling on hold
+        //Once a rotation has occurred, the person must lift the key to rotate again.
+        //Done in if else to avoid conflicts with both keys being pressed at the same time.
         if (keyboardInput.isKeyPressed(rotateCWKey) && !held_rotateCW) {
             tetris.rotateCW();
         } else if (keyboardInput.isKeyPressed(rotateCCWKey) && !held_rotateCCW) {
             tetris.rotateCCW();
         }
 
+        //Prevent repeating the same key press.
         if (keyboardInput.isKeyPressed(holdKey) && !held_holdPiece) {
             tetris.holdPiece();
         }
 
+        // Set the held keys to true so that the key functions is not called again until the key is released.
         held_hardDrop = keyboardInput.isKeyPressed(hardDropKey);
         held_rotateCW = keyboardInput.isKeyPressed(rotateCWKey);
         held_rotateCCW = keyboardInput.isKeyPressed(rotateCCWKey);
@@ -364,9 +387,10 @@ public class GuiTetris extends Gui {
             yOffset = 0;
         }
 
+        //If a piece was hard dropped recently, set the y velocity to be downwards slowly like a bounce
         if(!hardDropAnimationTimer.isDone() && !hardDropAnimationTimer.isDisabled()) {
             yVelocity = 1;
-        } else{
+        } else{ // Once timer is over, disable the timer and let the board bounce back upwards
             hardDropAnimationTimer.disable();
         }
 
