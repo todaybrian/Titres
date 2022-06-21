@@ -14,6 +14,9 @@ import java.awt.*;
 import java.util.ArrayList;
 
 public class GameBackground {
+    //last background index
+    private static final int LAST_BACKGROUNDS_IDX = 7;
+
     // ArrayList of all the background images
     private ArrayList<ImageIcon> images;
 
@@ -63,13 +66,13 @@ public class GameBackground {
         ImageIcon imageBackground; //Store the image background being loaded
 
         try{
-            for(int imageId=0;; imageId++){ //Loops up the image IDs
+            for(int imageId = 0; imageId <= LAST_BACKGROUNDS_IDX; imageId++){ //Loops up the image IDs
                 imageBackground = new ImageIcon(Assets.BACKGROUND_PREFIX + imageId + ".jpg"); //Loads the image
 
-                //If the image is not found, the width will be -1, thus break.
-                if(imageBackground.getIconWidth() == -1)
-                    break;
-
+                //If the image is not found, the width will be -1.
+                if(imageBackground.getIconWidth() == -1) {
+                    continue;
+                }
 
                 images.add(imageBackground); //Adds the image to the list of images
             }

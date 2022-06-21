@@ -31,8 +31,10 @@ public class GuiSettings extends Gui {
         topBar = Assets.Gui.TOP_SETTINGS.get();
         bottomBar = Assets.Gui.BOTTOM_SETTINGS.get();
 
-        //Back button (Positioned on top left)
+        Image sliderImage = Assets.Button.SLIDER.get(); //This is the image of the slider button on the slider
         Image back_button = Assets.Button.BACK_BUTTON.get();
+
+        //Back button (Positioned on top left)
         buttonList.add(new Button(-170, 120, back_button, (click)->{
 
             instance.displayGui(new GuiMenuTransition(this, new GuiMainMenu())); //Transition to main menu
@@ -40,8 +42,6 @@ public class GuiSettings extends Gui {
 
         }, AnimationType.LEFT));
 
-        //This is the image of the slider button on the slider
-        Image sliderImage = Assets.Button.SLIDER.get();
 
         //Music slider
         musicSlider = new Slider(320,500, 670, sliderImage,  (onChange)->{
@@ -64,7 +64,7 @@ public class GuiSettings extends Gui {
 
             instance.setRenderFPS((int)Math.round(onChange.getValue()));
 
-        },10, 260, instance.getMaxRenderFPS());
+        },10, 260, instance.getMaxRenderFPS()); // Minimum FPS is 10, maximum is 260.
 
         //Add the above sliders into the list of buttons to be rendered
         buttonList.add(musicSlider);

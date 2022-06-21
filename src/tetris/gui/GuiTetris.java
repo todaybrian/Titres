@@ -28,9 +28,7 @@ public class GuiTetris extends Gui {
 
     Tetris tetris;
 
-    private int xOffset = 0;
     private int yOffset = 0;
-    private int xVelocity = 0;
     private int yVelocity = 0;
 
     private FrameTimer diedTimer;
@@ -113,7 +111,7 @@ public class GuiTetris extends Gui {
                 instance.displayGui(new GuiMenuTransition(this, new GuiDied(gameMode)));
             }
         } else {
-            g.drawImage(tetris.drawImage(), 1920 / 2 - Tetris.BOARD_WIDTH / 2 + xOffset, 1080 / 2 - Tetris.BOARD_HEIGHT / 2 + yOffset - (int) (1400 * (1 - blackInTimer.getProgress())), Tetris.BOARD_WIDTH, Tetris.BOARD_HEIGHT, null);
+            g.drawImage(tetris.drawImage(), 1920 / 2 - Tetris.BOARD_WIDTH / 2, 1080 / 2 - Tetris.BOARD_HEIGHT / 2 + yOffset - (int) (1400 * (1 - blackInTimer.getProgress())), Tetris.BOARD_WIDTH, Tetris.BOARD_HEIGHT, null);
 
 
             if (!blackInTimer.isDone()) {
@@ -321,27 +319,17 @@ public class GuiTetris extends Gui {
         held_holdPiece = keyboardInput.isKeyPressed(KeyEvent.VK_C);
 
         // makes game board animate based on current velocity, prevent it from going too far
-
-        xOffset += xVelocity;
         yOffset += yVelocity;
 
+        //If it has gone beyond the limit
         if (yOffset > 4) {
-            yVelocity = -1;
-            yOffset = 4;
-        } else if(yOffset < 0){
+            yVelocity = -1; //Set the velocity to opposite direction
+            yOffset = 4; //Set it to the limit
+        } else if(yOffset < 0){ //If it has gone up beyond the limit, reset it to 0 and stop the animation
             yVelocity = 0;
             yOffset = 0;
         }
 
-        if(xOffset > 4) {
-            xVelocity = -1;
-            xOffset = 4;
-        } else if(xOffset < 0){
-            xVelocity = 0;
-            xOffset = 0;
-        }
-
-        // prevent animation from happening too often
         if(!hardDropAnimationTimer.isDone() && !hardDropAnimationTimer.isDisabled()) {
             yVelocity = 1;
         } else{

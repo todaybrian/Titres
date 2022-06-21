@@ -23,8 +23,12 @@ public class GuiForty extends Gui {
         topBar = Assets.Gui.TOP_40.get();
         bottomBar = Assets.Gui.BOTTOM_40.get();
 
-        // Back button to go back to the solo menu (top left)
+        //Init button images
         Image back_button = Assets.Button.BACK_BUTTON.get();
+        Image start_40_button = Assets.Button.START_40_BUTTON.get();
+        Image controls = Assets.Gui.CONTROLS.get();
+
+        // Back button to go back to the solo menu (top left)
         buttonList.add(new Button(-170, 120, back_button, (click) -> {
 
             instance.displayGui(new GuiMenuTransition(this, new GuiSolo())); //Display the main menu
@@ -52,7 +56,6 @@ public class GuiForty extends Gui {
         }, AnimationType.RIGHT));
 
         // Start button to start the game
-        Image start_40_button = Assets.Button.START_40_BUTTON.get();
         buttonList.add(new Button(1700 - start_40_button.getWidth(null), 460, start_40_button, (click) -> {
             //Transitions into the game
             //Animates with half a second length and blacks in
@@ -62,9 +65,10 @@ public class GuiForty extends Gui {
         }, AnimationType.NONE));
 
         // Controls list
-        Image controls = Assets.Gui.CONTROLS.get();
         componentList.add(new AnimatedRectangle((g, xOffset) -> {
+
             g.drawImage(controls, 300 + xOffset, 585, controls.getWidth(null),  controls.getHeight(null), null);
+
         }, AnimationType.RIGHT));
     }
 
