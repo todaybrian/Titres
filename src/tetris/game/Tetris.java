@@ -25,8 +25,10 @@ public class Tetris extends Rectangle {
     //Game width and height of the gameboard only
     //The board spans the entire height of the screen as tetris pieces fall vertically, and allows for future tetris ghost pieces
     // No pieces are rendered horizontally beyond the grid width
-    public static int BOARD_WIDTH = 732;
-    public static int BOARD_HEIGHT = 1080;
+    public final static int BOARD_WIDTH = 732;
+    public final static int BOARD_HEIGHT = 1080;
+
+    public final static int SQUARE_LENGTH = 34;
 
     //Store the Tetris Grid Image
     private final Image TETRIS_GRID;
@@ -410,28 +412,40 @@ public class Tetris extends Rectangle {
         return !checkLegal(temp);
     }
 
+    /**
+     * Checks the grid for any lines that are full and clears them.
+     */
     public void clearLines(){
+        //Create a temporary grid to store the resultant grid after clearing lines
         PieceType[][] temp = new PieceType[grid.length][];
         for (int i = 0; i < grid.length; i++) {
             temp[i] = new PieceType[grid[i].length];
             Arrays.fill(temp[i], PieceType.NULL);
         }
+
+        //The last filled row is the lowest row.
         int lstFilled = grid.length-1;
 
+        //Iterating from the lowest row to the highest
         for (int i = grid.length-1; i >=1; i--) {
+            //Check if the row is full
+
             boolean full = true;
             for (int j = 0; j < grid[0].length; j++) {
-                if(grid[i][j] == PieceType.NULL){
+                if(grid[i][j] == PieceType.NULL){ //Row is not full
                     full = false;
-                    temp[lstFilled] = grid[i];
-                    lstFilled--;
+                    temp[lstFilled] = grid[i]; //This row is not full, so copy it to the last filled row of the temp grid
+                    lstFilled--; //Move the last filled row upwards by one
                     break;
                 }
             }
+
+            //If the row is full, we add it to the number of lines cleared
             if(full){
                 this.linesCleared++;
             }
         }
+        //Copy the temp grid to the real grid
         grid = temp;
     }
 
@@ -449,23 +463,38 @@ public class Tetris extends Rectangle {
         }
     }
 
+    /**
+     * Kills the player.
+     */
     public void die(){
         died = true;
     }
 
+    /**
+     * @return True if the player is dead, false otherwise
+     */
     public boolean isDied(){
         return died;
     }
 
+    /**
+     * Set objective completed.
+     */
     public void objectiveCompleted(long finalScore){
         this.finalScore = finalScore;
         objectiveCompleted = true;
     }
 
+    /**
+     * @return The final score of the player
+     */
     public long getFinalScore() {
         return this.finalScore;
     }
 
+    /**
+     * @return True if the player has completed the objective, false otherwise
+     */
     public boolean isObjectiveCompleted(){
         return objectiveCompleted;
     }
@@ -548,15 +577,39 @@ public class Tetris extends Rectangle {
         return true;
     }
 
+    /**
+     * Draws a square of the given type at the given coordinates.
+     *
+     * If the piece is on the ground, it will blink.
+     *
+     * @param g The graphics object to draw on
+     * @param piece The type of piece to draw
+     * @param row The row of the grid
+     * @param column The column of the grid
+     * @param onGround Whether the piece is on the ground or not
+     */
     private void drawSquare(Graphics2D g, PieceType piece, double row, double column, boolean onGround){
-        if(piece.getId() == -1){
+        if(piece.getId() == -1){ //null piece
             return;
         }
-        g.drawImage(Assets.Game.PIECES.get(), (int) (179 + 35*(column)), (int) (-160 + 35*row), (int) (179 + 35*(column)+34), (int) (-160 + 35*row+34), 35*piece.getId(), 0, 35*piece.getId()+34, 34, null);
+        //Position found through trial and error. 1 is added to account for the grid lines.
+        int xPos = (int)(179 + (SQUARE_LENGTH +1)*(column));
+        int yPos = (int) (-160 + (SQUARE_LENGTH +1)*row);
+
+        //Get the position of the square in the sprite. 1 is added to account for spacing in the sprite
+        int xPosInSprite = (SQUARE_LENGTH +1)*piece.getId();
+
+        //Draw the square
+        g.drawImage(Assets.Game.PIECES.get(), xPos, yPos, xPos + SQUARE_LENGTH, yPos + SQUARE_LENGTH, xPosInSprite, 0, xPosInSprite+ SQUARE_LENGTH, SQUARE_LENGTH, null);
+
+        //If the piece is on the ground, we draw a blinking animation to indicate that the piece will be settled
         if(onGround) {
+            //The opacity of the blinking animation, based on sin wave equation on the current update frame
             int opacity = Math.abs(((int) (Math.sin(currentUpdateFrame/30.0)*100))+50);
+
+            //Draw the blinking animation above the square
             g.setColor(new Color(255, 255, 255, opacity));
-            g.fillRect((int)(179 + 35 * (column)), (int)(-160 + 35 * row), 34, 34);
+            g.fillRect(xPos, yPos, SQUARE_LENGTH, SQUARE_LENGTH);
         }
     }
 

@@ -19,7 +19,7 @@ public class GuiResults extends Gui {
         buttonList.add(new Button(-170, 120, Assets.Button.BACK_BUTTON.get(), (click) -> {
 
             instance.displayGui(new GuiMenuTransition(this, new GuiMainMenu())); //Display the main menu
-            instance.getSFXPlayer().play(Assets.SFX.CLICK_BACK.get()); //Play the click back sound
+            sfxPlayer.play(Assets.SFX.CLICK_BACK.get()); //Play the click back sound
 
         }, AnimationType.LEFT));
 
@@ -67,11 +67,13 @@ public class GuiResults extends Gui {
 
         buttonList.add(new tetris.gui.widget.Button( 400, 620,Assets.Button.RETRY_BUTTON.get(), (click)->{
             instance.displayGui(new GuiMenuTransition(this, new GuiTetris(gameMode), 0.5, true));
+            sfxPlayer.play(Assets.SFX.CLICK_START.get());
         }, AnimationType.RIGHT));
 
         buttonList.add(new Button(400, 760, Assets.Button.BACK_TO_TITLE_BUTTON.get(), (click)->{
-            instance.getMusicPlayer().play(Assets.Music.NIGHT_SNOW.get());
+            musicPlayer.play(Assets.Music.NIGHT_SNOW.get());
             instance.displayGui(new GuiMenuTransition(this, new GuiMainMenu()));
+            sfxPlayer.play(Assets.SFX.CLICK_BACK.get());
         }, AnimationType.RIGHT));
     }
 

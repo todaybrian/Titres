@@ -8,6 +8,7 @@ package tetris.gui;
 import tetris.GamePanel;
 import tetris.gui.widget.AnimatedRectangle;
 import tetris.gui.widget.Button;
+import tetris.music.MusicPlayer;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -29,13 +30,19 @@ public abstract class Gui {
     // The instance of the game
     protected GamePanel instance;
 
+    // The music and sfx player
+    protected MusicPlayer sfxPlayer;
+    protected MusicPlayer musicPlayer;
+
     public Gui(){
         //Initialize component list, button list, and background opacity
-        buttonList = new ArrayList<>();
-        componentList = new ArrayList<>();
+        this.buttonList = new ArrayList<>();
+        this.componentList = new ArrayList<>();
         this.backgroundOpacity = 0.25f;
 
-        instance = GamePanel.getGamePanel(); //Get the instance of the game panel
+        this.instance = GamePanel.getGamePanel(); //Get the instance of the game panel
+        this.sfxPlayer = instance.getSFXPlayer();
+        this.musicPlayer = instance.getMusicPlayer();
     }
 
     public void draw(Graphics2D g){

@@ -34,7 +34,7 @@ public class GuiMainMenu extends Gui {
         buttonList.add(new Button(400, 400, Assets.Button.SOLO_BUTTON.get(), (click) -> {
 
             instance.displayGui(new GuiMenuTransition(this, new GuiSolo())); //Displays the solo menu
-            instance.getSFXPlayer().play(Assets.SFX.CLICK_1.get()); //Plays the click sound
+            sfxPlayer.play(Assets.SFX.CLICK_1.get()); //Plays the click sound
 
         }, AnimationType.RIGHT));
 
@@ -43,7 +43,7 @@ public class GuiMainMenu extends Gui {
         buttonList.add(new Button(400, 600, Assets.Button.SETTINGS_BUTTON.get(), (click) -> {
 
             instance.displayGui(new GuiMenuTransition(this, new GuiSettings())); //Displays the settings menu
-            instance.getSFXPlayer().play(Assets.SFX.CLICK_1.get()); //Plays the click sound
+            sfxPlayer.play(Assets.SFX.CLICK_1.get()); //Plays the click sound
 
         }, AnimationType.RIGHT));
 

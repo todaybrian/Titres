@@ -22,7 +22,7 @@ public class GuiSolo extends Gui {
         buttonList.add(new Button(-170, 120, Assets.Button.BACK_BUTTON.get(), (click) -> {
 
             instance.displayGui(new GuiMenuTransition(this, new GuiMainMenu())); //Display Main Menu
-            instance.getSFXPlayer().play(Assets.SFX.CLICK_BACK.get()); //Play button click back sound
+            sfxPlayer.play(Assets.SFX.CLICK_BACK.get()); //Play button click back sound
 
         }, AnimationType.LEFT));
 
@@ -30,7 +30,7 @@ public class GuiSolo extends Gui {
         buttonList.add(new Button(400, 120, Assets.Button.FOURTY_LINES_BUTTON.get(), (click) -> {
 
             instance.displayGui(new GuiMenuTransition(this, new GuiGameMode(GameMode.FORTY_LINES))); //Display 40 lines game
-            instance.getSFXPlayer().play(Assets.SFX.CLICK_2.get()); //Play button click level 2 sound
+            sfxPlayer.play(Assets.SFX.CLICK_2.get()); //Play button click level 2 sound
 
         }, AnimationType.RIGHT));
 
@@ -38,7 +38,7 @@ public class GuiSolo extends Gui {
         buttonList.add(new Button(400, 320, Assets.Button.BLITZ_BUTTON.get(), (click) -> {
 
             instance.displayGui(new GuiMenuTransition(this, new GuiGameMode(GameMode.BLITZ))); //Display Blitz game
-            instance.getSFXPlayer().play(Assets.SFX.CLICK_2.get()); //Play button click level 2sound
+            sfxPlayer.play(Assets.SFX.CLICK_2.get()); //Play button click level 2sound
 
         }, AnimationType.RIGHT));
 

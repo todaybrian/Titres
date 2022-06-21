@@ -146,21 +146,21 @@ public class GuiTetris extends Gui {
                     timeElapsedFromSecond = countdownTimer.timeElapsed() - bufferTime - (long)2e9;
                     countDown = Assets.Game.COUNTDOWN_1.get();
                     if(!hasPlayedCountdownOne){
-                        instance.getSFXPlayer().play(Assets.SFX.COUNTDOWN_1.get());
+                        sfxPlayer.play(Assets.SFX.COUNTDOWN_1.get());
                         hasPlayedCountdownOne = true;
                     }
                 } else if(countdownTimer.timeElapsed() - bufferTime > 1e9){
                     timeElapsedFromSecond = countdownTimer.timeElapsed() - bufferTime - (long)1e9;
                     countDown = Assets.Game.COUNTDOWN_2.get();
                     if(!hasPlayedCountdownTwo){
-                        instance.getSFXPlayer().play(Assets.SFX.COUNTDOWN_2.get());
+                        sfxPlayer.play(Assets.SFX.COUNTDOWN_2.get());
                         hasPlayedCountdownTwo = true;
                     }
                 } else if (countdownTimer.timeElapsed() - bufferTime > 0){
                     timeElapsedFromSecond = countdownTimer.timeElapsed() - bufferTime;
                     countDown =Assets.Game.COUNTDOWN_3.get();
                     if(!hasPlayedCountdownThree){
-                        instance.getSFXPlayer().play(Assets.SFX.COUNTDOWN_3.get());
+                        sfxPlayer.play(Assets.SFX.COUNTDOWN_3.get());
                         hasPlayedCountdownThree = true;
                     }
                 }
@@ -220,8 +220,8 @@ public class GuiTetris extends Gui {
             return;
         } else if(titleTimer.isDisabled()){ // Timer for game banner.
             titleTimer.reset();
-            instance.getMusicPlayer().stopMusic();
-            instance.getSFXPlayer().play(Assets.SFX.START_SOLO_GAME.get());
+            musicPlayer.stopMusic();
+            sfxPlayer.play(Assets.SFX.START_SOLO_GAME.get());
         }
 
         if(!titleTimer.isDone()){
@@ -234,13 +234,13 @@ public class GuiTetris extends Gui {
             return;
         } else if(goTimer.isDisabled()){ // Grace period to account for the "1" animation to finish
             goTimer.reset();
-            instance.getSFXPlayer().play(Assets.SFX.GO.get());
+            sfxPlayer.play(Assets.SFX.GO.get());
             if (tetris.getGameMode() != GameMode.BLITZ) { // Change the BGM to fit the game mode. "VIRTUAL_LIGHT" fits the stress of Blitz mode
-                instance.getMusicPlayer().play(Assets.Music.VREMYA.get());
-                instance.getMusicPlayer().setLoop(true);
+                musicPlayer.play(Assets.Music.VREMYA.get());
+                musicPlayer.setLoop(true);
             }  else {
-                instance.getMusicPlayer().play(Assets.Music.VIRTUAL_LIGHT.get());
-                instance.getMusicPlayer().setLoop(true);
+                musicPlayer.play(Assets.Music.VIRTUAL_LIGHT.get());
+                musicPlayer.setLoop(true);
             }
         }
 

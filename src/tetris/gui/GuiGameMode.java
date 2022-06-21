@@ -43,7 +43,7 @@ public class GuiGameMode extends Gui {
         buttonList.add(new Button(-170, 120, back_button, (click) -> {
 
             instance.displayGui(new GuiMenuTransition(this, new GuiSolo())); //Display the main menu
-            instance.getSFXPlayer().play(Assets.SFX.CLICK_BACK.get()); //Play the click back sound
+            sfxPlayer.play(Assets.SFX.CLICK_BACK.get()); //Play the click back sound
 
         }, AnimationType.LEFT));
 
@@ -75,7 +75,7 @@ public class GuiGameMode extends Gui {
             //Transitions into the game
             //Animates with half a second length and blacks in
             instance.displayGui(new GuiMenuTransition(this, new GuiTetris(GameMode.FORTY_LINES), 0.5, true));
-            instance.getSFXPlayer().play(Assets.SFX.CLICK_START.get()); //Play click start sound
+            sfxPlayer.play(Assets.SFX.CLICK_START.get()); //Play click start sound
 
         }, AnimationType.NONE));
 

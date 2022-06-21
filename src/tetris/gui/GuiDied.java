@@ -19,12 +19,18 @@ public class GuiDied extends Gui{
         //Retry button
         buttonList.add(new tetris.gui.widget.Button(400, 120, Assets.Button.RETRY_BUTTON.get(), (click)->{
             instance.displayGui(new GuiMenuTransition(this, new GuiTetris(gameMode), 0.5, true)); //Redisplay the game
+
+            sfxPlayer.play(Assets.SFX.CLICK_START.get()); //Play button click level 2 sound
         }, AnimationType.RIGHT));
 
         //Back to main menu button
         buttonList.add(new Button(400, 260, Assets.Button.BACK_TO_TITLE_BUTTON.get(), (click)->{
-            instance.getMusicPlayer().play(Assets.Music.NIGHT_SNOW.get()); //Replay Main Menu music
+
+            musicPlayer.play(Assets.Music.NIGHT_SNOW.get()); //Replay Main Menu music
+
             instance.displayGui(new GuiMenuTransition(this, new GuiMainMenu())); //Display Main Menu
+
+            sfxPlayer.play(Assets.SFX.CLICK_BACK.get()); //Play button click back sound
         }, AnimationType.RIGHT));
     }
 }

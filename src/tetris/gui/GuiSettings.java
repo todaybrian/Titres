@@ -38,7 +38,7 @@ public class GuiSettings extends Gui {
         buttonList.add(new Button(-170, 120, back_button, (click)->{
 
             instance.displayGui(new GuiMenuTransition(this, new GuiMainMenu())); //Transition to main menu
-            instance.getSFXPlayer().play(Assets.SFX.CLICK_BACK.get()); //Play click back sound
+            sfxPlayer.play(Assets.SFX.CLICK_BACK.get()); //Play click back sound
 
         }, AnimationType.LEFT));
 
@@ -47,7 +47,7 @@ public class GuiSettings extends Gui {
         musicSlider = new Slider(320,500, 670, sliderImage,  (onChange)->{
             //The value shown by the screen represents the percentage of the volume.
             //We need to divide by 100 to convert it to a percent
-            instance.getMusicPlayer().changeVolume((Math.round(onChange.getValue())/100.0));
+            musicPlayer.changeVolume((Math.round(onChange.getValue())/100.0));
 
         },0, 100, (instance.getMusicPlayer().getVolume()));
 
