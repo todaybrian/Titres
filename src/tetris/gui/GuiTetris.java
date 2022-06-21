@@ -177,7 +177,7 @@ public class GuiTetris extends Gui {
             //Draw tetris board
             g.drawImage(tetris.drawImage(), GamePanel.INTERNAL_WIDTH / 2 - Tetris.BOARD_WIDTH / 2, GamePanel.INTERNAL_HEIGHT / 2 - Tetris.BOARD_HEIGHT / 2 + yOffset - (int) (1400 * (1 - blackfadeOutTimer.getProgress())), Tetris.BOARD_WIDTH, Tetris.BOARD_HEIGHT, null);
 
-            //The following below are the intro animations in order.
+            //The following below are the intro animations in order. Timer keeps them from all playing at once.
             if (!blackfadeOutTimer.isDone()) {
                 drawBlackFadeOut(g);
             } else if (!bannerTimer.isDone()) {
@@ -192,7 +192,7 @@ public class GuiTetris extends Gui {
         }
 
         if (!resignTimer.isDisabled() || !restartTimer.isDisabled()) {
-            drawResignRestart(g);
+            drawResignRestart(g); // When playing is restarting/resigning, draw the restart/resign banner
         }
     }
 

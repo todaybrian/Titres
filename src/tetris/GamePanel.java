@@ -40,9 +40,9 @@ public class GamePanel extends JPanel implements Runnable {
     public int verticalPadding;
     public int horizontalPadding;
 
-    public Thread gameThread;
-    public Image image;
-    public Graphics2D g2d;
+    public Thread gameThread; // Thread that game is running on
+    public Image image; // Image that the game displays on
+    public Graphics2D g2d; // General graphics object
 
     //# of nanoseconds between each render/physics update frame
     private double renderNS;
