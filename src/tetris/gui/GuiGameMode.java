@@ -2,7 +2,7 @@
  * Author: Brian Yan, Aaron Zhang
  * Date: June 18, 2022
  *
- * Gui for the 40 line game mode.
+ * Gui for the all the game modes.
  */
 package tetris.gui;
 
@@ -14,19 +14,29 @@ import tetris.util.Assets;
 
 import java.awt.*;
 
-public class GuiForty extends Gui {
+public class GuiGameMode extends Gui {
+    // Constructor to create buttons/components for the 40 line/blitz game mode entry screen
+    public GuiGameMode(GameMode gameMode) {
+        super(); //Call the super constructor
 
-    // Constructor to create buttons/components for the 40 line game mode entry screen
-    public GuiForty() {
-        super(); //Call super constructor
-        // Set the top and bottom bar
-        topBar = Assets.Gui.TOP_40.get();
-        bottomBar = Assets.Gui.BOTTOM_40.get();
-
+        Image startButton = null;
         //Init button images
         Image back_button = Assets.Button.BACK_BUTTON.get();
-        Image start_40_button = Assets.Button.START_40_BUTTON.get();
         Image controls = Assets.Gui.CONTROLS.get();
+
+        switch (gameMode) {
+            case FORTY_LINES:
+                topBar = Assets.Gui.TOP_40.get(); //Set the top bar
+                bottomBar = Assets.Gui.BOTTOM_40.get(); //Set the bottom bar
+                startButton = Assets.Button.START_40_BUTTON.get(); //Set the start button
+                break;
+            case BLITZ:
+                topBar = Assets.Gui.TOP_BLITZ.get(); //Set the top bar
+                bottomBar = Assets.Gui.BOTTOM_BLITZ.get(); //Set the bottom bar
+                startButton = Assets.Button.START_BLITZ_BUTTON.get(); //Set the start button
+                break;
+        }
+
 
         // Back button to go back to the solo menu (top left)
         buttonList.add(new Button(-170, 120, back_button, (click) -> {
@@ -38,22 +48,23 @@ public class GuiForty extends Gui {
 
         // Component to display the game mode
         componentList.add(new AnimatedRectangle((g, offsetX) -> {
-            g.setColor(new Color(82, 61, 45));
+            g.setColor(gameMode.getBackgroundColor());
+
             g.fillRect(offsetX + 300, 160, 1400, 280);
 
             g.setFont(Assets.Fonts.KDAM_FONT.get().deriveFont(Font.BOLD, 50));
-            g.setColor(new Color(233, 181, 142));
-            g.drawString("40 LINES", offsetX + 320, 230);
+            g.setColor(gameMode.getTextColor());
+            g.drawString(gameMode.getName(), offsetX + 320, 230);
 
             g.setFont(Assets.Fonts.KDAM_FONT.get().deriveFont(Font.PLAIN, 25));
-            g.drawString("Clear 40 lines in the shortest time possible!", offsetX + 320, 270);
+            g.drawString(gameMode.getDescription(), offsetX + 320, 270);
 
-            g.setColor(new Color(82, 61, 45));
+            g.setColor(gameMode.getBackgroundColor());
             g.fillRect(offsetX + 300, 460, 1400, 105);
         }, AnimationType.RIGHT));
 
         // Start button to start the game
-        buttonList.add(new Button(1700 - start_40_button.getWidth(null), 460, start_40_button, (click) -> {
+        buttonList.add(new Button(1700 - startButton.getWidth(null), 460, startButton, (click) -> {
             //Transitions into the game
             //Animates with half a second length and blacks in
             instance.displayGui(new GuiMenuTransition(this, new GuiTetris(GameMode.FORTY_LINES), 0.5, true));
@@ -67,6 +78,6 @@ public class GuiForty extends Gui {
             g.drawImage(controls, 300 + xOffset, 585, controls.getWidth(null),  controls.getHeight(null), null);
 
         }, AnimationType.RIGHT));
-    }
 
+    }
 }
