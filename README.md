@@ -1,4 +1,5 @@
 # Titres
+![titres_banner](https://user-images.githubusercontent.com/13337661/174889690-cda418a3-3843-4cfe-930f-19aa5787ccd1.jpg)
 
 A tetris/tetr.io clone made in Java for an ICS4U assignment. It follows the [SRS](https://harddrop.com/wiki/SRS) rotation system.
 
