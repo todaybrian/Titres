@@ -25,6 +25,7 @@ public class GuiResults extends Gui {
 
         AnimatedRectangle results = new AnimatedRectangle((g, offsetX)->{
             FontMetrics fm; //Font metrics for font
+            String scoreText = ""; //Text to be displayed in score box
 
             g.setColor(new Color(32, 30, 54));
             g.fillRect(offsetX + 300, 160, 1400, 280);
@@ -42,7 +43,6 @@ public class GuiResults extends Gui {
             fm = g.getFontMetrics(); //Get font metrics to center text
 
             //Figure out the score text that will be shown in results
-            String scoreText = "";
             switch(gameMode){
                 case BLITZ:
                     scoreText = String.format("Lines Cleared: %d", finalScore);

@@ -62,7 +62,7 @@ public class GuiMainMenu extends Gui {
         componentList.add(new AnimatedRectangle((g, xOffset) -> {
             //Draws the logo at 1.25x scale
             g.drawImage(Assets.Gui.LOGO.get(), 20 + xOffset, 100, (int) (1.25 * logo.getWidth(null)), (int) (1.25 * logo.getHeight(null)), null);
-        }, AnimationType.LEFT));
 
+        }, AnimationType.LEFT));
     }
 }

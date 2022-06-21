@@ -12,7 +12,8 @@ import tetris.gui.widget.Button;
 import tetris.util.Assets;
 
 public class GuiDied extends Gui{
-    public GuiDied(GameMode gameMode){
+
+    public GuiDied(GameMode gameMode){ //Argument holds game mode player was in so that they can retry
         instance.getMusicPlayer().stopMusic(); //Stop the music
 
         //Retry button
