@@ -23,7 +23,11 @@ public class MouseInput implements MouseListener {
     private static int horizontalPadding;
     private static int verticalPadding;
 
-    public MouseInput() {
+    //Configures scale and padding of the game
+    public MouseInput(double scale, int horizontalPadding, int verticalPadding) {
+        MouseInput.scale = scale;
+        MouseInput.horizontalPadding = horizontalPadding;
+        MouseInput.verticalPadding = verticalPadding;
         instance = GamePanel.getGamePanel(); //store instance
     }
 
@@ -41,13 +45,6 @@ public class MouseInput implements MouseListener {
             ret = new Point(0, 0);
             return ret;
         }
-    }
-
-    //Configures the scale and padding of the game
-    public static void setScale(double scale, int horizontalPadding, int verticalPadding) {
-        MouseInput.scale = scale;
-        MouseInput.horizontalPadding = horizontalPadding;
-        MouseInput.verticalPadding = verticalPadding;
     }
 
     //Given a single coordinate, scale them to the scaled coordinates

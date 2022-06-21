@@ -42,6 +42,7 @@ public class GamePanel extends JPanel implements Runnable {
 
     public Thread gameThread;
     public Image image;
+    public Graphics2D g2d;
 
     //# of nanoseconds between each render/physics update frame
     private double renderNS;
@@ -68,9 +69,11 @@ public class GamePanel extends JPanel implements Runnable {
     public GamePanel(int width, int height, double scale, int horizontalPadding, int verticalPadding) {
         GamePanel.instance = this; //Set the GamePanel instance
 
-        gameWidth = width;
-        gameHeight = height;
+        //Store the width and height of the game that is being rendered on the user's monitor
+        this.gameWidth = width;
+        this.gameHeight = height;
 
+        //Store the scale (user's monitor compared to a 1080p screen)
         this.scale = scale;
 
         //Store the horizontal and vertical padding
@@ -78,18 +81,24 @@ public class GamePanel extends JPanel implements Runnable {
         this.verticalPadding = verticalPadding;
 
         this.setFocusable(true); //make everything in this class appear on the screen
+
         keyboardInput = new KeyboardInput();
-        this.addKeyListener(keyboardInput);
+
+        this.addKeyListener(keyboardInput); //start listening for keyboard input
+        this.requestFocus(); //Make window the active window
+
         this.setPreferredSize(new Dimension(gameWidth, gameHeight));
 
-        this.addMouseListener(new MouseInput());
-        MouseInput.setScale(scale, horizontalPadding, verticalPadding);
+        //Add a mouse listener to the game panel
+        this.addMouseListener(new MouseInput(scale, horizontalPadding, verticalPadding));
 
+        //Load game background images
         gameBackground = new GameBackground();
 
         musicPlayer = new MusicPlayer(); //Music player
         sfxPlayer = new MusicPlayer(); //Sound Effect/sfx player
 
+        //Play the music, set it to loop, and set volume to 0.9
         musicPlayer.play(Assets.Music.NIGHT_SNOW.get());
         musicPlayer.setLoop(true);
         musicPlayer.changeVolume(0.9);
@@ -97,6 +106,7 @@ public class GamePanel extends JPanel implements Runnable {
         //Display Main Menu
         displayGui(new GuiWelcome());
 
+        //make this class run at the same time as other classes (without this each class would "pause" while another class runs). By using threading we can remove lag, and also allows us to do features like display timers in real time!
         gameThread = new Thread(this);
         gameThread.start();
 
@@ -154,7 +164,7 @@ public class GamePanel extends JPanel implements Runnable {
         //we are using "double buffering" here - if we draw images directly onto the screen, it takes time and the human eye can actually notice flashes of lag as each pixel on the screen is drawn one at a time. Instead, we are going to draw images OFF the screen (outside dimensions of the frame), then simply move the image on screen as needed.
         image = createImage(INTERNAL_WIDTH, INTERNAL_HEIGHT); //draw off screen
 
-        Graphics2D g2d = (Graphics2D) image.getGraphics();
+        g2d = (Graphics2D) image.getGraphics();
         Util.setGraphicsFlags(g2d); //Make the game look better on different monitors
 
         draw(g2d);//update the positions of everything on the screen
