@@ -74,7 +74,7 @@ public class GuiGameMode extends Gui {
         buttonList.add(new Button(1700 - startButton.getWidth(null), 460, startButton, (click) -> {
             //Transitions into the game
             //Animates with half a second length and blacks in
-            instance.displayGui(new GuiMenuTransition(this, new GuiTetris(GameMode.FORTY_LINES), 0.5, true));
+            instance.displayGui(new GuiMenuTransition(this, new GuiTetris(gameMode), 0.5, true));
             sfxPlayer.play(Assets.SFX.CLICK_START.get()); //Play click start sound
 
         }, AnimationType.NONE));

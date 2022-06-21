@@ -57,7 +57,7 @@ public class GuiResults extends Gui {
                     int ms = (int) (finalScore%1000);
                     scoreText = String.format("Time: %d:%02d.%03d", min, sec, ms);
             }
-            g.drawString(scoreText, 10000-fm.stringWidth(scoreText)/2, 355);
+            g.drawString(scoreText, 1000-fm.stringWidth(scoreText)/2, 355);
 
         }, AnimationType.RIGHT);
 

@@ -17,42 +17,60 @@ import tetris.util.Util;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
+import java.io.File;
 
 public class GuiTetris extends Gui {
-    private FrameTimer blackInTimer;
+    // Timer for the black that fades out
+    private FrameTimer blackfadeOutTimer;
 
-    private FrameTimer titleTimer;
+    // Timer for the banner
+    private FrameTimer bannerTimer;
+
+    // Timer for the 3 2 1 countdown
     private FrameTimer countdownTimer;
+
+    // Timer for the GO text that stays on the screen for a while after game has started
     private FrameTimer goTimer;
+
+    // Timer for when player wants to resign (makes them hold they key down before they can resign)
     private FrameTimer resignTimer;
+
+    // Timer for when player wants to restart (makes them hold they key down before they can restart)
     private FrameTimer restartTimer;
 
-    Tetris tetris;
+    // Holds the Tetris game board
+    public Tetris tetris;
 
-    private int yOffset = 0;
-    private int yVelocity = 0;
+    // y offset and y velocity of the tetris board (used for animation)
+    private int yOffset;
+    private int yVelocity;
 
+    //Timer for when the player has died (for animation)
     private FrameTimer diedTimer;
-    private GameMode gameMode;
 
-    private boolean hasPlayedCountdownThree = false;
-    private boolean hasPlayedCountdownTwo = false;
-    private boolean hasPlayedCountdownOne = false;
-    private FrameTimer downTimer = new FrameTimer(0.06);
+    //Current game mode
+    public GameMode gameMode;
 
+    // Booleans to check whether number has been played in countdown
+    private int countdownLength;
+    private boolean[] hasPlayedCountdown;
+    private Image[] countDownImages;
+    private File[] countDownSounds;
 
-    private boolean held_hardDrop = false;
-    private boolean held_rotateCW = false;
-    private boolean held_rotateCCW = false;
-    private boolean held_holdPiece = false;
+    private boolean held_hardDrop;
+    private boolean held_rotateCW;
+    private boolean held_rotateCCW;
+    private boolean held_holdPiece;
 
-    private FrameTimer moveLeftTimerDAS = new FrameTimer(0.167);
-    private FrameTimer moveLeftTimer = new FrameTimer(0.033);
+    private FrameTimer downTimer;
 
-    private FrameTimer hardDropAnimationTimer = new FrameTimer(0.1);
+    private FrameTimer moveLeftTimerDAS;
+    private FrameTimer moveLeftTimer;
 
-    private FrameTimer moveRightTimerDAS = new FrameTimer(0.167);
-    private FrameTimer moveRightTimer = new FrameTimer(0.033);
+    private FrameTimer hardDropAnimationTimer;
+
+    private FrameTimer moveRightTimerDAS;
+    private FrameTimer moveRightTimer;
     
     private KeyboardInput keyboardInput;
 
@@ -74,10 +92,10 @@ public class GuiTetris extends Gui {
 
         this.backgroundOpacity = 0.5f;
 
-        blackInTimer = new FrameTimer(1);
+        blackfadeOutTimer = new FrameTimer(1);
 
-        titleTimer = new FrameTimer(5);
-        titleTimer.disable();
+        bannerTimer = new FrameTimer(5);
+        bannerTimer.disable();
 
         diedTimer = new FrameTimer(1);
         diedTimer.disable();
@@ -93,6 +111,19 @@ public class GuiTetris extends Gui {
 
         restartTimer = new FrameTimer(1.5);
         restartTimer.disable();
+
+        // Initialize the hasPlayedCountdown array (used for the 3 2 1 countdown).
+        countdownLength = 3;
+        hasPlayedCountdown = new boolean[countdownLength];
+        countDownImages = new Image[]{Assets.Game.COUNTDOWN_1.get(), Assets.Game.COUNTDOWN_2.get(), Assets.Game.COUNTDOWN_3.get()};
+        countDownSounds = new File[]{Assets.SFX.COUNTDOWN_1.get(), Assets.SFX.COUNTDOWN_2.get(), Assets.SFX.COUNTDOWN_3.get()};
+
+        downTimer = new FrameTimer(0.06);
+        moveLeftTimerDAS = new FrameTimer(0.167);
+        moveLeftTimer = new FrameTimer(0.033);
+        hardDropAnimationTimer = new FrameTimer(0.1);
+        moveRightTimerDAS = new FrameTimer(0.167);
+        moveRightTimer = new FrameTimer(0.033);
     }
     @Override
     public void draw(Graphics2D g) {
@@ -112,22 +143,22 @@ public class GuiTetris extends Gui {
                 instance.displayGui(new GuiMenuTransition(this, new GuiDied(gameMode)));
             }
         } else {
-            g.drawImage(tetris.drawImage(), GamePanel.INTERNAL_WIDTH / 2 - Tetris.BOARD_WIDTH / 2, GamePanel.INTERNAL_HEIGHT / 2 - Tetris.BOARD_HEIGHT / 2 + yOffset - (int) (1400 * (1 - blackInTimer.getProgress())), Tetris.BOARD_WIDTH, Tetris.BOARD_HEIGHT, null);
+            g.drawImage(tetris.drawImage(), GamePanel.INTERNAL_WIDTH / 2 - Tetris.BOARD_WIDTH / 2, GamePanel.INTERNAL_HEIGHT / 2 - Tetris.BOARD_HEIGHT / 2 + yOffset - (int) (1400 * (1 - blackfadeOutTimer.getProgress())), Tetris.BOARD_WIDTH, Tetris.BOARD_HEIGHT, null);
 
 
-            if (!blackInTimer.isDone()) {
-                g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, (float) (1 - blackInTimer.getProgress())));
+            if (!blackfadeOutTimer.isDone()) {
+                g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, (float) (1 - blackfadeOutTimer.getProgress())));
                 g.setColor(Color.BLACK);
                 g.fillRect(0, 0, instance.getWidth(), instance.getHeight());
                 g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1.0f));
-            } else if(!titleTimer.isDone()){
+            } else if(!bannerTimer.isDone()){
                 float opacityProgress;
-                if(titleTimer.getProgress() > 0.9){
+                if(bannerTimer.getProgress() > 0.9){
                     //easeOutQuint
-                    opacityProgress = (float) -(1-Math.pow(1-(titleTimer.getProgress()-0.9)/0.1,5));
+                    opacityProgress = (float) -(1-Math.pow(1-(bannerTimer.getProgress()-0.9)/0.1,5));
                 } else{
                     //easeOutQuint
-                    opacityProgress = (float) (1-Math.pow(1-titleTimer.getProgress()/0.9,5));
+                    opacityProgress = (float) (1-Math.pow(1- bannerTimer.getProgress()/0.9,5));
                 }
 
                 g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, Util.clamp(0.5f + 0.5f * opacityProgress, 0, 1)));
@@ -143,26 +174,15 @@ public class GuiTetris extends Gui {
                 Image countDown = null;
                 long timeElapsedFromSecond= 0;
 
-                if(countdownTimer.timeElapsed() - bufferTime > 2e9){
-                    timeElapsedFromSecond = countdownTimer.timeElapsed() - bufferTime - (long)2e9;
-                    countDown = Assets.Game.COUNTDOWN_1.get();
-                    if(!hasPlayedCountdownOne){
-                        sfxPlayer.play(Assets.SFX.COUNTDOWN_1.get());
-                        hasPlayedCountdownOne = true;
-                    }
-                } else if(countdownTimer.timeElapsed() - bufferTime > 1e9){
-                    timeElapsedFromSecond = countdownTimer.timeElapsed() - bufferTime - (long)1e9;
-                    countDown = Assets.Game.COUNTDOWN_2.get();
-                    if(!hasPlayedCountdownTwo){
-                        sfxPlayer.play(Assets.SFX.COUNTDOWN_2.get());
-                        hasPlayedCountdownTwo = true;
-                    }
-                } else if (countdownTimer.timeElapsed() - bufferTime > 0){
-                    timeElapsedFromSecond = countdownTimer.timeElapsed() - bufferTime;
-                    countDown =Assets.Game.COUNTDOWN_3.get();
-                    if(!hasPlayedCountdownThree){
-                        sfxPlayer.play(Assets.SFX.COUNTDOWN_3.get());
-                        hasPlayedCountdownThree = true;
+                for (int i = 0; i < countdownLength; i++) {
+                    if(countdownTimer.timeElapsed() - bufferTime > (3-i-1)*1e9){
+                        timeElapsedFromSecond = (countdownTimer.timeElapsed() - bufferTime) - (3-i-1)*(long)1e9;
+                        countDown = countDownImages[i];
+                        if(!hasPlayedCountdown[i]){
+                            sfxPlayer.play(countDownSounds[i]);
+                            hasPlayedCountdown[i] = true;
+                        }
+                        break;
                     }
                 }
                 if(countDown != null){
@@ -217,15 +237,15 @@ public class GuiTetris extends Gui {
             When that timer is done, start the next one.
             Only when all timers are done will the game physics update at tetris.update().
             At this point, all timers will be done and not disabled, preventing the pre-game timers from resetting.*/
-        if(!blackInTimer.isDone()) {
+        if(!blackfadeOutTimer.isDone()) {
             return;
-        } else if(titleTimer.isDisabled()){ // Timer for game banner.
-            titleTimer.reset();
+        } else if(bannerTimer.isDisabled()){ // Timer for game banner.
+            bannerTimer.reset();
             musicPlayer.stopMusic();
             sfxPlayer.play(Assets.SFX.START_SOLO_GAME.get());
         }
 
-        if(!titleTimer.isDone()){
+        if(!bannerTimer.isDone()){
             return;
         } else if(countdownTimer.isDisabled()){ // Timer for 3-2-1 countdown before game begins
             countdownTimer.reset();

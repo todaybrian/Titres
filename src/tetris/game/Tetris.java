@@ -30,6 +30,7 @@ public class Tetris extends Rectangle {
     public final static int BOARD_WIDTH = 732;
     public final static int BOARD_HEIGHT = 1080;
 
+    //Length of a tetris square
     public final static int SQUARE_LENGTH = 34;
 
     //Store the Tetris Grid Image
@@ -63,7 +64,7 @@ public class Tetris extends Rectangle {
     public FrameTimer dropTimer;
 
     // Time after piece lands before it is locked and set in place
-    public FrameTimer lockTimer = new FrameTimer(0.5);
+    public FrameTimer lockTimer;
 
     // Has the game been lost?
     private boolean died;
@@ -124,6 +125,9 @@ public class Tetris extends Rectangle {
             //Blitz levels objective starts at 3 and gradually increases
             lineGoal = 3;
         }
+
+        //Set amount of time before timer locks
+        lockTimer = new FrameTimer(0.8);
     }
 
     public Image drawImage(){
@@ -393,50 +397,79 @@ public class Tetris extends Rectangle {
      * The gravity increases exponentially with the level
      */
     public void increaseLevel(){
-        this.level++;
-        double secondsPerRow = 1.72 * Math.exp(-0.4* level);
-        dropTimer = new FrameTimer(secondsPerRow);
+        this.level++; //Increase the level
+        double secondsPerRow = 1.72 * Math.exp(-0.4* level); //Calculate the number of seconds per row based on the level
+        dropTimer = new FrameTimer(secondsPerRow); //Set the drop timer to the number of seconds per row
     }
 
+    /**
+     * Rotate the current piece clockwise.
+     * This function is called when the user clicks the key to rotate the piece clockwise
+     *
+     * This utilises wall kicks as described in the tetris SRS
+     */
     public void rotateCW(){
         if(current.type == PieceType.O){ //The O piece doesn't rotate or follow any wall kicks so we don't need to check
             return;
         }
-        Piece temp = current.clone();
-        temp.rotateCW();
+        Piece temp = current.clone(); //Holds the rotated piece
+        temp.rotateCW(); //rotate the piece grid clockwise
+        Piece temp2; //Holds the rotated piece translated based on wall kicks
+
+        //Get wall kick data based on the piece
         int[][][] wallKick;
+
         if(temp.type == PieceType.I){
             wallKick = PieceType.wallKickDataI;
         } else{
             wallKick = PieceType.wallKickDataJLSTZ;
         }
-        for (int i = 0; i < 5; i++) {
-            Piece temp2 = temp.clone();
+
+        //Try all the different wall kicks
+        for (int i = 0; i < wallKick.length; i++) {
+            temp2 = temp.clone();
+            //Try wall kick
             temp2.centerX += wallKick[current.rotationIndex][i][0];
             temp2.centerY -= wallKick[current.rotationIndex][i][1];
+            //If wall kick is legal, set the piece to the wall kick
             if(checkLegal(temp2)){
                 current = temp2;
                 return;
             }
         }
     }
+
+    /**
+     * Rotate the current piece counterclockwise.
+     * This function is called when the user clicks the key to rotate the piece clockwise
+     *
+     * This utilises wall kicks as described in the tetris SRS
+     */
 
     public void rotateCCW(){
         if(current.type == PieceType.O){ //The O piece doesn't rotate or follow any wall kicks so we don't need to check
             return;
         }
-        Piece temp = current.clone();
-        temp.rotateCCW();
+        Piece temp = current.clone(); //Holds the rotated piece
+        temp.rotateCCW(); //rotate the piece grid counterclockwise
+        Piece temp2; //Holds the rotated piece translated based on wall kicks
+
+        //Get wall kick data based on the piece
         int[][][] wallKick;
+
         if(temp.type == PieceType.I){
             wallKick = PieceType.wallKickDataI;
         } else{
             wallKick = PieceType.wallKickDataJLSTZ;
         }
-        for (int i = 0; i < 5; i++) {
-            Piece temp2 = temp.clone();
+
+        //Try all the different wall kicks
+        for (int i = 0; i < wallKick.length; i++) {
+            temp2 = temp.clone();
+            //Try wall kick
             temp2.centerX -= wallKick[temp2.rotationIndex][i][0];
             temp2.centerY += wallKick[temp2.rotationIndex][i][1];
+            //If wall kick is legal, set the piece to the wall kick
             if(checkLegal(temp2)){
                 current = temp2;
                 return;
@@ -444,6 +477,14 @@ public class Tetris extends Rectangle {
         }
     }
 
+    /**
+     * Checks if piece is on the ground. It does this by moving the piece downwards by 1 block and checking if it is legal.
+     * If it is not legal, it should be on the ground.
+     *
+     * There is an assumption made that the piece is legal
+     *
+     * @return If piece is on the ground
+     */
     public boolean onGround(){
         Piece temp = current.clone();
         temp.centerY++;
@@ -487,15 +528,20 @@ public class Tetris extends Rectangle {
         grid = temp;
     }
 
+    /**
+     * Checks objectives of the game.
+     */
     public void checkObjectives(){
-        if(linesCleared >= lineGoal){
-            if(gameMode == GameMode.FORTY_LINES){
+        if(linesCleared >= lineGoal){ //Beat line goal
+            if(gameMode == GameMode.FORTY_LINES){ //Game is over, the score is the time spent
                 objectiveCompleted(System.currentTimeMillis()-timeStarted);
-            } else if(gameMode == GameMode.BLITZ){
+            } else if(gameMode == GameMode.BLITZ){ //Difficulty increased, line goal increased
                 increaseLevel();
                 lineGoal = 3*level;
             }
         }
+        //If 120 seconds have passed and the gamemode is blitz, the game is over
+        // The score is the lines cleared
         if(System.currentTimeMillis()- timeStarted >= 120*1e3 && gameMode == GameMode.BLITZ){
             objectiveCompleted(linesCleared);
         }
@@ -561,10 +607,12 @@ public class Tetris extends Rectangle {
     }
 
     public void drawNext(Graphics2D g) {
-        ArrayList<PieceType> nextPieces = randomizer.getNextPieces(5);
+        ArrayList<PieceType> nextPieces = randomizer.getNextPieces(5); //Get the next 5 pieces to display
+        Piece temp; //Holds the piece to be drawn
+        PieceType type; //Holds the piece type that will be analysed
 
         for (int i = 0; i < nextPieces.size(); i++) {
-            Piece temp = new Piece(nextPieces.get(i));
+            temp = new Piece(nextPieces.get(i));
 
             //Grid of the tetris array is 3x3 except for the 'I' piece which is 4x4.
             int length = 3;
@@ -573,7 +621,10 @@ public class Tetris extends Rectangle {
             }
             for (int j = 0; j < length; j++) {
                 for (int k = 0; k < length; k++) {
-                    PieceType type = temp.currentPieceGrid[j][k];
+
+                    type = temp.currentPieceGrid[j][k];
+                    //Handle I and O pieces differently since they aren't in they aren't stored completely centered by their center point
+
                     if (temp.type == PieceType.I) {
                         drawSquare(g, type, 10.85 + i*3 + j, 11.4 + k, false);
                     } else if (temp.type == PieceType.O) {
