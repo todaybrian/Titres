@@ -6,6 +6,7 @@
  */
 package tetris.gui;
 
+import tetris.GamePanel;
 import tetris.controls.KeyboardInput;
 import tetris.game.GameMode;
 import tetris.game.Tetris;
@@ -106,12 +107,12 @@ public class GuiTetris extends Gui {
 
             g.rotate(Math.toRadians(20) *diedTimer.getProgress());
 
-            g.drawImage(board, 1920 / 2 - Tetris.BOARD_WIDTH / 2  + (int)(330 * diedTimer.getProgress()), 1080 / 2 - Tetris.BOARD_HEIGHT / 2 + (int)(600 * diedTimer.getProgress()),null);
+            g.drawImage(board, GamePanel.INTERNAL_WIDTH / 2 - Tetris.BOARD_WIDTH / 2  + (int)(330 * diedTimer.getProgress()), GamePanel.INTERNAL_HEIGHT / 2 - Tetris.BOARD_HEIGHT / 2 + (int)(600 * diedTimer.getProgress()),null);
             if(diedTimer.isDone()){ // when diedTimer is done, transition to death screen
                 instance.displayGui(new GuiMenuTransition(this, new GuiDied(gameMode)));
             }
         } else {
-            g.drawImage(tetris.drawImage(), 1920 / 2 - Tetris.BOARD_WIDTH / 2, 1080 / 2 - Tetris.BOARD_HEIGHT / 2 + yOffset - (int) (1400 * (1 - blackInTimer.getProgress())), Tetris.BOARD_WIDTH, Tetris.BOARD_HEIGHT, null);
+            g.drawImage(tetris.drawImage(), GamePanel.INTERNAL_WIDTH / 2 - Tetris.BOARD_WIDTH / 2, GamePanel.INTERNAL_HEIGHT / 2 - Tetris.BOARD_HEIGHT / 2 + yOffset - (int) (1400 * (1 - blackInTimer.getProgress())), Tetris.BOARD_WIDTH, Tetris.BOARD_HEIGHT, null);
 
 
             if (!blackInTimer.isDone()) {

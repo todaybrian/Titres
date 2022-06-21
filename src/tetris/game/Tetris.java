@@ -5,6 +5,8 @@
  * Class to handle tetris game logic. Includes game board graphic, game board grid data,
  * and timers. It is separated from the menu system because it allows greater flexibility for animations and allows
  * for multiple instances for a future multiplayer feature.
+ *
+ * The current falling piece and the grid are seperated so that the piece can be easily manipulated.
  */
 
 package tetris.game;
@@ -48,9 +50,6 @@ public class Tetris extends Rectangle {
     // Currently actively dropping piece
     public Piece current;
 
-    // The next few pieces to be spawned (for display/strategy purposes)
-    public ArrayList<PieceType> next;
-
     // Number of lines cleared since last line goal was met (or since game started if none met)
     public int linesCleared;
 
@@ -88,29 +87,41 @@ public class Tetris extends Rectangle {
     private int level;
 
     public Tetris(GameMode gameMode) {
+        // Initialize the game grid
         this.TETRIS_GRID =  Assets.Game.TETRIS_GRID.get();
+
+        // Initialize the randomizer
         this.randomizer = new RandomizerSevenBag();
 
         //Initialize the grid. The grid is 30 x 10 because it creates a buffer on the top of the game board for pieces to be placed
         //It also allows for future tetris ghost pieces (multiplayer) to be rendered
+
+        //The rendered boxes are represented in the array indices 10-29 (vertically) and 0-9 (horizontally)
         this.grid = new PieceType[30][10];
         for (PieceType[] pieceTypes : grid) { //Fill each row with empty pieces
             Arrays.fill(pieceTypes, PieceType.NULL);
         }
 
-        this.current = new Piece(randomizer.popNextPiece());
-
+        //Initialize and store self-explanatory variables
         this.linesCleared = 0;
         this.timeStarted = -1;
         this.died = false;
         this.gameMode = gameMode;
-        this.next = randomizer.getNextPieces(5);
         this.canSwitchHold = true;
+
+        //Generate the next few pieces
+        randomizer.getNextPieces(10);
+
+        //Generate the first piece
+        spawnPiece();
+
+        //Start the leveling system
         increaseLevel();
 
-        if(gameMode == GameMode.FORTY_LINES){
+        if(gameMode == GameMode.FORTY_LINES){ //Line objective is 40 lines
             lineGoal = 40;
         } else if (gameMode == GameMode.BLITZ) {
+            //Blitz levels objective starts at 3 and gradually increases
             lineGoal = 3;
         }
     }
@@ -124,11 +135,13 @@ public class Tetris extends Rectangle {
 
         g.drawImage(TETRIS_GRID, 0, 1080/2 - TETRIS_GRID.getHeight(null)/2, TETRIS_GRID.getWidth(null), TETRIS_GRID.getHeight(null), null);
 
+        //Draws the grid (not the pieces)
         drawGrid(g);
 
+        //If the game is not over, draw the current piece and its ghost piece
         if(!this.died) {
             Piece ghost = current.clone();
-            ghost.centerY = findDropHeight();
+            ghost.centerY = findDropHeight(); //Set the ghost piece to the lowest possible height
             drawPiece(g, ghost, true, false);
             drawPiece(g, current, false, onGround());
         }
@@ -175,7 +188,9 @@ public class Tetris extends Rectangle {
         checkObjectives();
     }
 
+    //Draw the entire tetris grid
     private void drawGrid(Graphics2D g){
+        //Loop through each row and column and draw the square
         for (int row = 0; row < grid.length; row++) {
             for (int column = 0; column < grid[0].length; column++) {
                 drawSquare(g, grid[row][column], row, column, false);
@@ -183,7 +198,16 @@ public class Tetris extends Rectangle {
         }
     }
 
+    /**
+     * Draws a piece on the grid
+     *
+     * @param g The graphics object to draw on
+     * @param piece The piece to draw
+     * @param isGhost Whether the piece is a ghost piece
+     * @param onGround Whether the piece is on the ground
+     */
     private void drawPiece(Graphics2D g, Piece piece, boolean isGhost, boolean onGround){
+        //Grid of the tetris array is 3x3 except for the 'I' piece which is 4x4.
         int length = 3;
         if(current.type == PieceType.I){
             length = 4;
@@ -191,14 +215,22 @@ public class Tetris extends Rectangle {
         for (int i = 0; i < length; i++) {
             for (int j = 0; j < length; j++) {
                 PieceType type = piece.currentPieceGrid[i][j];
-                if(isGhost && type != PieceType.NULL){
+                if(type == PieceType.NULL){ //Don't draw empty squares
+                    continue;
+                } else if(isGhost){ //we are drawing a ghost piece
                     type = PieceType.GHOST;
                 }
+                //Draw the square (coordinates shifted by 1 to account for center position)
                 drawSquare(g, type, piece.centerY - 1 + i, piece.centerX - 1 + j, onGround);
             }
         }
     }
 
+    /**
+     * Draws the information the left sidebar (not the hold piece)
+     *
+     * @param g The graphics object to draw on
+     */
     private void drawSidebar(Graphics2D g){
         g.setFont(Assets.Fonts.KDAM_FONT.get().deriveFont(Font.PLAIN, 23));
         g.setColor(Color.WHITE);
@@ -206,13 +238,13 @@ public class Tetris extends Rectangle {
         FontMetrics fm = g.getFontMetrics(); //Get font metrics for the font
 
         int edgeOfLeftSidebar = 168;
+        int minutes, seconds, millis;
 
         g.drawString("TIME", edgeOfLeftSidebar - fm.stringWidth("TIME"), 840);
         g.drawString("LINES", edgeOfLeftSidebar - fm.stringWidth("LINES"), 760);
 
 
         g.setFont(Assets.Fonts.KDAM_FONT.get().deriveFont(Font.BOLD, 23));
-        int minutes,seconds,millis;
         if (gameMode != GameMode.BLITZ) {
             minutes = (int) ((System.currentTimeMillis() - timeStarted) / 1000 / 60);
             seconds = ((int) (System.currentTimeMillis() - timeStarted) / 1000) % 60;
@@ -237,7 +269,7 @@ public class Tetris extends Rectangle {
 
         //Line Objective
         String objective = String.format(" / %d", lineGoal);
-        g.drawString(String.format(" / %d", lineGoal), edgeOfLeftSidebar - fm.stringWidth(objective), 800);
+        g.drawString(objective, edgeOfLeftSidebar - fm.stringWidth(objective), 800);
 
         g.setFont(Assets.Fonts.KDAM_FONT.get().deriveFont(Font.BOLD, 40));
 
@@ -342,9 +374,11 @@ public class Tetris extends Rectangle {
         spawnPiece();
     }
 
+    /**
+     * Spawn a new random piece
+     */
     public void spawnPiece(){
         spawnPiece(randomizer.popNextPiece());
-        next = randomizer.getNextPieces(5);
     }
 
     public void spawnPiece(PieceType type){
@@ -354,6 +388,10 @@ public class Tetris extends Rectangle {
         }
     }
 
+    /**
+     * Increase the level of the game (blitz-specific)
+     * The gravity increases exponentially with the level
+     */
     public void increaseLevel(){
         this.level++;
         double secondsPerRow = 1.72 * Math.exp(-0.4* level);
@@ -500,6 +538,7 @@ public class Tetris extends Rectangle {
     }
 
     private void drawHold(Graphics2D g) {
+        //Grid of the tetris array is 3x3 except for the 'I' piece which is 4x4.
         int length = 3;
         if(hold.type == PieceType.I){
             length = 4;
@@ -522,10 +561,14 @@ public class Tetris extends Rectangle {
     }
 
     public void drawNext(Graphics2D g) {
-        for (int i = 0; i < next.size(); i++) {
-            Piece temp = new Piece(next.get(i));
+        ArrayList<PieceType> nextPieces = randomizer.getNextPieces(5);
+
+        for (int i = 0; i < nextPieces.size(); i++) {
+            Piece temp = new Piece(nextPieces.get(i));
+
+            //Grid of the tetris array is 3x3 except for the 'I' piece which is 4x4.
             int length = 3;
-            if(next.get(i) == PieceType.I){
+            if(nextPieces.get(i) == PieceType.I){
                 length = 4;
             }
             for (int j = 0; j < length; j++) {
@@ -543,37 +586,56 @@ public class Tetris extends Rectangle {
         }
     }
 
+    /**
+     * Holds the current piece.
+     * Used when the player presses the hold button.
+     */
     public void holdPiece(){
-        if (!canSwitchHold) return;
+        if (!canSwitchHold) return; //Once a player holds, they can't hold again until they drop a piece
         if(hold == null){
+            //If the player has not held a piece yet, hold the current piece and spawn a random piece
             hold = new Piece(current.type);
             spawnPiece();
         } else {
-            Piece temp = new Piece(current.type);
+            //Swap the current piece with the hold piece
+            PieceType temp = current.type;
             spawnPiece(hold.type);
-            hold = temp.clone();
+            hold = new Piece(temp);
         }
-        canSwitchHold = false;
+        canSwitchHold = false; //They can no longer switch hold. This is reset when they drop a piece
     }
 
+    /**
+     *
+     * Given a piece, check if it is legal to place it on the grid (doesn't overlap with any other pieces)
+     *
+     * @param piece The piece to check
+     * @return True if the piece is legal, false otherwise
+     */
     public boolean checkLegal(Piece piece){
+        //Grid of the tetris array is 3x3 except for the 'I' piece which is 4x4.
         int length = 3;
         if(current.type == PieceType.I){
             length = 4;
         }
+
+        //Loop through the piece grid
         for (int i = 0; i < length; i++) {
             for (int j = 0; j < length; j++) {
-                if(piece.currentPieceGrid[i][j] != PieceType.NULL){
+                if(piece.currentPieceGrid[i][j] != PieceType.NULL){ //If this is a non-empty square on our piece-grid
+                    //If the coordinate is out of bounds, return false
+                    //The coordinates are subtracted by 1 since the center of the piece is shifted to the left and down by 1
                     if(piece.centerY + i - 1 < 0 || piece.centerY + i - 1 >= grid.length || piece.centerX + j - 1 < 0 || piece.centerX + j - 1 >= grid[0].length){
                         return false;
                     }
+                    //If there is already a square in the grid here, return false
                     if(grid[piece.centerY-1+i][piece.centerX-1+j] != PieceType.NULL){
                         return false;
                     }
                 }
             }
         }
-
+        //No conflicts found, so the piece is legal
         return true;
     }
 
@@ -613,7 +675,11 @@ public class Tetris extends Rectangle {
         }
     }
 
-    public GameMode getGameMode() { // Allows Gui class to access the current game mode
+    /**
+     * Returns the current game mode.
+     * Allows Gui class to access the current game mode
+     */
+    public GameMode getGameMode() {
         return gameMode;
     }
 }
