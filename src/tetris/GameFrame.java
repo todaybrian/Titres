@@ -1,6 +1,7 @@
 package tetris;
 
 import tetris.util.Assets;
+import tetris.util.WindowFocus;
 
 import javax.swing.*;
 import java.awt.*;
@@ -58,6 +59,7 @@ public class GameFrame extends JFrame {
             //The horizontal padding on one side is the difference of the monitor width and the game's rendered width divided by two to account for the left and right sides
             horizontalPadding = (displayWidth - renderWidth)/2;
         }
+        this.addWindowListener(new WindowFocus()); //add window focus listener
 
         //Run a GamePanel constructor with the required arguments needed to scale the game
         panel = new GamePanel(displayWidth, displayHeight, renderHeight, horizontalPadding, verticalPadding);
@@ -78,5 +80,6 @@ public class GameFrame extends JFrame {
         this.setVisible(true); //makes window visible to user
 
         this.setIconImage(Assets.Gui.LOGO.get()); //set icon for frame
+
     }
 }
