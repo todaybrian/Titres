@@ -162,7 +162,7 @@ public class GamePanel extends JPanel implements Runnable {
     //paint is a method in java.awt library that we are overriding. It is a special method - it is called automatically in the background in order to update what appears in the window. You NEVER call paint() yourself
     public void paint(Graphics g){
         //we are using "double buffering" here - if we draw images directly onto the screen, it takes time and the human eye can actually notice flashes of lag as each pixel on the screen is drawn one at a time. Instead, we are going to draw images OFF the screen (outside dimensions of the frame), then simply move the image on screen as needed.
-        image = createImage(INTERNAL_WIDTH, INTERNAL_HEIGHT); //draw off screen
+        image = createImage(INTERNAL_WIDTH, INTERNAL_HEIGHT); //draw off-screen
 
         g2d = (Graphics2D) image.getGraphics();
         Util.setGraphicsFlags(g2d); //Make the game look better on different monitors

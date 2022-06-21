@@ -32,7 +32,7 @@ public class FrameTimer {
     }
 
     /**
-     * Returns the time elapsed in nano seconds
+     * Returns the time elapsed in nanoseconds
      */
     public long timeElapsed() {
         return System.nanoTime() - startTime;

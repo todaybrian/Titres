@@ -206,7 +206,7 @@ public class GuiTetris extends Gui {
     @Override
     public void update(){ // This is called every time game physics needs to update
         super.update();
-        if (tetris.isObjectiveCompleted()) { // If game completion requirements are fulfilled, immediately move to results.
+        if (tetris.isObjectiveCompleted()) { // If game completion requirements are fulfilled, immediately move to the results screen.
             instance.displayGui(new GuiMenuTransition(this, new GuiResults(gameMode,tetris.getFinalScore())));
         }
 

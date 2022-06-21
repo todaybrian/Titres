@@ -25,7 +25,7 @@ public class Piece {
         this.centerX = 4;
         this.centerY = 8;
 
-        // Each piece type has a default piece grid in its unrotated state, to be used when it spawns
+        // Each piece type has a default piece grid in its un-rotated state, to be used when it spawns
         this.currentPieceGrid = PieceType.getPieceGrid(type);
     }
 

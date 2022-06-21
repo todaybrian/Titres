@@ -42,7 +42,7 @@ public class GameBackground {
         //Draw the current background with the opacity
         g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, opacity)); //Set the opacity
         //Draw the background by drawing the entire image.
-        //Images should be 1920 x 1080 but drawing the entire image allows us to avoid weird streching effects
+        //Images should be 1920 x 1080 but drawing the entire image allows us to avoid weird stretching effects
         g.drawImage(currentBackground.getImage(), 0, 0, currentBackground.getIconWidth(), currentBackground.getIconHeight(), null);
 
         g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1f)); //Reset the opacity
@@ -60,7 +60,7 @@ public class GameBackground {
         this.opacity = newOpacity;
     }
 
-    //Loads all the background images from the assets folder
+    //Loads all the background images from the assets' folder
     //All background images are named in the form of #.jpg, where # is the index of the image
     private void loadAssets(){
         ImageIcon imageBackground; //Store the image background being loaded

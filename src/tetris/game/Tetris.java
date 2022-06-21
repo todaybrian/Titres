@@ -321,7 +321,7 @@ public class Tetris extends Rectangle {
     public void setPiece(){
         if(!checkLegal(current)) return; //Not legal, so piece setting not possible
 
-        //Grid of the tetris array is 3x3 except for the I piece which is 4x4.
+        //Grid of the tetris array is 3x3 except for the 'I' piece which is 4x4.
         int length = 3;
         if(current.type == PieceType.I){
             length = 4;
