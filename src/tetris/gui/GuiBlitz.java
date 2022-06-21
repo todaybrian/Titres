@@ -40,10 +40,7 @@ public class GuiBlitz extends Gui{
             g.drawString("BLITZ", offsetX+320, 230);
 
             g.setFont(Assets.Fonts.KDAM_FONT.get().deriveFont(Font.PLAIN, 25));
-            g.drawString("Clear as much lines as possible in 120 seconds!", offsetX+320, 270);
-
-            g.setFont(Assets.Fonts.KDAM_FONT.get().deriveFont(Font.BOLD, 30));
-            g.drawString("PERSONAL BEST: ", offsetX+320, 340);
+            g.drawString("Clear as many lines as possible in 120 seconds!", offsetX+320, 270);
 
             g.setColor(new Color(62, 36, 36));
             g.fillRect(offsetX+300, 460, 1400, 105);

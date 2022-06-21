@@ -48,9 +48,6 @@ public class GuiForty extends Gui {
             g.setFont(Assets.Fonts.KDAM_FONT.get().deriveFont(Font.PLAIN, 25));
             g.drawString("Clear 40 lines in the shortest time possible!", offsetX + 320, 270);
 
-            g.setFont(Assets.Fonts.KDAM_FONT.get().deriveFont(Font.BOLD, 30));
-            g.drawString("PERSONAL BEST: ", offsetX + 320, 340);
-
             g.setColor(new Color(82, 61, 45));
             g.fillRect(offsetX + 300, 460, 1400, 105);
         }, AnimationType.RIGHT));
