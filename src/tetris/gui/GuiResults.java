@@ -43,15 +43,17 @@ public class GuiResults extends Gui {
             switch(gameMode){
                 case BLITZ:
                     score = String.valueOf(finalScore);
+                    g.drawString("Lines cleared: " + score, 800-fm.stringWidth(score)/2, 355);
                     break;
                 case FORTY_LINES:
                     int min = (int) (finalScore / 1000 / 60);
                     int sec = (int) (finalScore/1000 % 60);
                     int ms = (int) (finalScore%1000);
                     score = String.format("%d:%02d.%02d", min, sec, ms);
+                    g.drawString("Time: " + score, 900-fm.stringWidth(score)/2, 355);
             }
 
-            g.drawString(score, 1000-fm.stringWidth(score)/2, 355);
+
         }, AnimationType.RIGHT);
 
         componentList.add(results);
