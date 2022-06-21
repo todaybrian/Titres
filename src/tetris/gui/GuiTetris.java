@@ -74,6 +74,16 @@ public class GuiTetris extends Gui {
     
     private KeyboardInput keyboardInput;
 
+    public int moveRightKey = KeyEvent.VK_RIGHT;
+    public int moveLeftKey = KeyEvent.VK_LEFT;
+    public int hardDropKey = KeyEvent.VK_SPACE;
+    public int softDropKey = KeyEvent.VK_DOWN;
+    public int rotateCWKey = KeyEvent.VK_UP;
+    public int rotateCCWKey = KeyEvent.VK_Z;
+    public int holdKey = KeyEvent.VK_C;
+    public int restartKey = KeyEvent.VK_R;
+    public int resignKey = KeyEvent.VK_ESCAPE;
+
     // The game banner for the current game mode
     private Image gameBanner;
 
@@ -128,6 +138,8 @@ public class GuiTetris extends Gui {
     @Override
     public void draw(Graphics2D g) {
         super.draw(g);
+        FontMetrics fm; // Font metrics
+
         if(tetris.isDied()){ // This takes precedence over anything else since we need to transition to another screen if player is dead
             // diedTimer is used to hold things in place while dying animation plays
             if(diedTimer.isDisabled()){
@@ -204,7 +216,7 @@ public class GuiTetris extends Gui {
             g.fillRect(0, (int)(1080-150*resignTimer.getProgress() -50), 1920, 300);
             g.setColor(Color.WHITE);
 
-            FontMetrics fm = g.getFontMetrics();
+            fm = g.getFontMetrics();
             String text = "KEEP HOLDING ESC TO FORFEIT";
 
             g.drawString(text, 1920/2 - fm.stringWidth(text)/2, (int)(1080 - 150*resignTimer.getProgress()/2 -25+ fm.getHeight()/2));
@@ -217,7 +229,7 @@ public class GuiTetris extends Gui {
             g.fillRect(0, (int)(1080-150*restartTimer.getProgress() -50), 1920, 300);
             g.setColor(Color.WHITE);
 
-            FontMetrics fm = g.getFontMetrics();
+            fm = g.getFontMetrics();
             String text = "KEEP HOLDING R TO RESTART";
 
             g.drawString(text, 1920/2 - fm.stringWidth(text)/2, (int)(1080 - 150*restartTimer.getProgress()/2 -25+ fm.getHeight()/2));
@@ -237,24 +249,24 @@ public class GuiTetris extends Gui {
             When that timer is done, start the next one.
             Only when all timers are done will the game physics update at tetris.update().
             At this point, all timers will be done and not disabled, preventing the pre-game timers from resetting.*/
-        if(!blackfadeOutTimer.isDone()) {
+        if(!blackfadeOutTimer.isDone()) { //black fade out
             return;
         } else if(bannerTimer.isDisabled()){ // Timer for game banner.
-            bannerTimer.reset();
+            bannerTimer.reset(); // Enable the timer.
             musicPlayer.stopMusic();
             sfxPlayer.play(Assets.SFX.START_SOLO_GAME.get());
         }
 
-        if(!bannerTimer.isDone()){
+        if(!bannerTimer.isDone()){ // If the game banner is not done, prevent the game from updating.
             return;
         } else if(countdownTimer.isDisabled()){ // Timer for 3-2-1 countdown before game begins
-            countdownTimer.reset();
+            countdownTimer.reset(); // Enable the countdown timer.
         }
 
-        if(!countdownTimer.isDone()){
+        if(!countdownTimer.isDone()){ // If the 3-2-1 countdown is not done, prevent the game from updating.
             return;
-        } else if(goTimer.isDisabled()){ // Grace period to account for the "1" animation to finish
-            goTimer.reset();
+        } else if(goTimer.isDisabled()){ //Go timer (displays "GO"). Unlike the other timers, this one is stop the game from updating.
+            goTimer.reset(); // Enable the timer
             sfxPlayer.play(Assets.SFX.GO.get());
             if (tetris.getGameMode() != GameMode.BLITZ) { // Change the BGM to fit the game mode. "VIRTUAL_LIGHT" fits the stress of Blitz mode
                 musicPlayer.play(Assets.Music.VREMYA.get());
@@ -270,36 +282,35 @@ public class GuiTetris extends Gui {
         // This timer only stores how long escape was pressed, resetting when it is pressed and disabling when it is released.
         // The game will only accept the resignation if it is pressed continuously for some time.
         // This ensures that an errant press of the escape key does not cause an accidental resign.
-        if (keyboardInput.isKeyPressed(KeyEvent.VK_ESCAPE) && resignTimer.isDisabled()) {
+        if (keyboardInput.isKeyPressed(resignKey) && resignTimer.isDisabled()) {
             resignTimer.reset();
-        } else if (!keyboardInput.isKeyPressed(KeyEvent.VK_ESCAPE)) {
+        } else if (!keyboardInput.isKeyPressed(resignKey)) {
             resignTimer.disable();
         } else if (resignTimer.isDone()) { // Resignation takes the player back to the main menu.
             instance.displayGui(new GuiMenuTransition(this, new GuiMainMenu()));
         }
 
-        if(keyboardInput.isKeyPressed(KeyEvent.VK_R) && restartTimer.isDisabled()){
+        if(keyboardInput.isKeyPressed(restartKey) && restartTimer.isDisabled()){
             restartTimer.reset();
-        } else if(!keyboardInput.isKeyPressed(KeyEvent.VK_R)){
+        } else if(!keyboardInput.isKeyPressed(restartKey)){
             restartTimer.disable();
         } else if(restartTimer.isDone()){
             instance.displayGui(new GuiTetris(gameMode));
         }
 
         // "soft dropping" is rate limited to prevent a short press from bringing the piece all the way down
-        if (downTimer.isDone() && keyboardInput.isKeyPressed(KeyEvent.VK_DOWN)) {
+        if (downTimer.isDone() && keyboardInput.isKeyPressed(softDropKey)) {
             downTimer.reset();
             tetris.dropPiece();
         }
         // "hard dropping" is disabled if the space bar is held to prevent multiple pieces from being hard dropped
-        if (keyboardInput.isKeyPressed(KeyEvent.VK_SPACE) && !held_hardDrop) {
+        if (keyboardInput.isKeyPressed(hardDropKey) && !held_hardDrop) {
             tetris.hardDrop();
             hardDropAnimationTimer.reset();
         }
-        held_hardDrop = keyboardInput.isKeyPressed(KeyEvent.VK_SPACE);
 
-        // moving left and right is rate limited to prevent certain exploits
-        if (keyboardInput.isKeyPressed(KeyEvent.VK_LEFT)) {
+        // moving left and right is controlled by https://tetris.fandom.com/wiki/DAS to avoid operating system quirks
+        if (keyboardInput.isKeyPressed(moveLeftKey)) {
             if (moveLeftTimerDAS.isDisabled()) {
                 tetris.moveLeft();
                 moveLeftTimerDAS.reset();
@@ -312,7 +323,7 @@ public class GuiTetris extends Gui {
             moveLeftTimerDAS.disable();
         }
 
-        if (keyboardInput.isKeyPressed(KeyEvent.VK_RIGHT)) {
+        if (keyboardInput.isKeyPressed(moveRightKey)) {
             if (moveRightTimerDAS.isDisabled()) {
                 tetris.moveRight();
                 moveRightTimerDAS.reset();
@@ -326,18 +337,20 @@ public class GuiTetris extends Gui {
         }
 
         // same logic as hard drop disabling on hold
-        if (keyboardInput.isKeyPressed(KeyEvent.VK_UP) && !held_rotateCW) {
+        if (keyboardInput.isKeyPressed(rotateCWKey) && !held_rotateCW) {
             tetris.rotateCW();
-        } else if (keyboardInput.isKeyPressed(KeyEvent.VK_Z) && !held_rotateCCW) {
+        } else if (keyboardInput.isKeyPressed(rotateCCWKey) && !held_rotateCCW) {
             tetris.rotateCCW();
         }
-        held_rotateCW = keyboardInput.isKeyPressed(KeyEvent.VK_UP);
-        held_rotateCCW = keyboardInput.isKeyPressed(KeyEvent.VK_Z);
 
-        if (keyboardInput.isKeyPressed(KeyEvent.VK_C) && !held_holdPiece) {
+        if (keyboardInput.isKeyPressed(holdKey) && !held_holdPiece) {
             tetris.holdPiece();
         }
-        held_holdPiece = keyboardInput.isKeyPressed(KeyEvent.VK_C);
+
+        held_hardDrop = keyboardInput.isKeyPressed(hardDropKey);
+        held_rotateCW = keyboardInput.isKeyPressed(rotateCWKey);
+        held_rotateCCW = keyboardInput.isKeyPressed(rotateCCWKey);
+        held_holdPiece = keyboardInput.isKeyPressed(holdKey);
 
         // makes game board animate based on current velocity, prevent it from going too far
         yOffset += yVelocity;

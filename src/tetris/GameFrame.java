@@ -1,3 +1,10 @@
+/**
+ * Author: Brian Yan, Aaron Zhang
+ * Date: June 20, 2022
+ *
+ * Game Frame class which creates window and starts the game.
+ * This gathers information about the monitor and passes it along to GamePanel.
+ */
 package tetris;
 
 import tetris.util.Assets;
@@ -7,18 +14,23 @@ import javax.swing.*;
 import java.awt.*;
 
 public class GameFrame extends JFrame {
-    private GamePanel panel;
-    private GraphicsEnvironment graphicsEnvironment;
-    private GraphicsDevice graphicsDevice;
 
+    private GamePanel panel;
+
+    //Information about display monitor
     private DisplayMode displayMode;
+
+    //Display screen width and height
     private int displayWidth, displayHeight;
+
+    //Render width and height of the game
     private int renderWidth, renderHeight;
 
     //Horizontal and vertical padding of the game, used in case monitor is not 16:9
     //This value only represents one side of the padding, so the actual padding is twice this value
     private int horizontalPadding, verticalPadding;
 
+    //Scale between 1080p monitor and the current display screen
     private double scale;
 
     //The aspect ratio of the game will be 16/9.
@@ -29,10 +41,8 @@ public class GameFrame extends JFrame {
         //The following code is used to collect information about the monitor which will be used to figure out the game's resolution
         //If necessary, padding will be used on non 16:9 monitors
 
-        graphicsEnvironment = GraphicsEnvironment.getLocalGraphicsEnvironment();
-        graphicsDevice = graphicsEnvironment.getDefaultScreenDevice();
-
-        displayMode = graphicsDevice.getDisplayMode();
+        //get the current display mode
+        displayMode = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice().getDisplayMode();
 
         //Get the current display screen width and height
         displayWidth = displayMode.getWidth();
@@ -41,9 +51,9 @@ public class GameFrame extends JFrame {
         //If the screen is a thin screen
         if (displayHeight * aspectRatio > displayWidth) {
             //We set the monitor width to be the width of our rendered game.
+            //We use the aspect ratio to figure out the rendered height of the game
             renderWidth = displayWidth;
 
-            //If renderWidth is the width of the game, we use the ratio to find the rendered height to ensure 16:9 ratio
             renderHeight = (int)Math.round(displayWidth / aspectRatio);
 
             //No horizontal padding as the monitor width is the width of our rendered game
@@ -53,9 +63,9 @@ public class GameFrame extends JFrame {
             verticalPadding = (displayHeight - renderHeight)/2;
         } else { //If the screen is a wide screen
             //We set the monitor's height to be the height of our rendered game
+            //We use the aspect ratio to figure out the rendered width of the game
             renderHeight = displayHeight;
 
-            //If the renderHeight is the height of the game, we use ratios to find the rendered width to ensure a 16:9 ratio
             renderWidth = (int)Math.round(displayHeight * aspectRatio);
 
             //No vertical padding as the monitor height is the height of our rendered game
@@ -68,7 +78,7 @@ public class GameFrame extends JFrame {
 
         this.scale = (double)renderHeight / GamePanel.INTERNAL_HEIGHT; //calculate the scale
 
-        //Run a GamePanel constructor with the required arguments needed to scale the game
+        //Run a GamePanel constructor
         panel = new GamePanel(displayWidth, displayHeight, scale, horizontalPadding, verticalPadding);
 
         this.add(panel);

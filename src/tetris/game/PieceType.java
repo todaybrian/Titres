@@ -114,7 +114,7 @@ public enum PieceType {
 
             for (int j = ret.length - 1; j >= 0; j--) {
                 for (int k = 0; k < ret.length; k++) {
-                    temp[k][j] = ret[ret.length - j - 1][k];
+                    temp[k][j] = ret[ret.length - j - 1][k]; // Rotate each index
                 }
             }
             ret = temp;

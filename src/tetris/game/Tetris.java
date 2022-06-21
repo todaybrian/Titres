@@ -105,7 +105,7 @@ public class Tetris extends Rectangle {
 
         //Initialize and store self-explanatory variables
         this.linesCleared = 0;
-        this.timeStarted = -1;
+        this.timeStarted = -1; // The game has not started yet and is still initializing so don't count the time yet
         this.died = false;
         this.gameMode = gameMode;
         this.canSwitchHold = true;
@@ -170,7 +170,7 @@ public class Tetris extends Rectangle {
         if(died || objectiveCompleted){
             return;
         }
-        if(timeStarted == -1){
+        if(timeStarted == -1){ //Start the timer if it hasn't started yet
             timeStarted = System.currentTimeMillis();
         }
         if(dropTimer.isDone()){
