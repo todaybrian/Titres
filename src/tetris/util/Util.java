@@ -1,4 +1,7 @@
 /**
+ * Author: Brian Yan, Aaron Zhang
+ * Date: June 18, 2022
+ *
  * Util class. Contains miscellaneous static methods that are used in the game.
  */
 package tetris.util;

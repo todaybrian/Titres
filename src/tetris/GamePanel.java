@@ -33,7 +33,8 @@ public class GamePanel extends JPanel implements Runnable {
     public int gameWidth;
     public int gameHeight;
 
-    public int renderHeight;
+    //The scale that the game will be rendered at compared by a regular 1080p screen
+    private double scale;
 
     //Vertical/Horizontal padding of the game, used in case monitor is not 16:9
     public int verticalPadding;
@@ -64,13 +65,13 @@ public class GamePanel extends JPanel implements Runnable {
     // This is called maximum because if the computer is too slow, the render FPS will be lower than the user setting
     private int maxRenderFPS;
 
-    public GamePanel(int width, int height, int renderHeight, int horizontalPadding, int verticalPadding) {
+    public GamePanel(int width, int height, double scale, int horizontalPadding, int verticalPadding) {
         GamePanel.instance = this; //Set the GamePanel instance
 
         gameWidth = width;
         gameHeight = height;
 
-        this.renderHeight = renderHeight;
+        this.scale = scale;
 
         //Store the horizontal and vertical padding
         this.horizontalPadding = horizontalPadding;
@@ -82,7 +83,7 @@ public class GamePanel extends JPanel implements Runnable {
         this.setPreferredSize(new Dimension(gameWidth, gameHeight));
 
         this.addMouseListener(new MouseInput());
-        MouseInput.setScale((double)renderHeight/1080, horizontalPadding, verticalPadding);
+        MouseInput.setScale(scale, horizontalPadding, verticalPadding);
 
         gameBackground = new GameBackground();
 
@@ -130,6 +131,7 @@ public class GamePanel extends JPanel implements Runnable {
         }
     }
 
+    //This method is called every physics tick. It updates the game's logic and keeps the game consistent regardless of render FPS
     public void update(){
         this.gui.update();
     }
@@ -147,7 +149,9 @@ public class GamePanel extends JPanel implements Runnable {
         renderNS = 1e9 / fps;  //1e9 nanoseconds per fps frames
     }
 
+    //paint is a method in java.awt library that we are overriding. It is a special method - it is called automatically in the background in order to update what appears in the window. You NEVER call paint() yourself
     public void paint(Graphics g){
+        //we are using "double buffering" here - if we draw images directly onto the screen, it takes time and the human eye can actually notice flashes of lag as each pixel on the screen is drawn one at a time. Instead, we are going to draw images OFF the screen (outside dimensions of the frame), then simply move the image on screen as needed.
         image = createImage(INTERNAL_WIDTH, INTERNAL_HEIGHT); //draw off screen
 
         Graphics2D g2d = (Graphics2D) image.getGraphics();

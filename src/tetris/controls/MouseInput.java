@@ -24,7 +24,7 @@ public class MouseInput implements MouseListener {
     private static int verticalPadding;
 
     public MouseInput() {
-        instance = GamePanel.getGamePanel();
+        instance = GamePanel.getGamePanel(); //store instance
     }
 
     //Gets the scaled coordinates of the mouse
@@ -50,6 +50,7 @@ public class MouseInput implements MouseListener {
         MouseInput.verticalPadding = verticalPadding;
     }
 
+    //Given a single coordinate, scale them to the scaled coordinates
     private static int scale(double val) {
         return (int)Math.round(val /scale);
     }

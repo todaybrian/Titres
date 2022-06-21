@@ -14,7 +14,12 @@ public class GameFrame extends JFrame {
     private DisplayMode displayMode;
     private int displayWidth, displayHeight;
     private int renderWidth, renderHeight;
+
+    //Horizontal and vertical padding of the game, used in case monitor is not 16:9
+    //This value only represents one side of the padding, so the actual padding is twice this value
     private int horizontalPadding, verticalPadding;
+
+    private double scale;
 
     //The aspect ratio of the game will be 16/9.
     private static final double aspectRatio = 16.0 / 9.0;
@@ -61,8 +66,10 @@ public class GameFrame extends JFrame {
         }
         this.addWindowListener(new WindowFocus()); //add window focus listener
 
+        this.scale = (double)renderHeight / GamePanel.INTERNAL_HEIGHT; //calculate the scale
+
         //Run a GamePanel constructor with the required arguments needed to scale the game
-        panel = new GamePanel(displayWidth, displayHeight, renderHeight, horizontalPadding, verticalPadding);
+        panel = new GamePanel(displayWidth, displayHeight, scale, horizontalPadding, verticalPadding);
 
         this.add(panel);
         panel.setPhysicsFPS(144); //Set physics update rate to 144 FPS
@@ -80,6 +87,5 @@ public class GameFrame extends JFrame {
         this.setVisible(true); //makes window visible to user
 
         this.setIconImage(Assets.Gui.LOGO.get()); //set icon for frame
-
     }
 }

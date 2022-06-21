@@ -1,10 +1,10 @@
-package tetris.gui;
-
-/* GuiTetris
-Authors: Brian, Aaron
-Date: 17 June 2022
-Description: Handles displaying the tetris game board and connecting Tetris and GamePanel (i.e. controls).
+/**
+ * Author: Brian Yan, Aaron Zhang
+ * Date: June 18, 2022
+ *
+ * Handles displaying the tetris game board and connecting Tetris and GamePanel (i.e. controls).
  */
+package tetris.gui;
 
 import tetris.controls.KeyboardInput;
 import tetris.game.GameMode;

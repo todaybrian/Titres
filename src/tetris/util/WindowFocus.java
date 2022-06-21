@@ -38,15 +38,15 @@ public class WindowFocus implements WindowListener {
         isShown = false;
     }
 
-    //Required by WindowListener interface but not used in this class
+    //left empty because we don't need it; must be here because it is required to be overridden by the WindowListener interface
     @Override
     public void windowOpened(WindowEvent e) {}
 
-    //Required by WindowListener interface but not used in this class
+    //left empty because we don't need it; must be here because it is required to be overridden by the WindowListener interface
     @Override
     public void windowClosing(WindowEvent e) {}
 
-    //Required by WindowListener interface but not used in this class
+    //left empty because we don't need it; must be here because it is required to be overridden by the WindowListener interface
     @Override
     public void windowClosed(WindowEvent e) {}
 }
