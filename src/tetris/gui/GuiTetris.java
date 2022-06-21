@@ -177,88 +177,156 @@ public class GuiTetris extends Gui {
 
             //The following below are the intro animations in order.
             if (!blackfadeOutTimer.isDone()) {
-                g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, (float) (1 - blackfadeOutTimer.getProgress())));
-                g.setColor(Color.BLACK);
-                g.fillRect(0, 0, instance.getWidth(), instance.getHeight());
-                g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1.0f));
+                drawBlackFadeOut(g);
             } else if(!bannerTimer.isDone()){
-                float opacityProgress;
-                //easeOutQuint https://easings.net/#easeOutQuint to make the banner fade in and out
-                if(bannerTimer.getProgress() > 0.9){
-                    opacityProgress = (float) -(1-Math.pow(1-(bannerTimer.getProgress()-0.9)/0.1,5));
-                } else{
-                    opacityProgress = (float) (1-Math.pow(1- bannerTimer.getProgress()/0.9,5));
-                }
-                //Set the opacity of the banner
-                g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, Util.clamp(0.5f + 0.5f * opacityProgress, 0, 1)));
-
-                g.drawImage(gameBanner, 1920 / 2 - gameBanner.getWidth(null) / 2, 1080 / 2 - gameBanner.getHeight(null) / 2, null);
-
-                // reset the opacity
-                g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1.0f));
+                drawBanner(g);
             } else if(!countdownTimer.isDone() && !countdownTimer.isDisabled()){
-                long bufferTime = (long) ((1e9)*(countdownTimer.getLength() - 3.0f));
-
-                g.setColor(Color.WHITE);
-
-                Image countDown = null;
-                long timeElapsedFromSecond= 0;
-
-                for (int i = 0; i < countdownLength; i++) {
-                    if(countdownTimer.timeElapsed() - bufferTime > (3-i-1)*1e9){
-                        timeElapsedFromSecond = (countdownTimer.timeElapsed() - bufferTime) - (3-i-1)*(long)1e9;
-                        countDown = countDownImages[i];
-                        if(!hasPlayedCountdown[i]){
-                            sfxPlayer.play(countDownSounds[i]);
-                            hasPlayedCountdown[i] = true;
-                        }
-                        break;
-                    }
-                }
-                if(countDown != null){
-                    g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, Util.clamp(1 - 1 * (float)timeElapsedFromSecond / (float)1e9, 0, 1)));
-                    g.drawImage(countDown, 1920 / 2 - countDown.getWidth(null) / 2, 1080 / 2 - countDown.getHeight(null) / 2, null);
-                    g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1.0f));
-                }
+                drawCountDown(g);
             }
 
             if(!goTimer.isDisabled() && !goTimer.isDone()) {
-                g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, Util.clamp((float) (1 - 1 * goTimer.getProgress()), 0, 1)));
-                g.drawImage(Assets.Game.GO.get(), 1920 / 2 - Assets.Game.GO.get().getWidth(null) / 2, 1080 / 2 - Assets.Game.GO.get().getHeight(null) / 2, null);
-                g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1.0f));
+                drawGo(g);
             }
         }
 
         if (!resignTimer.isDisabled() || !restartTimer.isDisabled()) {
-            String text = "";
-            double progress = 0;
-            g.setFont(Assets.Fonts.KDAM_FONT.get().deriveFont(Font.BOLD, 50));
-            if(!resignTimer.isDisabled()) {
-                g.setColor(Color.RED);
-                text = "KEEP HOLDING ESC TO FORFEIT";
-                progress = resignTimer.getProgress();
-            } else{
-                g.setColor(Color.ORANGE);
-                text = "KEEP HOLDING R TO RESTART";
-                progress = restartTimer.getProgress();
-            }
-
-            g.fillRect(0, (int)(GamePanel.INTERNAL_HEIGHT-150*progress -50), 1920, 300);
-            g.setColor(Color.WHITE);
-
-            fm = g.getFontMetrics();
-
-            g.drawString(text, GamePanel.INTERNAL_WIDTH/2 - fm.stringWidth(text)/2, (int)(GamePanel.INTERNAL_HEIGHT - 150*progress/2 -25+ fm.getHeight()/2));
+            drawResignRestart(g);
         }
     }
 
+    //Draws the black fade out when the game starts
+    private void drawBlackFadeOut(Graphics2D g) {
+        //Fade out the black background by reducing opacity and drawing a black rectangle over the board
+        g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, (float) (1 - blackfadeOutTimer.getProgress())));
+        g.setColor(Color.BLACK);
+        g.fillRect(0, 0, GamePanel.INTERNAL_WIDTH, GamePanel.INTERNAL_HEIGHT);
+
+        //Reset opacity
+        g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1.0f));
+    }
+
+
+    //Draws the banner after black fade out
+    public void drawBanner(Graphics2D g) {
+        float opacityProgress; // The progress of the opacity according to easing functions
+        float opacity; // The opacity of the banner
+        //easeOutQuint https://easings.net/#easeOutQuint to make the banner fade in and out
+
+        //The coordinates of the banner (center of the screen)
+        int xPos = GamePanel.INTERNAL_WIDTH / 2 - gameBanner.getWidth(null) / 2;
+        int yPos = GamePanel.INTERNAL_HEIGHT / 2 - gameBanner.getHeight(null) / 2;
+
+        if(bannerTimer.getProgress() <= 0.9){ //90% of the time, the banner will fade in
+            opacityProgress = (float) (1-Math.pow(1- bannerTimer.getProgress()/0.9,5));
+        } else{ // The rest percent of the time, the banner will fade out
+            opacityProgress = (float) -(1-Math.pow(1-(bannerTimer.getProgress()-0.9)/0.1,5));
+        }
+        //Set the opacity of the banner. Clamp it to 0 and 1 to avoid errors
+        opacity = Util.clamp(0.5f+0.5f * opacityProgress, 0, 1);
+        g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, opacity));
+
+        //Draw the banner
+        g.drawImage(gameBanner, xPos, yPos, null);
+
+        // reset the opacity
+        g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1.0f));
+    }
+
+    //Draws the countdown after the banner
+    public void drawCountDown(Graphics2D g){
+        long bufferTime = (long) ((1e9)*(countdownTimer.getLength() - 3.0f)); //The time before the countdown starts
+        float opacity; // The opacity of the countdown
+
+        int xPos, yPos; //The coordinates of the countdown
+
+        Image countDown = null; //The image  of the countdown (3, 2, or 1)
+        long timeElapsedFromSecond= 0;
+
+        g.setColor(Color.WHITE);
+
+        for (int i = 0; i < countdownLength; i++) {
+            if(countdownTimer.timeElapsed() - bufferTime > (3-i-1)*1e9){
+                timeElapsedFromSecond = (countdownTimer.timeElapsed() - bufferTime) - (3-i-1)*(long)1e9;
+                countDown = countDownImages[i];
+                if(!hasPlayedCountdown[i]){
+                    sfxPlayer.play(countDownSounds[i]);
+                    hasPlayedCountdown[i] = true;
+                }
+                break;
+            }
+        }
+        //If a number is being displayed, draw it fading out
+        if(countDown != null){
+            //Set opacity
+            opacity = Util.clamp(1 - 1 * (float)timeElapsedFromSecond / (float)1e9, 0, 1);
+
+            g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, opacity));
+
+            //Draw the countdown
+            xPos = GamePanel.INTERNAL_WIDTH / 2 - countDown.getWidth(null) / 2;
+            yPos = GamePanel.INTERNAL_HEIGHT / 2 - countDown.getHeight(null) / 2;
+
+            g.drawImage(countDown, xPos, yPos, null);
+
+            //Reset opacity
+            g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1.0f));
+        }
+    }
+
+    //Draw the "GO" text that appears after the countdown.
+    //The text will fade out linearly
+    private void drawGo(Graphics2D g) {
+        float opacity = Util.clamp((float) (1 - 1 * goTimer.getProgress()), 0, 1); //The opacity of the "GO" text
+        Image goImage = Assets.Game.GO.get();
+
+        //Center the text
+        int xPos = GamePanel.INTERNAL_WIDTH / 2 - goImage.getWidth(null) / 2; //The x position of the "GO" text
+        int yPos = GamePanel.INTERNAL_HEIGHT / 2 - goImage.getHeight(null) / 2; //The y position of the "GO" text
+
+        g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, opacity)); //Set the opacity
+
+        //Draw the "GO" text
+        g.drawImage(Assets.Game.GO.get(), xPos, yPos, null);
+
+        //Reset opacity
+        g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1.0f));
+
+    }
+
+    //Draws the "Resign" and "Restart" rectangles on bottom of screen
+    private void drawResignRestart(Graphics2D g){
+        FontMetrics fm;
+        String text = "";
+        double progress = 0;
+
+        g.setFont(Assets.Fonts.KDAM_FONT.get().deriveFont(Font.BOLD, 50));
+
+        //Draw whichever timer is active or the one with the longest progress
+        if(!resignTimer.isDisabled() && restartTimer.isDisabled() || (!resignTimer.isDisabled() && !restartTimer.isDisabled() && resignTimer.getProgress() > restartTimer.getProgress())){
+            g.setColor(Color.RED);
+            text = "KEEP HOLDING ESC TO FORFEIT";
+            progress = resignTimer.getProgress();
+        } else{
+            g.setColor(Color.ORANGE);
+            text = "KEEP HOLDING R TO RESTART";
+            progress = restartTimer.getProgress();
+        }
+
+        g.fillRect(0, (int)(GamePanel.INTERNAL_HEIGHT-150*progress -50), 1920, 300);
+        g.setColor(Color.WHITE);
+
+        fm = g.getFontMetrics();
+
+        g.drawString(text, GamePanel.INTERNAL_WIDTH/2 - fm.stringWidth(text)/2, (int)(GamePanel.INTERNAL_HEIGHT - 150*progress/2 -25+ fm.getHeight()/2));
+    }
+
+    //Update method for handling keyboard, tetris updates, and timers
     @Override
     public void update(){ // This is called every time game physics needs to update
         super.update();
         if (tetris.isObjectiveCompleted()) { // If game completion requirements are fulfilled, immediately move to the results screen.
             instance.displayGui(new GuiMenuTransition(this, new GuiResults(gameMode,tetris.getFinalScore())));
         }
-
 
 /*        The following if/else structures work as follows:
             When a timer is not yet done, prevent anything below from updating.
@@ -295,6 +363,31 @@ public class GuiTetris extends Gui {
 
         tetris.update(); // This updates the tetris game physics.
 
+        handleKeyboard();
+
+        // makes game board animate based on current velocity, prevent it from going too far
+        yOffset += yVelocity;
+
+        //If it has gone beyond the limit
+        if (yOffset > 4) {
+            yVelocity = -1; //Set the velocity to opposite direction
+            yOffset = 4; //Set it to the limit
+        } else if(yOffset < 0){ //If it has gone up beyond the limit, reset it to 0 and stop the animation
+            yVelocity = 0;
+            yOffset = 0;
+        }
+
+        //If a piece was hard dropped recently, set the y velocity to be downwards slowly like a bounce
+        if(!hardDropAnimationTimer.isDone() && !hardDropAnimationTimer.isDisabled()) {
+            yVelocity = 1;
+        } else{ // Once timer is over, disable the timer and let the board bounce back upwards
+            hardDropAnimationTimer.disable();
+        }
+
+    }
+
+    //Handles keyboard input
+    private void handleKeyboard(){
         // This timer only stores how long escape was pressed, resetting when it is pressed and disabling when it is released.
         // The game will only accept the resignation if it is pressed continuously for some time.
         // This ensures that an errant press of the escape key does not cause an accidental resign.
@@ -374,26 +467,6 @@ public class GuiTetris extends Gui {
         held_rotateCW = keyboardInput.isKeyPressed(rotateCWKey);
         held_rotateCCW = keyboardInput.isKeyPressed(rotateCCWKey);
         held_holdPiece = keyboardInput.isKeyPressed(holdKey);
-
-        // makes game board animate based on current velocity, prevent it from going too far
-        yOffset += yVelocity;
-
-        //If it has gone beyond the limit
-        if (yOffset > 4) {
-            yVelocity = -1; //Set the velocity to opposite direction
-            yOffset = 4; //Set it to the limit
-        } else if(yOffset < 0){ //If it has gone up beyond the limit, reset it to 0 and stop the animation
-            yVelocity = 0;
-            yOffset = 0;
-        }
-
-        //If a piece was hard dropped recently, set the y velocity to be downwards slowly like a bounce
-        if(!hardDropAnimationTimer.isDone() && !hardDropAnimationTimer.isDisabled()) {
-            yVelocity = 1;
-        } else{ // Once timer is over, disable the timer and let the board bounce back upwards
-            hardDropAnimationTimer.disable();
-        }
-
     }
 
 }
