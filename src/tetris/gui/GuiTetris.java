@@ -264,7 +264,7 @@ public class GuiTetris extends Gui {
 
             g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, opacity));
 
-            //Draw the countdown
+            //Draw the countdown (centered on screen)
             xPos = GamePanel.INTERNAL_WIDTH / 2 - countDown.getWidth(null) / 2;
             yPos = GamePanel.INTERNAL_HEIGHT / 2 - countDown.getHeight(null) / 2;
 
@@ -282,8 +282,9 @@ public class GuiTetris extends Gui {
         Image goImage = Assets.Game.GO.get(); //The image of the "GO" text
 
         //Center the text
-        int xPos = GamePanel.INTERNAL_WIDTH / 2 - goImage.getWidth(null) / 2; //The x position of the "GO" text
-        int yPos = GamePanel.INTERNAL_HEIGHT / 2 - goImage.getHeight(null) / 2; //The y position of the "GO" text
+        //The x and y position of the "GO" text
+        int xPos = GamePanel.INTERNAL_WIDTH / 2 - goImage.getWidth(null) / 2;
+        int yPos = GamePanel.INTERNAL_HEIGHT / 2 - goImage.getHeight(null) / 2;
 
         g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, opacity)); //Set the opacity
 
@@ -302,8 +303,8 @@ public class GuiTetris extends Gui {
         double progress = 0; //The progress of the timer  (0-1)
 
         int yPosRectangle; // Y coordinate of the top of the rectangle
-        int xPosText; //X coordinate of the text
-        int yPosText; //Y coordinate of the text
+        // x and y coordinates of the text
+        int xPosText, yPosText;
 
         g.setFont(Assets.Fonts.KDAM_FONT.get().deriveFont(Font.BOLD, 50));
 
