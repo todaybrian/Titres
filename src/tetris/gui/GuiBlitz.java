@@ -22,8 +22,12 @@ public class GuiBlitz extends Gui{
         topBar = Assets.Gui.TOP_BLITZ.get();
         bottomBar = Assets.Gui.BOTTOM_BLITZ.get();
 
-        // The button to return to game mode select menu
+        // Initialize buttons assets
         Image back_button = Assets.Button.BACK_BUTTON.get();
+        Image start_blitz_button = Assets.Button.START_BLITZ_BUTTON.get();
+        Image controls = Assets.Gui.CONTROLS.get();
+
+        // The button to return to game mode select menu
         buttonList.add(new Button(-170, 120, back_button, (click)->{
             instance.displayGui(new GuiMenuTransition( this, new GuiSolo()));
 
@@ -47,15 +51,14 @@ public class GuiBlitz extends Gui{
         }, AnimationType.RIGHT));
 
         // Button to start game
-        Image start_40_button = Assets.Button.START_BLITZ_BUTTON.get();
-        buttonList.add(new Button(1700-start_40_button.getWidth(null), 460, start_40_button, (click)->{
+        buttonList.add(new Button(1700-start_blitz_button.getWidth(null), 460, start_blitz_button, (click)->{
             instance.displayGui(new GuiMenuTransition(this, new GuiTetris(GameMode.BLITZ), 0.5, true));
             instance.getSFXPlayer().play(Assets.SFX.CLICK_START.get());
         }, AnimationType.NONE));
 
         // Controls list
-        Image controls = Assets.Gui.CONTROLS.get();
         componentList.add(new AnimatedRectangle((g, xOffset) -> {
+
             g.drawImage(controls, 300 + xOffset, 585, controls.getWidth(null),  controls.getHeight(null), null);
         }, AnimationType.RIGHT));
     }

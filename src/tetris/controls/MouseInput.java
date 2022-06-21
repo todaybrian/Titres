@@ -8,6 +8,7 @@
 package tetris.controls;
 
 import tetris.GamePanel;
+import tetris.util.WindowFocus;
 
 import java.awt.*;
 import java.awt.event.MouseEvent;
@@ -23,17 +24,23 @@ public class MouseInput implements MouseListener {
     private static int verticalPadding;
 
     public MouseInput() {
-        instance = GamePanel.getGamePanel();
+        instance = GamePanel.getGamePanel(); //store instance
     }
 
     //Gets the scaled coordinates of the mouse
     //Used to determine if the mouse is over a button/slider
     public static Point getLocation(){
-        Point ret = MouseInfo.getPointerInfo().getLocation(); //Get the raw mouse coordinates
-        ret.x = scale(ret.x - horizontalPadding); //Subtract the horizontal padding and scale the coordinates
-        ret.y = scale(ret.y - verticalPadding); //Subtract the vertical padding and scale the coordinates
+        Point ret;
+        if(WindowFocus.isShown) { //If the window is shown, then handle mouse coordinates.
+            ret = MouseInfo.getPointerInfo().getLocation(); //Get the raw mouse coordinates
+            ret.x = scale(ret.x - horizontalPadding); //Subtract the horizontal padding and scale the coordinates
+            ret.y = scale(ret.y - verticalPadding); //Subtract the vertical padding and scale the coordinates
 
-        return ret; //Return the scaled coordinates
+            return ret; //Return the scaled coordinates
+        } else{ //If it is not shown, then return 0 0 to avoid button mouseover conflicts
+            ret = new Point(0, 0);
+            return ret;
+        }
     }
 
     //Configures the scale and padding of the game
@@ -43,6 +50,7 @@ public class MouseInput implements MouseListener {
         MouseInput.verticalPadding = verticalPadding;
     }
 
+    //Given a single coordinate, scale them to the scaled coordinates
     private static int scale(double val) {
         return (int)Math.round(val /scale);
     }

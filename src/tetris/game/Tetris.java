@@ -441,7 +441,7 @@ public class Tetris extends Rectangle {
                 objectiveCompleted(System.currentTimeMillis()-timeStarted);
             } else if(gameMode == GameMode.BLITZ){
                 increaseLevel();
-                lineGoal = 2*level-1;
+                lineGoal = 3*level;
             }
         }
         if(System.currentTimeMillis()- timeStarted >= 120*1e3 && gameMode == GameMode.BLITZ){

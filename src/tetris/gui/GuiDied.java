@@ -1,5 +1,6 @@
 /**
  * Author: Brian Yan, Aaron Zhang
+ * Date: June 18, 2022
  *
  * This is the GUI that is displayed when the player has died.
  */

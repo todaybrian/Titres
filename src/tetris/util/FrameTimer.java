@@ -2,6 +2,7 @@
  * Author: Brian Yan, Aaron Zhang
  *
  * This is a FrameTimer class that is used to keep track of the time passed.
+ * It is used a lot for animations.
  */
 package tetris.util;
 
@@ -15,27 +16,34 @@ public class FrameTimer {
     //Is the timer disabled?
     private boolean isDisabled;
 
+    //Constructor to initialize the timer
     public FrameTimer(double length) {
-        startTime = System.nanoTime();
-        this.length = (long)(length*1e9);
-        isDisabled = false;
+        this.startTime = System.nanoTime(); //The time that the timer started
+        this.length = (long)(length*1e9); //Length of the timer in nanoseconds
+        this.isDisabled = false; //The timer is not disabled
     }
 
+    /**
+     * Returns if the timer is up or not.
+     * If it is disabled, the timer is never up.
+     */
     public boolean isDone() {
         return !isDisabled && System.nanoTime() - startTime > length;
     }
 
+    /**
+     * Returns the time elapsed in nano seconds
+     */
     public long timeElapsed() {
         return System.nanoTime() - startTime;
     }
 
+    /**
+     * Restarts and enables the timer.
+     */
     public void reset() {
         isDisabled = false;
-        startTime = System.nanoTime();
-    }
-
-    public void setLength(double length) {
-        this.length = (long)(length*1e9);
+        startTime = System.nanoTime(); //The time that the timer started
     }
 
     //Return the length of the timer in seconds

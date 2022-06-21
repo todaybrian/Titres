@@ -1,6 +1,7 @@
 package tetris;
 
 import tetris.util.Assets;
+import tetris.util.WindowFocus;
 
 import javax.swing.*;
 import java.awt.*;
@@ -13,7 +14,12 @@ public class GameFrame extends JFrame {
     private DisplayMode displayMode;
     private int displayWidth, displayHeight;
     private int renderWidth, renderHeight;
+
+    //Horizontal and vertical padding of the game, used in case monitor is not 16:9
+    //This value only represents one side of the padding, so the actual padding is twice this value
     private int horizontalPadding, verticalPadding;
+
+    private double scale;
 
     //The aspect ratio of the game will be 16/9.
     private static final double aspectRatio = 16.0 / 9.0;
@@ -58,9 +64,12 @@ public class GameFrame extends JFrame {
             //The horizontal padding on one side is the difference of the monitor width and the game's rendered width divided by two to account for the left and right sides
             horizontalPadding = (displayWidth - renderWidth)/2;
         }
+        this.addWindowListener(new WindowFocus()); //add window focus listener
+
+        this.scale = (double)renderHeight / GamePanel.INTERNAL_HEIGHT; //calculate the scale
 
         //Run a GamePanel constructor with the required arguments needed to scale the game
-        panel = new GamePanel(displayWidth, displayHeight, renderHeight, horizontalPadding, verticalPadding);
+        panel = new GamePanel(displayWidth, displayHeight, scale, horizontalPadding, verticalPadding);
 
         this.add(panel);
         panel.setPhysicsFPS(144); //Set physics update rate to 144 FPS
