@@ -28,20 +28,25 @@ public class Button extends AnimatedRectangle {
 	protected Button.IPressable onPress;
 
 	public Button (int xPos, int yPos, Image image, Button.IPressable onPress, AnimationType animationType) {
-		super(xPos, yPos, image.getWidth(null), image.getHeight(null), animationType);
+		super(xPos, yPos, image.getWidth(null), image.getHeight(null), animationType); //Call super constructor
 
-		this.instance = GamePanel.getGamePanel();
+		this.instance = GamePanel.getGamePanel(); //Get the instance of the game panel
 
+		//Store width and height
 		this.width = image.getWidth(null);
 		this.height = image.getHeight(null);
+
+		//Button is not hovered over initially
 		this.wasHovered = false;
 
+		//Store button image
 		this.image = image;
 
+		//Store onPress interface for button functionality
 		this.onPress = onPress;
 
+		//Store the animation type
 		this.animationType = animationType;
-
 	}
 
   	//Constructor for buttons that are not animated
@@ -49,40 +54,61 @@ public class Button extends AnimatedRectangle {
 		this(xPos, yPos, image, onPress, AnimationType.NONE);
 	}
 
+	/**
+	 * Draws the button to the screen.
+	 *
+	 * @param g The graphics object to draw on.
+	 */
 	public void draw(Graphics2D g){
+		double animationLength=0.1; //Length of the animation in nanoseconds for hovering and clicking
+
+		//Set the opacity of the button, based on if it is hovered over or not
 		g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, opacity));
-		checkHover();
 
-		if(!wasHovered && isMouseOver){
-			instance.getSFXPlayer().play(Assets.SFX.HOVER.get());
+		checkHover(); //Check if the button is being hovered over
+
+		if(!wasHovered && isMouseOver){ //If the button was not hovered over and is now hovered over
+			instance.getSFXPlayer().play(Assets.SFX.HOVER.get()); //Play the hover sound
 		}
-		wasHovered = isMouseOver;
+		wasHovered = isMouseOver; //Set the wasHovered variable to the current isMouseOver variable for the next frame
 
+		//If the button is not in a menu transition (so hover and click animations don't work while in a menu transition)
 		if(!inTransition) {
-			double animationLength = ANIMATION_LENGTH_HOVER;
 			int xOffsetGoal = 0, yOffsetGoal = 0, opacityGoal = 1;
 			if (isClicked()) { // Clicked animation
+				// Get offsets and animation lengths for the animation
 				xOffsetGoal = this.animationType.getClickXOffset();
 				yOffsetGoal = this.animationType.getClickYOffset();
+
 				animationLength = ANIMATION_LENGTH_CLICK;
-			} else if (isMouseOver()) {
+			} else if (isMouseOver()) { // Hover animation
+				// Get offsets and animation lengths for the animation
+
 				xOffsetGoal = this.animationType.getHoverXOffset();
 				yOffsetGoal = this.animationType.getHoverYOffset();
+
+				animationLength = ANIMATION_LENGTH_HOVER;
 			}
+			// Initialize animation using the offsets and animation lengths
 			super.initAnimate(xOffsetGoal, yOffsetGoal, opacityGoal, animationLength);
 		}
-		super.animate();
+		super.animate(); //"Animate" the button by moving the coordinates
 
+		//Draw the button
 		g.drawImage(image, (int)x, (int)y, image.getWidth(null), image.getHeight(null), null);
+
+		// Darken button if it is hovering over it, darken even more if it is not clicked
+		// This is so hovering and clicking the button has a brightening effect
 		if(!isClicked) {
 			if (isMouseOver) {
 				g.setColor(new Color(0, 0, 0, 35));
-				g.fillRect((int)x, (int)y, width, height);
 			} else{
 				g.setColor(new Color(0, 0, 0, 50));
-				g.fillRect((int)x, (int)y, width, height);
 			}
+			g.fillRect((int)x, (int)y, width, height);
 		}
+
+		//Reset the opacity to 100% for other components
 		g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1.0f));
 	}
 
