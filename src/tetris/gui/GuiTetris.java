@@ -56,12 +56,17 @@ public class GuiTetris extends Gui {
     private FrameTimer moveRightTimer = new FrameTimer(0.033);
     
     private KeyboardInput keyboardInput;
-    
+
+    // The game banner for the current game mode
+    private Image gameBanner;
+
     public GuiTetris(GameMode gameMode) {
         super();
         this.keyboardInput = instance.keyboardInput;
         
         this.gameMode = gameMode;
+
+        gameBanner = gameMode.getBanner();
 
         // this object handles all game logic; only tetris.drawImage() and tetris.update() will cause objects inside game board to change.
         tetris = new Tetris(gameMode);
@@ -103,12 +108,12 @@ public class GuiTetris extends Gui {
 
             g.rotate(Math.toRadians(20) *diedTimer.getProgress());
 
-            g.drawImage(board, 1920 / 2 - Tetris.GAME_WIDTH / 2  + (int)(330 * diedTimer.getProgress()), 1080 / 2 - Tetris.GAME_HEIGHT / 2 + (int)(600 * diedTimer.getProgress()),null);
+            g.drawImage(board, 1920 / 2 - Tetris.BOARD_WIDTH / 2  + (int)(330 * diedTimer.getProgress()), 1080 / 2 - Tetris.BOARD_HEIGHT / 2 + (int)(600 * diedTimer.getProgress()),null);
             if(diedTimer.isDone()){ // when diedTimer is done, transition to death screen
                 instance.displayGui(new GuiMenuTransition(this, new GuiDied(gameMode)));
             }
         } else {
-            g.drawImage(tetris.drawImage(), 1920 / 2 - Tetris.GAME_WIDTH / 2 + xOffset, 1080 / 2 - Tetris.GAME_HEIGHT / 2 + yOffset - (int) (1400 * (1 - blackInTimer.getProgress())), Tetris.GAME_WIDTH, Tetris.GAME_HEIGHT, null);
+            g.drawImage(tetris.drawImage(), 1920 / 2 - Tetris.BOARD_WIDTH / 2 + xOffset, 1080 / 2 - Tetris.BOARD_HEIGHT / 2 + yOffset - (int) (1400 * (1 - blackInTimer.getProgress())), Tetris.BOARD_WIDTH, Tetris.BOARD_HEIGHT, null);
 
 
             if (!blackInTimer.isDone()) {
@@ -128,8 +133,7 @@ public class GuiTetris extends Gui {
 
                 g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, Util.clamp(0.5f + 0.5f * opacityProgress, 0, 1)));
 
-                Image banner = gameMode.getBanner();
-                g.drawImage(banner, 1920 / 2 - banner.getWidth(null) / 2, 1080 / 2 - banner.getHeight(null) / 2, null);
+                g.drawImage(gameBanner, 1920 / 2 - gameBanner.getWidth(null) / 2, 1080 / 2 - gameBanner.getHeight(null) / 2, null);
 
                 g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1.0f));
             } else if(!countdownTimer.isDone() && !countdownTimer.isDisabled()){

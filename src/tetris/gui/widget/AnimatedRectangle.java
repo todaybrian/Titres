@@ -13,9 +13,11 @@ import java.awt.*;
 
 public class AnimatedRectangle extends Rectangle {
 
+    // Rendered location of the rectangle
     public double x;
     public double y;
 
+    //Original location of the rectangle without any animation
     private int originalX;
     private int originalY;
 
@@ -25,23 +27,27 @@ public class AnimatedRectangle extends Rectangle {
     //Is the cursor over the button?
     protected boolean isMouseOver;
 
-    //How will the button change when it is animated?
-    private int xOffsetGoal;
-    private int yOffsetGoal;
-    private float opacityGoal;
-    private double xOffsetCurrent;
-    private double yOffsetCurrent;
+    //How will the rectangle change when it is animated?
+    private int xOffsetGoal; //Where will the rectangle go vertically?
+    private int yOffsetGoal; //Where will the rectangle go horizontally?
+    private float opacityGoal; //What will the opacity be?
 
     //How much will the animation move per tick?
-    private double xOffsetStep;
-    private double yOffsetStep;
-    private double opacityStep;
+    private double xOffsetStep; //Horizontal
+    private double yOffsetStep; // Vertical
+    private double opacityStep; //Opacity percentages
 
-    public float opacity;
+
+    private double xOffsetCurrent; //Where is the rectangle currently relative to its original position horizontally?
+    private double yOffsetCurrent; //Where is the rectangle currently relative to its original position vertically?
+
+    public float opacity; //What is the rectangle's current opacity?
 
     private long lastSystemTime;
 
+    //Interface which allows for custom editing of the rectangle
     private IDrawable drawable; // Icons, etc.
+
     public AnimationType animationType; // Which direction does the object need to animate in?
 
     protected boolean inTransition; // Is the object currently in a transition?
@@ -87,10 +93,12 @@ public class AnimatedRectangle extends Rectangle {
         isMouseOver = (MouseInput.getLocation().getX() > x && MouseInput.getLocation().getX() < x +width) && (MouseInput.getLocation().getY() > y && MouseInput.getLocation().getY() < y +height);
     }
 
+    // Returns true if the mouse is over the button
     public boolean isMouseOver() {
         return isMouseOver;
     }
 
+    // Returns true if the left mouse button is pressing the button
     public boolean isClicked() {
         return isClicked;
     }
@@ -136,41 +144,82 @@ public class AnimatedRectangle extends Rectangle {
         lastSystemTime = System.nanoTime();
     }
 
+    /**
+     * Starts the animation of the button. It performs the necessary calculations to determine how the rectangle will move per nanosecond.
+     *
+     * @param xOffsetGoal The horizontal offset the rectangle will move to.
+     * @param yOffsetGoal The vertical offset the rectangle will move to.
+     * @param opacityGoal The opacity the component will be.
+     * @param animationLength The number of seconds the animation will take.
+     */
     public void initAnimate(int xOffsetGoal, int yOffsetGoal, float opacityGoal, double animationLength){
         this.xOffsetGoal = xOffsetGoal;
         this.yOffsetGoal = yOffsetGoal;
         this.opacityGoal = opacityGoal;
 
-        this.xOffsetStep = (xOffsetGoal - xOffsetCurrent+0.0) / (animationLength * 1000000000);
-        this.opacityStep = (this.opacityGoal - opacity+0.0) / (animationLength* 1000000000);
-        this.yOffsetStep = (yOffsetGoal - yOffsetCurrent+0.0) / (animationLength* 1000000000);
+        //Calculate the amount of pixels (horizontally and vertically) and opacity percent the rectangle will move per nanosecond
+        this.xOffsetStep = (xOffsetGoal - xOffsetCurrent) / (animationLength * 1e9);
+        this.yOffsetStep = (yOffsetGoal - yOffsetCurrent) / (animationLength* 1e9);
+        this.opacityStep = (opacityGoal - opacity) / (animationLength* 1e9);
     }
 
+    /**
+     * Resets the rectangle to its original position.
+     */
     public void reset(){
+        //Reset rendered position to original position
         x = originalX;
         y = originalY;
+
+        //Make rectangle fully visible
         opacity = 1;
+
+        //There are no offsets or steps as it is currently at its original position and is not moving
         xOffsetCurrent = 0;
         yOffsetCurrent = 0;
         opacityStep = 0;
         xOffsetStep = 0;
         yOffsetStep = 0;
+
+        //Not animated
         inTransition = false;
+
         lastSystemTime = System.nanoTime();
     }
 
+    /**
+     * Allow the user to set where the rectangle is initially relative to its original position
+     *
+     * @param xOffset The horizontal offset the rectangle will be initially relative to its original position.
+     * @param yOffset The vertical offset the rectangle will be initially relative to its original position.
+     * @param opacity The opacity the rectangle will be initially.
+     */
     public void setOffsets(int xOffset, int yOffset, float opacity){
         this.xOffsetCurrent = xOffset;
         this.yOffsetCurrent = yOffset;
         this.opacity = opacity;
     }
 
+    /**
+     * Set if the state of the rectangle if it is currently in a transition.
+     *
+     * @param inTransition True if the rectangle is currently in a transition.
+     */
     public void setInTransition(boolean inTransition){
         this.inTransition = inTransition;
     }
 
+    /**
+     * Interface that allows for objects to be drawn inside the rectangle.
+     */
     public interface IDrawable {
-        void draw(Graphics2D g, int x);
+        /**
+         * Draws objects inside the rectangle. Meant to be defined by the user
+         * @param g The graphics object to draw with.
+         * @param offsetX The current horizontal offset of the rectangle, which must be handled by the objects
+         *                inside this function for it to animate.
+         */
+        void draw(Graphics2D g, int offsetX);
     }
 
 }

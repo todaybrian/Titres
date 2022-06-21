@@ -3,7 +3,8 @@
  * Date: June 18, 2022
  *
  * Class to handle tetris game logic. Includes game board graphic, game board grid data,
- * and timers.
+ * and timers. It is separated from the menu system because it allows greater flexibility for animations and allows
+ * for multiple instances for a future multiplayer feature.
  */
 
 package tetris.game;
@@ -22,12 +23,16 @@ import java.util.Arrays;
 public class Tetris extends Rectangle {
 
     //Game width and height of the gameboard only
-    public static int GAME_WIDTH = 732;
-    public static int GAME_HEIGHT = 1080;
+    //The board spans the entire height of the screen as tetris pieces fall vertically, and allows for future tetris ghost pieces
+    // No pieces are rendered horizontally beyond the grid width
+    public static int BOARD_WIDTH = 732;
+    public static int BOARD_HEIGHT = 1080;
 
+    //Store the Tetris Grid Image
     private final Image TETRIS_GRID;
-    private Randomizer randomizer;
 
+    //Store the randomizer that will be used to generate the next piece
+    private Randomizer randomizer;
 
     public PieceType[][] grid;
     public Piece hold;
@@ -57,8 +62,10 @@ public class Tetris extends Rectangle {
         this.TETRIS_GRID =  Assets.Game.TETRIS_GRID.get();
         this.randomizer = new RandomizerSevenBag();
 
+        //Initialize the grid. The grid is 30 x 10 because it creates a buffer on the top of the game board for pieces to be placed
+        //It also allows for future tetris ghost pieces (multiplayer) to be rendered
         this.grid = new PieceType[30][10];
-        for (PieceType[] pieceTypes : grid) {
+        for (PieceType[] pieceTypes : grid) { //Fill each row with empty pieces
             Arrays.fill(pieceTypes, PieceType.NULL);
         }
 
@@ -80,14 +87,13 @@ public class Tetris extends Rectangle {
     }
 
     public Image drawImage(){
-        BufferedImage image = new BufferedImage(GAME_WIDTH, GAME_HEIGHT, BufferedImage.TYPE_INT_ARGB);
+        //Create a new image to draw on
+        BufferedImage image = new BufferedImage(BOARD_WIDTH, BOARD_HEIGHT, BufferedImage.TYPE_INT_ARGB);
 
         Graphics2D g = (Graphics2D) image.getGraphics();
         Util.setGraphicsFlags(g); //Make the game look better on different monitors
 
         g.drawImage(TETRIS_GRID, 0, 1080/2 - TETRIS_GRID.getHeight(null)/2, TETRIS_GRID.getWidth(null), TETRIS_GRID.getHeight(null), null);
-
-        g.setColor(Color.BLUE);
 
         drawGrid(g);
 
@@ -97,11 +103,17 @@ public class Tetris extends Rectangle {
             drawPiece(g, ghost, true, false);
             drawPiece(g, current, false, onGround());
         }
+        // If there is a hold piece, draw it
         if (hold != null) {
             drawHold(g);
         }
+
+        //Draw the next few pieces in the bag
         drawNext(g);
+
+        //Draw the lines cleared and the time passed/left
         drawSidebar(g);
+
         return image;
     }
 
