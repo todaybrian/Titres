@@ -241,23 +241,24 @@ public class Tetris extends Rectangle {
 
         FontMetrics fm = g.getFontMetrics(); //Get font metrics for the font
 
-        int edgeOfLeftSidebar = 168;
+        int edgeOfLeftSidebar = 168; // Sidebar offset from side of the screen
         int minutes, seconds, millis;
 
+        // Stats for game (Time elapsed, lines cleared)
         g.drawString("TIME", edgeOfLeftSidebar - fm.stringWidth("TIME"), 840);
         g.drawString("LINES", edgeOfLeftSidebar - fm.stringWidth("LINES"), 760);
 
 
         g.setFont(Assets.Fonts.KDAM_FONT.get().deriveFont(Font.BOLD, 23));
         if (gameMode != GameMode.BLITZ) {
-            minutes = (int) ((System.currentTimeMillis() - timeStarted) / 1000 / 60);
+            minutes = (int) ((System.currentTimeMillis() - timeStarted) / 1000 / 60); // Convert time to Min:Sec:MS
             seconds = ((int) (System.currentTimeMillis() - timeStarted) / 1000) % 60;
             millis = (int) (System.currentTimeMillis() - timeStarted) % 1000;
             if (timeStarted == -1) {
-                minutes = seconds = millis = 0;
+                minutes = seconds = millis = 0; // Hold timer at zero while game not started
             }
         } else { // makes timer for blitz count down
-            minutes = 1-(int) ((System.currentTimeMillis() - timeStarted) / 1000 / 60);
+            minutes = 1-(int) ((System.currentTimeMillis() - timeStarted) / 1000 / 60); // Convert time to Min:Sec:MS
             seconds = 59-((int) (System.currentTimeMillis() - timeStarted) / 1000) % 60;
             millis = 1000-(int) (System.currentTimeMillis() - timeStarted) % 1000;
             if (timeStarted == -1) { // Holds timer at 2 minutes before game starts
@@ -330,7 +331,7 @@ public class Tetris extends Rectangle {
      * Find the lowest height the block can go if it were to continue dropping downwards
      */
     public int findDropHeight(){
-        Piece temp = current.clone();
+        Piece temp = current.clone(); // Use a copy of the active piece to see if drop is legal
         temp.centerY++;
         while(checkLegal(temp)){ //While it is legal, continue dropping the temporary block.
             temp.centerY++;
@@ -350,7 +351,7 @@ public class Tetris extends Rectangle {
             return;
         }
         current.centerY = findDropHeight(); //Set the block to the lowest height possible by gravity
-        setPiece();
+        setPiece(); // immediately lock piece in place
     }
 
     /**
@@ -365,17 +366,17 @@ public class Tetris extends Rectangle {
             length = 4;
         }
         for (int i = 0; i < length; i++) {
-            for (int j = 0; j < length; j++) {
+            for (int j = 0; j < length; j++) { // For every piece in the tetris piece grid, put into the inactive tetris grid
                 if (current.currentPieceGrid[i][j] != PieceType.NULL) {
                     grid[current.centerY + i - 1][current.centerX + j - 1] = current.currentPieceGrid[i][j];
                 }
             }
         }
         if (!canSwitchHold) {
-            canSwitchHold = true;
+            canSwitchHold = true; // Switch allowance resets on new piece being set
         }
-        clearLines();
-        spawnPiece();
+        clearLines(); // Lines cleared if necessary
+        spawnPiece(); // Spawn next piece
     }
 
     /**
@@ -385,10 +386,11 @@ public class Tetris extends Rectangle {
         spawnPiece(randomizer.popNextPiece());
     }
 
+    // Spawns a piece of a specific type
     public void spawnPiece(PieceType type){
         current = new Piece(type);
         if(!checkLegal(current)){
-            die();
+            die(); // If piece cannot be spawned, you lose.
         }
     }
 
@@ -419,7 +421,7 @@ public class Tetris extends Rectangle {
         //Get wall kick data based on the piece
         int[][][] wallKick;
 
-        if(temp.type == PieceType.I){
+        if(temp.type == PieceType.I){ // "I" piece wall kicks weirdly
             wallKick = PieceType.wallKickDataI;
         } else{
             wallKick = PieceType.wallKickDataJLSTZ;
@@ -583,6 +585,7 @@ public class Tetris extends Rectangle {
         return objectiveCompleted;
     }
 
+    // Draws the piece player is current holding
     private void drawHold(Graphics2D g) {
         //Grid of the tetris array is 3x3 except for the 'I' piece which is 4x4.
         int length = 3;
@@ -590,12 +593,12 @@ public class Tetris extends Rectangle {
             length = 4;
         }
         for (int i = 0; i < length; i++) {
-            for (int j = 0; j < length; j++) {
+            for (int j = 0; j < length; j++) { // For every piece in the 2D piece grid, draw that piece.
                 PieceType type = hold.currentPieceGrid[i][j];
-                if(!canSwitchHold && type != PieceType.NULL){
+                if(!canSwitchHold && type != PieceType.NULL){ // If you can't switch the held piece, draw as outline only
                     type = PieceType.GHOST;
                 }
-                if (hold.type == PieceType.I) {
+                if (hold.type == PieceType.I) { // The "I" and "O" pieces need to be realigned due to their irregular shape
                     drawSquare(g, type, 10.85 + i, -4.6 + j, false);
                 } else if (hold.type == PieceType.O) {
                     drawSquare(g, type, 11.2 + i, -3.5 + j, false);
@@ -616,7 +619,7 @@ public class Tetris extends Rectangle {
         Piece temp; //Holds the piece to be drawn
         PieceType type; //Holds the piece type that will be analysed
 
-        for (int i = 0; i < nextPieces.size(); i++) {
+        for (int i = 0; i < nextPieces.size(); i++) { // Draws all the pieces in the bag
             temp = new Piece(nextPieces.get(i));
 
             //Grid of the tetris array is 3x3 except for the 'I' piece which is 4x4.
@@ -625,7 +628,7 @@ public class Tetris extends Rectangle {
                 length = 4;
             }
             for (int j = 0; j < length; j++) {
-                for (int k = 0; k < length; k++) {
+                for (int k = 0; k < length; k++) { // for loops draw each square of the piece grid
 
                     type = temp.currentPieceGrid[j][k];
                     //Handle I and O pieces differently since they aren't in they aren't stored completely centered by their center point

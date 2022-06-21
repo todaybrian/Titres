@@ -165,9 +165,9 @@ public class GuiTetris extends Gui {
                 diedTimer.reset();
             }
 
-            BufferedImage board = (BufferedImage) tetris.drawImage();
+            BufferedImage board = (BufferedImage) tetris.drawImage(); // Board image
 
-            g.rotate(Math.toRadians(20) * diedTimer.getProgress());
+            g.rotate(Math.toRadians(20) * diedTimer.getProgress()); // Death animation is rotating the board
 
             g.drawImage(board, GamePanel.INTERNAL_WIDTH / 2 - Tetris.BOARD_WIDTH / 2 + (int) (330 * diedTimer.getProgress()), GamePanel.INTERNAL_HEIGHT / 2 - Tetris.BOARD_HEIGHT / 2 + (int) (600 * diedTimer.getProgress()), null);
             if (diedTimer.isDone()) { // when diedTimer is done, transition to death screen
@@ -374,7 +374,7 @@ public class GuiTetris extends Gui {
 
         tetris.update(); // This updates the tetris game physics.
 
-        handleKeyboard();
+        handleKeyboard(); // Get keyboard input
 
         // makes game board animate based on current velocity, prevent it from going too far
         yOffset += yVelocity;
@@ -432,6 +432,7 @@ public class GuiTetris extends Gui {
 
         // moving left and right is controlled by https://tetris.fandom.com/wiki/DAS to avoid operating system quirks
         // In the website, you can see that the initial delay is longer than the subsequent delays.
+        // When move is called, set timers to prevent a hold key from dragging piece across the board
         if (keyboardInput.isKeyPressed(moveLeftKey)) {
             if (moveLeftTimerDAS.isDisabled()) { //Longer initial timer
                 tetris.moveLeft();
@@ -446,7 +447,7 @@ public class GuiTetris extends Gui {
             moveLeftTimerDAS.disable();
         }
 
-        if (keyboardInput.isKeyPressed(moveRightKey)) {
+        if (keyboardInput.isKeyPressed(moveRightKey)) { // When move is called, set timers to prevent a hold key from dragging piece across the board
             if (moveRightTimerDAS.isDisabled()) { //Longer initial timer
                 tetris.moveRight();
                 moveRightTimerDAS.reset();

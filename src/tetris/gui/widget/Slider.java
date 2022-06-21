@@ -70,6 +70,7 @@ public class Slider extends Button{
         }
         g.setColor(new Color(0, 0, 0, 200));
         int offsetY = 20;
+        // Draws slider and the rectangle indicating the allowed slider space
         g.fillRect(xPos, (int) (y+offsetY), width, height-2*offsetY);
         g.drawImage(icon, (int) xSlider, (int) y, icon.getWidth(null), icon.getHeight(null), null);
         g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1)); //Reset the opacity
