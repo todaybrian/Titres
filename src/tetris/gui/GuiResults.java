@@ -12,6 +12,7 @@ public class GuiResults extends Gui {
 
     public GuiResults(GameMode gameMode, long finalScore) {
         super();
+        // Top and bottom menu bars
         topBar = Assets.Gui.TOP_RESULTS.get();
         bottomBar = Assets.Gui.BOTTOM_RESULTS.get();
 
@@ -31,14 +32,14 @@ public class GuiResults extends Gui {
             String scoreText = ""; //Text to be displayed in score box
 
             g.setColor(new Color(32, 30, 54));
-            g.fillRect(offsetX + 300, 160, 1400, 280);
+            g.fillRect(offsetX + 300, 160, 1400, 280); // Score box
 
             g.setFont(Assets.Fonts.KDAM_FONT.get().deriveFont(Font.BOLD, 50));
             g.setColor(new Color(115, 101, 151));
-            g.drawString("RESULTS", offsetX + 320, 230);
+            g.drawString("RESULTS", offsetX + 320, 230); // "RESULTS" text
 
             g.setColor(new Color(28, 26, 47));
-            g.fillRect(offsetX+330, 240, 1340, 180);
+            g.fillRect(offsetX+330, 240, 1340, 180); // Box below score box
 
             g.setFont(Assets.Fonts.KDAM_FONT.get().deriveFont(Font.BOLD, 60));
             g.setColor(Color.WHITE);
@@ -63,13 +64,15 @@ public class GuiResults extends Gui {
 
         componentList.add(results);
 
-        instance.getMusicPlayer().stopMusic();
+        instance.getMusicPlayer().stopMusic(); // Stop the game music when the game ends
 
+        // Retry button
         buttonList.add(new tetris.gui.widget.Button( 400, 620,Assets.Button.RETRY_BUTTON.get(), (click)->{
             instance.displayGui(new GuiMenuTransition(this, new GuiTetris(gameMode), 0.5, true));
             sfxPlayer.play(Assets.SFX.CLICK_START.get());
         }, AnimationType.RIGHT));
 
+        // Go back to main menu button
         buttonList.add(new Button(400, 760, Assets.Button.BACK_TO_TITLE_BUTTON.get(), (click)->{
             musicPlayer.play(Assets.Music.NIGHT_SNOW.get());
             instance.displayGui(new GuiMenuTransition(this, new GuiMainMenu()));
