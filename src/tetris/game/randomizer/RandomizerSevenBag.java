@@ -8,10 +8,10 @@ import java.util.Collections;
 
 public class RandomizerSevenBag extends Randomizer{
 
-    //Fill the bag with the 7 pieces.
+    //Shuffle all 7 pieces and add them to the bag.
     @Override
     protected void fillBag() {
-        Collections.shuffle(allPieces); //Shuffle the list of all pieces.
-        bag.addAll(allPieces); //Add all shuffled pieces to the bag.
+        Collections.shuffle(allPieces);
+        bag.addAll(allPieces);
     }
 }

@@ -52,36 +52,84 @@ public class AnimatedRectangle extends Rectangle {
 
     protected boolean inTransition; // Is the object currently in a transition?
 
+    /**
+     * Constructor for animated rectangles.
+     *
+     * @param x The original x-coordinate of the rectangle.
+     * @param y The original y-coordinate of the rectangle.
+     * @param width The width of the rectangle.
+     * @param height The height of the rectangle.
+     * @param drawable Custom objects that will be drawn on the rectangle.
+     * @param animationType The animation type of the rectangle.
+     */
     public AnimatedRectangle(int x, int y, int width, int height, IDrawable drawable, AnimationType animationType) {
-        super(x, y, width, height);
+        super(x, y, width, height); // Call the superclass constructor for a basic rectangle.
+
+        //Store current location of the rectangle
         this.x = x;
         this.y = y;
 
+        //Keep track of the original location of the rectangle
         originalX = x;
         originalY = y;
 
+        //Store the custom drawable object and animation type
         this.drawable = drawable;
         this.animationType = animationType;
 
+        //Set the opacity to 100% so it is visible
         this.opacity = 1;
+
+        //Currently doesn't have a mouse over or is clicked
         this.isMouseOver = false;
         this.isClicked = false;
 
+        //Not in transition
+        this.inTransition = false;
+
+        //Set the last system time to now, used for animations
         lastSystemTime = System.nanoTime();
     }
 
+    /**
+     * Creates a rectangle.
+     * Mainly used for buttons.
+     *
+     * @param x The original x-coordinate of the rectangle.
+     * @param y The original y-coordinate of the rectangle.
+     * @param width The width of the rectangle.
+     * @param height The height of the rectangle.
+     * @param animationType The animation type of the rectangle.
+     */
     public AnimatedRectangle(int x, int y, int width, int height, AnimationType animationType) {
-        this(x, y, width, height, (click, X)->{}, animationType);
+        this(x, y, width, height, (click, X) -> {
+        }, animationType);
     }
 
+    /**
+     * Creates a rectangle.
+     * Mostly used when animation is required on basic rectangles.
+     *
+     * @param drawable The interface representing custom content of the rectangle.
+     * @param animationType The animation type of the rectangle.
+     */
     public AnimatedRectangle(IDrawable drawable, AnimationType animationType) {
         this(0, 0, 0, 0, drawable, animationType);
     }
 
-    public void draw(Graphics2D g){
+    /**
+     * Draws the rectangle.
+     *
+     * @param g The graphics object to draw on.
+     */
+    public void draw(Graphics2D g) {
+        //Set the opacity of the rectangle
         g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, opacity));
-        drawable.draw(g, (int)this.x); // Draw the object with x (represents the horizontal animation offset)
-        animate();
+
+        drawable.draw(g, (int) this.x); // Draw the object with a horizontal offset of x (represents the horizontal animation offset)
+        animate(); // Animate the rectangle
+
+        // Reset the opacity to 100% for other objects
         g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1));
     }
 
@@ -90,7 +138,7 @@ public class AnimatedRectangle extends Rectangle {
      *
      */
     protected void checkHover() {
-        isMouseOver = (MouseInput.getLocation().getX() > x && MouseInput.getLocation().getX() < x +width) && (MouseInput.getLocation().getY() > y && MouseInput.getLocation().getY() < y +height);
+        isMouseOver = (MouseInput.getLocation().getX() > x && MouseInput.getLocation().getX() < x + width) && (MouseInput.getLocation().getY() > y && MouseInput.getLocation().getY() < y + height);
     }
 
     // Returns true if the mouse is over the button
@@ -108,40 +156,63 @@ public class AnimatedRectangle extends Rectangle {
         this.isClicked = isClicked;
     }
 
-    public void animate(){
-        boolean toRight = xOffsetGoal > xOffsetCurrent;
-        xOffsetCurrent += xOffsetStep * (System.nanoTime() - lastSystemTime);
+    /**
+     * Animates the rectangle. This is called every render tick, but should stay consistant as it is based on time.
+     */
+    public void animate() {
+        // How many nanoseconds have passed since the last render tick?
+        long numberOfNSPassed = System.nanoTime() - lastSystemTime;
 
-        if(xOffsetCurrent >= xOffsetGoal && toRight){
+        /* ------ Horizontal Animation ------ */
+        boolean toRight = xOffsetGoal > xOffsetCurrent; // Is the rectangle moving to the right?
+
+        // Update the current animation offset.
+        xOffsetCurrent += xOffsetStep * numberOfNSPassed;
+
+        // If the rectangle is moving to the right and it is now past the goal, set the current offset to the goal and stop the animation.
+        if (xOffsetCurrent >= xOffsetGoal && toRight) {
             xOffsetCurrent = xOffsetGoal;
             xOffsetStep = 0;
-        } else if(xOffsetCurrent <= xOffsetGoal && !toRight){
+        } else if (xOffsetCurrent <= xOffsetGoal && !toRight) { // If the rectangle is moving to the left and it is now past the goal, set the current offset to the goal and stop the animation.
             xOffsetCurrent = xOffsetGoal;
             xOffsetStep = 0;
         }
-        boolean toUp = yOffsetGoal > yOffsetCurrent;
-        yOffsetCurrent += yOffsetStep * (System.nanoTime() - lastSystemTime);
-        if(yOffsetCurrent >= yOffsetGoal && toUp){
+
+        /* ------ Vertical Animation ------ */
+
+        boolean toUp = yOffsetGoal > yOffsetCurrent; // Is the rectangle moving up?
+
+        // Update the current animation offset.
+        yOffsetCurrent += yOffsetStep * numberOfNSPassed;
+
+        if (yOffsetCurrent >= yOffsetGoal && toUp) { // If the rectangle is moving up and it is now past the goal, set the current offset to the goal and stop the animation.
             yOffsetCurrent = yOffsetGoal;
             yOffsetStep = 0;
-        } else if(yOffsetCurrent <= yOffsetGoal && !toUp){
+        } else if (yOffsetCurrent <= yOffsetGoal && !toUp) { // If the rectangle is moving down and it is now past the goal, set the current offset to the goal and stop the animation.
             yOffsetCurrent = yOffsetGoal;
             yOffsetStep = 0;
         }
 
-        boolean toOpacity = opacityGoal > opacity;
-        opacity += opacityStep * (System.nanoTime() - lastSystemTime);
-        if(opacity >= opacityGoal && toOpacity){
+        /* ------ Opacity Animation ------ */
+
+        boolean toOpacity = opacityGoal > opacity; // Is the rectangle fading in?
+
+        // Update the current animation offset.
+        opacity += opacityStep * numberOfNSPassed;
+
+        if (opacity >= opacityGoal && toOpacity) { // If the rectangle is fading in and it is now past the goal, set the current opacity to the goal and stop the animation.
             opacity = opacityGoal;
             opacityStep = 0;
-        } else if(opacity <= opacityGoal && !toOpacity){
+        } else if (opacity <= opacityGoal && !toOpacity) { // If the rectangle is fading out and it is now past the goal, set the current opacity to the goal and stop the animation.
             opacity = opacityGoal;
             opacityStep = 0;
         }
 
+        // Set the rendered position of the rectangle using the original positions and the current animation offsets.
         x = originalX + xOffsetCurrent;
         y = originalY + yOffsetCurrent;
 
+        //set system time for the next render tick
         lastSystemTime = System.nanoTime();
     }
 
@@ -153,21 +224,22 @@ public class AnimatedRectangle extends Rectangle {
      * @param opacityGoal The opacity the component will be.
      * @param animationLength The number of seconds the animation will take.
      */
-    public void initAnimate(int xOffsetGoal, int yOffsetGoal, float opacityGoal, double animationLength){
+    public void initAnimate(int xOffsetGoal, int yOffsetGoal, float opacityGoal, double animationLength) {
+        // Set the goal offsets
         this.xOffsetGoal = xOffsetGoal;
         this.yOffsetGoal = yOffsetGoal;
         this.opacityGoal = opacityGoal;
 
         //Calculate the amount of pixels (horizontally and vertically) and opacity percent the rectangle will move per nanosecond
         this.xOffsetStep = (xOffsetGoal - xOffsetCurrent) / (animationLength * 1e9);
-        this.yOffsetStep = (yOffsetGoal - yOffsetCurrent) / (animationLength* 1e9);
-        this.opacityStep = (opacityGoal - opacity) / (animationLength* 1e9);
+        this.yOffsetStep = (yOffsetGoal - yOffsetCurrent) / (animationLength * 1e9);
+        this.opacityStep = (opacityGoal - opacity) / (animationLength * 1e9);
     }
 
     /**
      * Resets the rectangle to its original position.
      */
-    public void reset(){
+    public void reset() {
         //Reset rendered position to original position
         x = originalX;
         y = originalY;
@@ -195,7 +267,7 @@ public class AnimatedRectangle extends Rectangle {
      * @param yOffset The vertical offset the rectangle will be initially relative to its original position.
      * @param opacity The opacity the rectangle will be initially.
      */
-    public void setOffsets(int xOffset, int yOffset, float opacity){
+    public void setOffsets(int xOffset, int yOffset, float opacity) {
         this.xOffsetCurrent = xOffset;
         this.yOffsetCurrent = yOffset;
         this.opacity = opacity;
@@ -206,7 +278,7 @@ public class AnimatedRectangle extends Rectangle {
      *
      * @param inTransition True if the rectangle is currently in a transition.
      */
-    public void setInTransition(boolean inTransition){
+    public void setInTransition(boolean inTransition) {
         this.inTransition = inTransition;
     }
 
