@@ -87,6 +87,10 @@ public class Tetris extends Rectangle {
     // Current level; how fast pieces are currently dropping
     private int level;
 
+    /*
+    Draws a new tetris game board for a specific game mode
+    @param gameMode: The selected game mode
+     */
     public Tetris(GameMode gameMode) {
         // Initialize the game grid
         this.TETRIS_GRID =  Assets.Game.TETRIS_GRID.get();
@@ -130,6 +134,7 @@ public class Tetris extends Rectangle {
         lockTimer = new FrameTimer(0.8);
     }
 
+    // Draws the tetris game board
     public Image drawImage(){
         //Create a new image to draw on
         BufferedImage image = new BufferedImage(BOARD_WIDTH, BOARD_HEIGHT, BufferedImage.TYPE_INT_ARGB);
@@ -164,6 +169,7 @@ public class Tetris extends Rectangle {
     }
 
 
+    // Runs physics code, called by guitetris
     public void update(){
         //Get current time, used for oscillating animation of piece when it is on the ground but not locked
         this.currentUpdateFrame++; //Get current time

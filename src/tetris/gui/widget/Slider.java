@@ -31,6 +31,10 @@ public class Slider extends Button{
     //This is to avoid rounding errors
     private double value;
 
+    /*
+    Instantiates a slider.
+    Specifies position, width, the image, min and max values, and the initial value of the slider.
+     */
     public Slider(int xPos, int yPos, int width, Image image, IPressable onChange, int minValue, int maxValue, int initValue) {
         super(xPos, yPos, image, (click)->{});
 
