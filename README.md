@@ -3,6 +3,10 @@
 
 A tetris/tetr.io clone made in Java for an ICS4U assignment. It follows the [SRS](https://harddrop.com/wiki/SRS) rotation system.
 
+## Gameplay Video
+
+https://www.youtube.com/watch?v=EHTZSagfrqE
+
 ## Controls
 - Move the piece left: <kbd>←</kbd> 
 - Move the piece right: <kbd>→</kbd>
